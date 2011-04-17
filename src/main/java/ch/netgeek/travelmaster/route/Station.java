@@ -7,7 +7,7 @@ public class Station {
     private String name;
     private ArrayList<Connection> connections;
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -15,11 +15,11 @@ public class Station {
         return name;
     }
 
-    public ArrayList<Connection> getConncections(){
+    public ArrayList<Connection> getConncections() {
         return connections;
     }
 
-    public void addConnection(Connection connection){
+    public void addConnection(Connection connection) {
         connections.add(connection);
     }
 }
