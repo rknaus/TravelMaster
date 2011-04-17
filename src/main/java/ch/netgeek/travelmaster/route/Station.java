@@ -8,7 +8,7 @@ public class Station {
     private ArrayList<Connection> connections;
 
     public void setName(String name){
-        name = this.name;
+        this.name = name;
     }
 
     public String getName(){
