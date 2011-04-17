@@ -6,19 +6,19 @@ public class Line {
     private String type;
 
 
-    public void setNumber(int number){
-        number = this.number;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public int getNumber(){
+    public int getNumber() {
         return number;
     }
 
-    public void setType(String type){
-        type = this.type;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 }
