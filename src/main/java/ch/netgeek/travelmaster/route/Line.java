@@ -27,6 +27,7 @@ public class Line {
     public Line(int number, String type) {
         setNumber(number);
         setType(type);
+        timeTables = new HashMap<List<Station>, TimeTable>();
     }
 
     /**
@@ -78,7 +79,7 @@ public class Line {
      */
     public void addDeparture(Station source, Station destination, Calendar departure) {
         TimeTable timeTable = timeTables.get(Arrays.asList(source, destination));
-        if (timeTable != null) {
+        if (timeTables.get(Arrays.asList(source, destination)) != null) {
             timeTable.addDeparture(departure);
         } else {
             timeTable = new TimeTable();
