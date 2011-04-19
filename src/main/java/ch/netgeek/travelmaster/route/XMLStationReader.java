@@ -31,6 +31,8 @@ public class XMLStationReader {
     /**
      * This method opens the xml file and puts all stations to the <br>
      * list
+     * 
+     * @return stations     returns a list of all stations
      */
 	public ArrayList<StationData> readStation(){
 		ArrayList<StationData> stations = new ArrayList<StationData>();
@@ -55,6 +57,8 @@ public class XMLStationReader {
     /**
      * This method opens the xml file and puts all connections to the <br>
      * list
+     * 
+     * @return connections     returns a list of all connections
      */
 	public ArrayList<ConnectionData> readConnection(){
 		ArrayList<ConnectionData> connections = new ArrayList<ConnectionData>();
