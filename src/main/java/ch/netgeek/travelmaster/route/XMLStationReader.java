@@ -1,5 +1,7 @@
 package ch.netgeek.travelmaster.route;
 
+import ch.netgeek.travelmaster.route.StationData;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,6 +11,7 @@ import java.util.List;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+
 
 /**
  * This class reads an existed xml-file to add all stations and connections<br>
@@ -22,6 +25,8 @@ public class XMLStationReader {
 	
 	// variables
 	private File file = new File("stations.xml");
+	private Document doc;
+	private Element root;
 	
 	// Elements in XML File
 	private final String childStationTag = "station";
@@ -36,12 +41,14 @@ public class XMLStationReader {
      */
 	public ArrayList<StationData> readStation(){
 		ArrayList<StationData> stations = new ArrayList<StationData>();
+		try{
 		//create Document from file and get the root element
 		SAXBuilder builder = new SAXBuilder(true);
-		
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		Document doc = builder.build(reader);
-		Element root = doc.getRootElement();
+		doc = builder.build(file);
+		root = doc.getRootElement();
+		} catch (Exception e) {
+            return new ArrayList<StationData>();
+        }
 		
 		List<?> children = root.getChildren();
 		
@@ -62,12 +69,14 @@ public class XMLStationReader {
      */
 	public ArrayList<ConnectionData> readConnection(){
 		ArrayList<ConnectionData> connections = new ArrayList<ConnectionData>();
+		try{
 		//create Document from file and get the root element
 		SAXBuilder builder = new SAXBuilder(true);
-		
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		Document doc = builder.build(reader);
-		Element root = doc.getRootElement();
+		doc = builder.build(file);
+		root = doc.getRootElement();
+		} catch (Exception e) {
+            return new ArrayList<ConnectionData>();
+        }
 		
 		List<?> children = root.getChildren();
 		
