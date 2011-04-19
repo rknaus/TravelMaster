@@ -2,9 +2,7 @@ package ch.netgeek.travelmaster.route;
 
 import ch.netgeek.travelmaster.route.StationData;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +30,7 @@ public class XMLStationReader {
 	private final String childStationTag = "station";
 	private final String childStationATag = "stationA";
 	private final String childStationBTag = "stationB";
+	private final String childDurationTag = "duration";
 	
     /**
      * This method opens the xml file and puts all stations to the <br>
@@ -84,7 +83,8 @@ public class XMLStationReader {
 			Element connectiondata = ((Element) children.get(i));
 			String stationA = connectiondata.getChildText(childStationATag);
 			String stationB = connectiondata.getChildText(childStationBTag);
-			connections.add(new ConnectionData(stationA, stationB));			
+			int duration = Integer.parseInt(connectiondata.getChildText(childDurationTag));
+			connections.add(new ConnectionData(stationA, stationB, duration));			
 		}
 		
 		return connections;

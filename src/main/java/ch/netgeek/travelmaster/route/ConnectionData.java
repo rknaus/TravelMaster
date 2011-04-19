@@ -12,14 +12,16 @@ public class ConnectionData {
 	//variable declaration
 	private String stationA;
 	private String stationB;
+	private int duration;
 	
 	/**
 	 * @param stationA        the name of the current station
 	 * @param stationB		  the name of the destination
 	 */
-	public ConnectionData(String stationA, String stationB){
+	public ConnectionData(String stationA, String stationB, int duration){
 		this.stationA = stationA;
 		this.stationB = stationB;
+		this.duration = duration;
 	}
 	
 	/**
@@ -48,5 +50,19 @@ public class ConnectionData {
 	 */
 	public String getStationB(){
 		return stationB;
+	}
+	
+	/**
+	 * @param duration     sets the journey duration between the stations
+	 */
+	public void setDuration(int duration){
+		this.duration = duration;
+	}
+	
+	/**
+	 * @return duration     gets the the journey duration between the stations
+	 */
+	public int getDuration(){
+		return duration;
 	}
 }

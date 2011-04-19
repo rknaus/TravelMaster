@@ -32,5 +32,4 @@ public class StationData {
 	public String getStation(){
 		return station;
 	}
-
 }

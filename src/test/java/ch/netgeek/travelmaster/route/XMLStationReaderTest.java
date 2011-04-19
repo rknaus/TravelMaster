@@ -1,12 +1,9 @@
 package ch.netgeek.travelmaster.route;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import ch.netgeek.travelmaster.route.XMLStationReader;
