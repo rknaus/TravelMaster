@@ -2,45 +2,43 @@ package ch.netgeek.travelmaster.route;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class LineTest {
 
-    private Line line;
-    
-    @Before
-    public void setUpLine() {
-        line = new Line(2, "Bus");
-    }
-    
     @Test
     public void testLine() {
-        Line line = new Line(5, "TestLine");
-        assertEquals(5, line.getNumber());
-        assertEquals("TestLine", line.getType());
+        fail("Not yet implemented");
     }
-    
+
     @Test
     public void testSetNumber() {
-        line.setNumber(3);
-        assertEquals(3, line.getNumber());
+        fail("Not yet implemented");
     }
 
     @Test
     public void testGetNumber() {
-        assertEquals(2, line.getNumber());
+        fail("Not yet implemented");
     }
 
     @Test
     public void testSetType() {
-        line.setType("Train");
-        assertEquals("Train", line.getType());
+        fail("Not yet implemented");
     }
 
     @Test
     public void testGetType() {
-        assertEquals("Bus", line.getType());
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testAddDeparture() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetTimeTable() {
+        fail("Not yet implemented");
     }
 
 }

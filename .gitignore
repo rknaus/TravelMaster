@@ -1,4 +1,5 @@
 target/
+bin/
 *~
 \#*\#
 *.swp
@@ -7,4 +8,3 @@ nbproject
 .classpath
 .project
 .settings/
-whazzupdata.xml
