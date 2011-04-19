@@ -51,4 +51,24 @@ public class Station {
     public void addConnection(Connection connection) {
         connections.add(connection);
     }
+
+    /**
+     * Overriding the equals method to compare stations with each other.
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null)
+            return false;
+        if (getClass() != object.getClass())
+            return false;
+        Station other = (Station) object;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
 }
