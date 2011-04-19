@@ -14,14 +14,14 @@ import org.junit.Test;
 public class ConnectionTest {
 
     // variables declaration
-    String stationNameA;
-    String stationNameB;
-    int duration;
-    Station stationA;
-    Station stationB;
-    Connection connection;
-    Line line1;
-    Line line2;
+    private String stationNameA;
+    private String stationNameB;
+    private int duration;
+    private Station stationA;
+    private Station stationB;
+    private Connection connection;
+    private Line line1;
+    private Line line2;
     
     /**
      * Sets up a standard connection which can be used for the following tests.
