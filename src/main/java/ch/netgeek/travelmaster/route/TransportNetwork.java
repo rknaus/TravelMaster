@@ -104,7 +104,18 @@ public class TransportNetwork {
      * @param station           The given Station
      * @return                  The list of neighbor station
      */
-    public ArrayList<Station> getNeighborStationList(Station station) {
-    	return null;
+    public ArrayList<Station> getNeighborStationList(Station station){
+    	ArrayList<Station> neighborStationList = new ArrayList<Station>();
+    	if(stations.get(station)==null){
+    		return null;
+    	}
+    	else{
+    		for(Iterator<String> iter = stations.keySet().iterator(); iter.hasNext();){
+    			if(iter.equals(station)){
+    				neighborStationList.add(stations.get(station));
+    			}
+    		}
+    		return neighborStationList;
+    	}
     }
 }
