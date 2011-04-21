@@ -3,6 +3,7 @@ package ch.netgeek.travelmaster.route;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -49,9 +50,14 @@ public class TransportNetwork {
      * @param duration          The travel duration between the two stations
      */
     public void addConnection(Station stationA, Station stationB, int duration) {
-        if (!(connections.containsKey(Arrays.asList(stationA, stationB)))
-                && !(connections.containsKey(Arrays.asList(stationB, stationA)))) {
-            
+    	
+    	Connection connection = connections.get(Arrays.asList(stationA, stationB));
+        if (!(connections.containsKey(Arrays.asList(stationA, stationB)))) {
+        	connection.setDuration(duration);
+        }
+        else{
+            connection.setDuration(duration);
+        	connections.put(Arrays.asList(stationA, stationB), connection);
         }
     }
     
@@ -63,7 +69,12 @@ public class TransportNetwork {
      * @return                  The station object
      */
     public Station getStation(String name) {
-        return null;
+        if(stations.get(name)==null){
+        	return null;
+        }
+        else{
+        	return stations.get(name);
+        }
     }
     
     /**
@@ -72,7 +83,19 @@ public class TransportNetwork {
      * @return                  The stations in an ArrayList
      */
     public ArrayList<Station> getStationList() {
-        return null;
+    	
+    	ArrayList<Station> stationList = new ArrayList<Station>();
+    	
+    	if(stations==null){
+    		return null;
+    	}
+    	else{
+    		for(Iterator<String> iter = stations.keySet().iterator(); iter.hasNext();){
+    			String station = iter.next();
+    			stationList.add(stations.get(station));
+    		}
+    		return stationList;
+    	}
     }
     
     /**
@@ -82,6 +105,6 @@ public class TransportNetwork {
      * @return                  The list of neighbor station
      */
     public ArrayList<Station> getNeighborStationList(Station station) {
-        return null;
+    	return null;
     }
 }
