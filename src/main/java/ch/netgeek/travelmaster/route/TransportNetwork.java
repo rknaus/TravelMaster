@@ -1,6 +1,7 @@
 package ch.netgeek.travelmaster.route;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,7 +34,10 @@ public class TransportNetwork {
      * @param name              The station name
      */
     public void addStation(String name) {
-        
+        if (!(stations.containsKey(name))) {
+            Station station = new Station(name);
+            stations.put(name, station);
+        }
     }
     
     /**
@@ -45,7 +49,10 @@ public class TransportNetwork {
      * @param duration          The travel duration between the two stations
      */
     public void addConnection(Station stationA, Station stationB, int duration) {
-        
+        if (!(connections.containsKey(Arrays.asList(stationA, stationB)))
+                && !(connections.containsKey(Arrays.asList(stationB, stationA)))) {
+            
+        }
     }
     
     /**
