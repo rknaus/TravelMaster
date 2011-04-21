@@ -110,7 +110,7 @@ public class TransportNetwork {
     		return null;
     	}
     	else{
-    		for(Iterator<String> iter = stations.keySet().iterator(); iter.hasNext();){
+    		for(Iterator<Station> iter = stations.values().iterator(); iter.hasNext();){
     			if(iter.equals(station)){
     				neighborStationList.add(stations.get(station));
     			}
