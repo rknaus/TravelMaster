@@ -1,14 +1,10 @@
-package ch.netgeek.travelmaster.route;
+package ch.netgeek.travelmaster.io;
 
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
-
-import ch.netgeek.travelmaster.route.XMLStationReader;
-import ch.netgeek.travelmaster.route.StationData;
-import ch.netgeek.travelmaster.route.ConnectionData;
 
 /**
  * This test class shows you all executed tests which have been done within the

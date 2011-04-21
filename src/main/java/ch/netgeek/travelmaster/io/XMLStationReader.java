@@ -1,6 +1,4 @@
-package ch.netgeek.travelmaster.route;
-
-import ch.netgeek.travelmaster.route.StationData;
+package ch.netgeek.travelmaster.io;
 
 import java.io.File;
 import java.util.ArrayList;

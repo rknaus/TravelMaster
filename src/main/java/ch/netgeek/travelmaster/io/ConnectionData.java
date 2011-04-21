@@ -1,4 +1,4 @@
-package ch.netgeek.travelmaster.route;
+package ch.netgeek.travelmaster.io;
 
 /**
  * a setter and getter class which is required to add the information <br>
