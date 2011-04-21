@@ -7,8 +7,6 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import sun.util.resources.CalendarData;
-
 /**
  * JUnit test cases for the Line class
  * 

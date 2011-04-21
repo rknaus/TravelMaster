@@ -2,8 +2,6 @@ package ch.netgeek.travelmaster.route;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
 /**
  * Represents a timetable belonging to a line for a source and destination
@@ -16,14 +14,14 @@ import java.util.ListIterator;
 public class TimeTable {
 
     // variables declaration
-    LinkedList<Calendar> departures;
+    ArrayList<Calendar> departures;
 
     /**
-     * A new Linked List of Calendar elements gets created when the constructor
+     * A new Array List of Calendar elements gets created when the constructor
      * gets called.
      */
     public TimeTable() {
-        departures = new LinkedList<Calendar>();
+        departures = new ArrayList<Calendar>();
     }
 
     /**
@@ -36,15 +34,22 @@ public class TimeTable {
         if (departures.isEmpty()) {
             departures.add(departure);
         } else {
-            Calendar index = departures.getFirst();
-            int indexValue = index.get(Calendar.HOUR) * 60 + index.get(Calendar.MINUTE);
-            int departureValue = departure.get(Calendar.HOUR) * 60 + departure.get(Calendar.MINUTE);
-            ListIterator<Calendar> iterator = departures.listIterator();
-            while (iterator.hasNext() && indexValue <= departureValue) {
-                index = iterator.next();
-                indexValue = index.get(Calendar.HOUR) * 60 + index.get(Calendar.MINUTE);
+            int departureValue = departure.get(Calendar.HOUR_OF_DAY) * 60 
+                                 + departure.get(Calendar.MINUTE);
+            boolean added = false;
+            for (int i = 0; i < departures.size(); i++) {
+                Calendar indexCalendar = departures.get(i);
+                int indexValue = indexCalendar.get(Calendar.HOUR_OF_DAY) * 60
+                                 + indexCalendar.get(i);
+                if (indexValue >= departureValue) {
+                    departures.add(i, departure);
+                    added = true;
+                    break;
+                }
             }
-            departures.add(iterator.nextIndex(), departure);
+            if (added == false) {
+                departures.add(departure);
+            }
         }
     }
 
@@ -60,24 +65,28 @@ public class TimeTable {
         if (departures.isEmpty()) {
             return null;
         } else {
-            Calendar index = departures.getFirst();
-            int indexValue = index.get(Calendar.HOUR) * 60 + index.get(Calendar.MINUTE);
-            int departureValue = departure.get(Calendar.HOUR) * 60 + departure.get(Calendar.MINUTE);
-            ListIterator<Calendar> iterator = departures.listIterator();
-            while (iterator.hasNext() && indexValue <= departureValue) {
-                index = iterator.next();
-                indexValue = index.get(Calendar.HOUR) * 60 + index.get(Calendar.MINUTE);
+            
+            int departureValue = departure.get(Calendar.HOUR_OF_DAY) * 60 
+                                 + departure.get(Calendar.MINUTE);
+            for (int i = 0; i < departures.size(); i++) {
+                Calendar indexCalendar = departures.get(i);
+                int indexValue = indexCalendar.get(Calendar.HOUR_OF_DAY) * 60
+                + indexCalendar.get(i);
+                if (indexValue >= departureValue) {
+                    return departures.get(i);
+                }
             }
-            if (indexValue < departureValue) {
-                return departures.getFirst();
-            } else {
-                return departures.get(iterator.nextIndex());
-            }
+            return departures.get(0);
         }
     }
 
+    /**
+     * Returns the departures.
+     * 
+     * @return                      The ArrayList of departures
+     */
     public ArrayList<Calendar> getDepartures() {
-        return null;
+        return departures;
     }
 
 }
