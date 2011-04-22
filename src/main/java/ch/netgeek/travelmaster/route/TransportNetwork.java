@@ -2,8 +2,8 @@ package ch.netgeek.travelmaster.route;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,15 +20,17 @@ public class TransportNetwork {
     // variables declaration
     private HashMap<String, Station> stations;
     private HashMap<List<Station>, Connection> connections;
-    
+    private ArrayList<Line> lines;
+
     /**
      * Initializes the Transport Network
      */
     public TransportNetwork() {
         stations = new HashMap<String, Station>();
         connections = new HashMap<List<Station>, Connection>();
+        lines = new ArrayList<Line>();
     }
-    
+
     /**
      * Adds a new Station to the transport network.
      * 
@@ -40,7 +42,7 @@ public class TransportNetwork {
             stations.put(name, station);
         }
     }
-    
+
     /**
      * Adds a new Connection to the transport network. To add a new connections,
      * both stations A and B must be initialized already.
@@ -50,15 +52,40 @@ public class TransportNetwork {
      * @param duration          The travel duration between the two stations
      */
     public void addConnection(Station stationA, Station stationB, int duration) {
-    	
-    	Connection connection = connections.get(Arrays.asList(stationA, stationB));
-        if (!(connections.containsKey(Arrays.asList(stationA, stationB)))) {
-        	connection.setDuration(duration);
+        if (!(connections.containsKey(Arrays.asList(stationA, stationB))) && 
+                !(connections.containsKey(Arrays.asList(stationB, stationA)))) {
+            Connection connection = new Connection(stationA, stationB, duration);
+            connections.put(Arrays.asList(stationA, stationB), connection);
         }
-        else{
-            connection.setDuration(duration);
-        	connections.put(Arrays.asList(stationA, stationB), connection);
-        }
+    }
+
+    /**
+     * Adds a new Line to the transport network. The containing stations and
+     * connections must already be initialized. The departures of the first and
+     * the last station are required to generate the timetable for the line.
+     * 
+     * @param number                    The line number as int
+     * @param type                      The line type as String
+     * @param stations                  The stations list in an ArrayList
+     * @param departuresFirstStation    The departures as Calendar objects for 
+     *                                  the first station in an ArrayList
+     * @param departuresLastStation     The departures as Calendar objects for 
+     *                                  the last station in an ArrayList
+     */
+    public void addLine(int number, String type, ArrayList<Station> stations, 
+            ArrayList<Calendar> departuresFirstStation, 
+            ArrayList<Calendar> departuresLastStation) {
+        // TODO Check if the Stations are connected to each other in the order
+        //      the Stations are in the ArrayList.
+        
+        // TODO Create a new Line object with the number and type
+        
+        // TODO Iterate through all Stations via the Connections from the first
+        //      station of the Line to the last one and generate the TimeTable
+        //      information using the departuresFirstStation and the duration of
+        //      the Connection class.
+        //      The same has to be done going from the last station to the first
+        //      station using the departuresLastStation this time.
     }
     
     /**
@@ -69,53 +96,43 @@ public class TransportNetwork {
      * @return                  The station object
      */
     public Station getStation(String name) {
-        if(stations.get(name)==null){
-        	return null;
-        }
-        else{
-        	return stations.get(name);
-        }
+        return stations.get(name);
     }
-    
+
     /**
      * Returns a list of all stations
      * 
      * @return                  The stations in an ArrayList
      */
     public ArrayList<Station> getStationList() {
-    	
-    	ArrayList<Station> stationList = new ArrayList<Station>();
-    	
-    	if(stations==null){
-    		return null;
-    	}
-    	else{
-    		for(Iterator<String> iter = stations.keySet().iterator(); iter.hasNext();){
-    			String station = iter.next();
-    			stationList.add(stations.get(station));
-    		}
-    		return stationList;
-    	}
+        ArrayList<Station> stationList = new ArrayList<Station>();
+        for (Station station : stations.values()) {
+            stationList.add(station);
+        }
+        return stationList;
     }
-    
+
     /**
      * Returns a list of all neighbor stations at a given station.
      * 
      * @param station           The given Station
-     * @return                  The list of neighbor station
+     * @return                  The list of neighbor stations
      */
-    public ArrayList<Station> getNeighborStationList(Station station){
-    	ArrayList<Station> neighborStationList = new ArrayList<Station>();
-    	if(stations.get(station)==null){
-    		return null;
-    	}
-    	else{
-    		for(Iterator<Station> iter = stations.values().iterator(); iter.hasNext();){
-    			if(iter.equals(station)){
-    				neighborStationList.add(stations.get(station));
-    			}
-    		}
-    		return neighborStationList;
-    	}
+    public ArrayList<Station> getNeighborStationList(Station station) {
+        ArrayList<Station> neighborStationList = new ArrayList<Station>();
+        ArrayList<Connection> connectionList = station.getConncections();
+        for (Connection connection : connectionList) {
+            neighborStationList.add(connection.getNeighborStation(station));
+        }
+        return neighborStationList;
+    }
+    
+    /**
+     * Returns a list of all lines.
+     * 
+     * @return                  The list of lines
+     */
+    public ArrayList<Line> getLines() {
+        return lines;
     }
 }

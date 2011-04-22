@@ -5,12 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class TransportNetworkTest {
-	
-	private TransportNetwork test;
-	private Station stationA = new Station("stationA");
-	private Station stationB = new Station("stationB");
 
-
+    private TransportNetwork test;
+    private Station stationA = new Station("stationA");
+    private Station stationB = new Station("stationB");
+    
     @Test
     public void testTransportNetwork() {
         fail("Not yet implemented");
@@ -18,14 +17,19 @@ public class TransportNetworkTest {
 
     @Test
     public void testAddStation() {
-    	test.addStation("Hollywood");
-    	assertTrue(test.getStation("Hollywood")!= null);
+        test.addStation("Hollywood");
+        assertTrue(test.getStation("Hollywood")!= null);
     }
 
     @Test
     public void testAddConnection() {
         test.addConnection(stationA, stationB, 4);
         Connection connection = new Connection(stationA, stationB, 4);
+    }
+
+    @Test
+    public void testAddLine() {
+        fail("Not yet implemented");
     }
 
     @Test
@@ -40,6 +44,11 @@ public class TransportNetworkTest {
 
     @Test
     public void testGetNeighborStationList() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetLines() {
         fail("Not yet implemented");
     }
 
