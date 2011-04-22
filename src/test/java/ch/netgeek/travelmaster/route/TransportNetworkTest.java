@@ -14,6 +14,7 @@ public class TransportNetworkTest {
 	private TransportNetwork test;
     private Station stationA = new Station("stationA");
     private Station stationB = new Station("stationB");
+    private Station station = new Station("station");
     
     @Before
     public void setUpTransportNetwork(){
@@ -53,21 +54,26 @@ public class TransportNetworkTest {
 
     @Test
     public void testGetStation() {
-        test.getStation("Hollywood");
-        Station name = new Station("Hollywood");
+        test.getStation("station");
         HashMap<String, Station> stations = new HashMap<String, Station>();
-        stations.put("Hollywood", name);
-        assertTrue(test.getStation("Hollywood") == stations.get(name));
+        stations.put("station", station);
+        assertEquals(test.getStation("station"), stations.get(station));
     }
 
     @Test
     public void testGetStationList() {
-        fail("Not yet implemented");
+    	test.addStation("station");
+        ArrayList<Station> stationList = new ArrayList<Station>();
+        stationList.add(station);
+        assertEquals(test.getStationList(), stationList);
     }
 
     @Test
     public void testGetNeighborStationList() {
-        fail("Not yet implemented");
+    	ArrayList<Station> neighborStationList = new ArrayList<Station>();
+    	Connection connection = new Connection(stationA, stationB, 4);
+    	neighborStationList.add(connection.getNeighborStation(stationA));
+        assertEquals(neighborStationList, test.getNeighborStationList(stationA));
     }
 
     @Test
