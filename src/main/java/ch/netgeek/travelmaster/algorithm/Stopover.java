@@ -62,42 +62,42 @@ public class Stopover {
 	}
 	
 	/**
-	 * @return station     get the name of the station
+	 * @return station     gets the name of the station
 	 */
 	public Station getStation(){
 		return station;
 	}
 	
 	/**
-	 * @return connection     get the connection from A to B
+	 * @return connection     gets the connection from A to B
 	 */
 	public Connection getConnection(){
 		return connection;
 	}
 	
 	/**
-	 * @return line     get the line
+	 * @return line     gets the line
 	 */
 	public Line getLine(){
 		return line;
 	}
 	
 	/**
-	 * @return arrivalTime     get the arrival time of the journey
+	 * @return arrivalTime     gets the arrival time of the journey
 	 */
 	public Calendar getArrivalTime(){
 		return arrivalTime;
 	}
 	
 	/**
-	 * @return departureTime     get the departure time of the journey
+	 * @return departureTime     gets the departure time of the journey
 	 */
 	public Calendar getDepartureTime(){
 		return departureTime;
 	}
 	
 	/**
-	 * @return travelTime     get the duration of the journey
+	 * @return travelTime     gets the duration of the journey
 	 */
 	public Calendar getTravelTime(){
 		return travelTime;
