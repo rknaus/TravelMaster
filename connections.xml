@@ -1,0 +1,67 @@
+<connections>
+	<connection>
+		<stationA>Picadilly</stationA>
+		<stationB>Paradeplatz</stationB>
+		<duration>8</duration>
+	</connection>
+	<connection>
+		<stationA>Picadilly</stationA>
+		<stationB>Schoerlistrasse</stationB>
+		<duration>12</duration>
+	</connection>
+	<connection>
+		<stationA>Schoerlistrasse</stationA>
+		<stationB>Rockafeller Center</stationB>
+		<duration>10</duration>
+	</connection>
+	<connection>
+		<stationA>Rockafeller Center</stationA>
+		<stationB>Roma Plaza</stationB>
+		<duration>5</duration>
+	</connection>
+	<connection>
+		<stationA>Roma Plaza</stationA>
+		<stationB>Berninaplatz</stationB>
+		<duration>7</duration>
+	</connection>
+	<connection>
+		<stationA>Roma Plaza</stationA>
+		<stationB>Paradeplatz</stationB>
+		<duration>10</duration>
+	</connection>
+	<connection>
+		<stationA>Rockafeller Center</stationA>
+		<stationB>La Cite</stationB>
+		<duration>14</duration>
+	</connection>
+	<connection>
+		<stationA>Rockafeller Center</stationA>
+		<stationB>Time Square</stationB>
+		<duration>3</duration>
+	</connection>
+	<connection>
+		<stationA>Time Square</stationA>
+		<stationB>Gare L'Est</stationB>
+		<duration>6</duration>
+	</connection>
+	<connection>
+		<stationA>Time Square</stationA>
+		<stationB>Arenal</stationB>
+		<duration>8</duration>
+	</connection>
+	<connection>
+		<stationA>Arenal</stationA>
+		<stationB>Zurich Hauptbahnhof</stationB>
+		<duration>4</duration>
+	</connection>
+	<connection>
+		<stationA>Gar L'Est</stationA>
+		<stationB>Bahnhofstrasse</stationB>
+		<duration>9</duration>
+	</connection>
+	<connection>
+		<stationA>Gar L'Est</stationA>
+		<stationB>Arenal</stationB>
+		<duration>4</duration>
+	</connection>
+</connections>

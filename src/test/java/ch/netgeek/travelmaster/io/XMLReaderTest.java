@@ -13,9 +13,9 @@ import org.junit.Test;
  * @author      Ruben Knaus, Dieu P. Van
  * @version     1.0, 19.04.2011
  */
-public class XMLStationReaderTest {
+public class XMLReaderTest {
 	
-    private XMLStationReader xmlStationReader;
+    private XMLReader xmlReader;
     
     @Test
     /**
@@ -23,7 +23,7 @@ public class XMLStationReaderTest {
      */
     public void testReadStation() {
         try {
-            ArrayList<StationData> c = xmlStationReader.readStation();
+            ArrayList<StationData> c = xmlReader.readStation();
 
             assertNotNull(c);
 
@@ -38,7 +38,7 @@ public class XMLStationReaderTest {
      */
     public void testReadConnection() {
         try {
-            ArrayList<ConnectionData> c = xmlStationReader.readConnection();
+            ArrayList<ConnectionData> c = xmlReader.readConnection();
 
             assertNotNull(c);
 
