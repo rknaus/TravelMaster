@@ -32,7 +32,8 @@ public class StationDataTest {
 	@Test
 	public void testStationData(){
 		String station2 = "station2";
-		assertEquals(test.getStation(), station2);
+		StationData stationData2 = new StationData(station2);
+		assertEquals(station2, stationData2.getStation());
 	}
 	
     /**
