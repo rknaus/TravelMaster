@@ -3,13 +3,10 @@ package ch.netgeek.travelmaster.io;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
-
-import ch.netgeek.travelmaster.route.ConnectionTest;
 
 
 /**
@@ -23,23 +20,52 @@ import ch.netgeek.travelmaster.route.ConnectionTest;
 public class XMLReader {
 
     // variables
-    private File stationsFile = new File("stations.xml");
-    private File connectionsFile = new File("connections.xml");
-    private File linesFile = new File("lines.xml");
+    private File stationsFile;
+    private File connectionsFile;
+    private File linesFile;
 
     // Elements in XML files
-    private final String stationTag = "station";
-    private final String stationATag = "stationA";
-    private final String stationBTag = "stationB";
-    private final String durationTag = "duration";
-    private final String lineTag = "line";
-    private final String numberTag = "number";
-    private final String typeTag = "type";
-    private final String stationsTag = "stations";
-    private final String departuresFirstStationTag = "departuresFirstStation";
-    private final String departuresLastStationTag = "departuresLastStation";
-    private final String departureTag = "departure";
+    private final String stationTag;
+    private final String connectionTag;
+    private final String stationATag;
+    private final String stationBTag;
+    private final String durationTag;
+    private final String lineTag;
+    private final String numberTag;
+    private final String typeTag;
+    private final String stationsTag;
+    private final String departuresFirstStationTag;
+    private final String departuresLastStationTag;
+    private final String departureTag;
 
+    /**
+     * Initializes the XMLReader object. It requires the filename (and path) of 
+     * the three following XML files:
+     * 
+     * @param stationsFileName          the filename (and path) for the stations
+     * @param connectionsFileName       the filename (and path) for the connections
+     * @param linesFileName             the filename (and path) for the lines
+     */
+    public XMLReader(String stationsFileName, String connectionsFileName,
+            String linesFileName) {
+        stationsFile = new File(stationsFileName);
+        connectionsFile = new File(connectionsFileName);
+        linesFile = new File(linesFileName);
+        
+        stationTag = "station";
+        connectionTag = "connection";
+        stationATag = "stationA";
+        stationBTag = "stationB";
+        durationTag = "duration";
+        lineTag = "line";
+        numberTag = "number";
+        typeTag = "type";
+        stationsTag = "stations";
+        departuresFirstStationTag = "departuresFirstStation";
+        departuresLastStationTag = "departuresLastStation";
+        departureTag = "departure";
+    }
+    
     /**
      * This method opens the xml file and puts all stations to the <br>
      * list
@@ -50,18 +76,27 @@ public class XMLReader {
         ArrayList<StationData> stations = new ArrayList<StationData>();
         Element root;
         try {
-            //create Document from file and get the root element
+            
+            // Create document from file and get the root element
             SAXBuilder builder = new SAXBuilder(true);
             Document doc = builder.build(stationsFile);
             root = doc.getRootElement();
         } catch (Exception e) {
+            
+            // Return an empty array list in case of an exception
             return new ArrayList<StationData>();
         }
-        List<?> children = root.getChildren();
-        for(int i = 0; i < children.size(); i++) {
-            Element stationdata = ((Element) children.get(i));
-            String station = stationdata.getChildText(stationTag);
-            stations.add(new StationData(station));			
+        
+        // Iterating over the xml <station> elements
+        Iterator<?> lineIterator = root.getChildren(stationTag).iterator();
+        while (lineIterator.hasNext()) {
+            Element lineElement = (Element) lineIterator.next();
+            
+            // Getting the station name
+            String station = lineElement.getText();
+            
+            // Adding the values as StationData object to the array list
+            stations.add(new StationData(station));		
         }
         return stations;
     }
@@ -76,20 +111,33 @@ public class XMLReader {
         ArrayList<ConnectionData> connections = new ArrayList<ConnectionData>();
         Element root;
         try {
-            //create Document from file and get the root element
+            
+            // Create document from file and get the root element
             SAXBuilder builder = new SAXBuilder(true);
             Document doc = builder.build(connectionsFile);
             root = doc.getRootElement();
         } catch (Exception e) {
-            return new ArrayList<ConnectionData>();
+            
+            // Return an empty array list in case of an exception
+            return connections;
         }
-        List<?> children = root.getChildren();
-        for (int i = 0; i < children.size(); i++) {
-            Element connectiondata = ((Element) children.get(i));
-            String stationA = connectiondata.getChildText(stationATag);
-            String stationB = connectiondata.getChildText(stationBTag);
-            int duration = Integer.parseInt(connectiondata.getChildText(durationTag));
-            connections.add(new ConnectionData(stationA, stationB, duration));			
+        
+        // Iterating over the xml <line> elements
+        Iterator<?> lineIterator = root.getChildren(connectionTag).iterator();
+        while (lineIterator.hasNext()) {
+            Element lineElement = (Element) lineIterator.next();
+            
+            // Getting the station A name
+            String stationA = lineElement.getChildText(stationATag);
+            
+            // Getting the station B name
+            String stationB = lineElement.getChildText(stationBTag);
+            
+            // Getting the duration between station A and B
+            int duration = Integer.parseInt(lineElement.getChildText(durationTag));
+            
+            // Adding the values as ConnectionData object to the array list
+            connections.add(new ConnectionData(stationA, stationB, duration));
         }
         return connections;
     }
@@ -114,9 +162,9 @@ public class XMLReader {
             // Return an empty array list in case of an exception
             return lines;
         }
-        Iterator<?> lineIterator = root.getChildren(lineTag).iterator();
         
         // Iterating over the xml <line> elements
+        Iterator<?> lineIterator = root.getChildren(lineTag).iterator();
         while (lineIterator.hasNext()) {
             Element lineElement = (Element) lineIterator.next();
             
