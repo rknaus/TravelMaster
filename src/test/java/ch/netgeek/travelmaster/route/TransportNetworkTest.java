@@ -70,9 +70,11 @@ public class TransportNetworkTest {
 
     @Test
     public void testGetNeighborStationList() {
+        Connection connection = new Connection(stationA, stationB, 4);
+        stationA.addConnection(connection);
+        stationB.addConnection(connection);
     	ArrayList<Station> neighborStationList = new ArrayList<Station>();
-    	Connection connection = new Connection(stationA, stationB, 4);
-    	neighborStationList.add(connection.getNeighborStation(stationA));
+    	neighborStationList.add(stationB);
         assertEquals(neighborStationList, test.getNeighborStationList(stationA));
     }
 
