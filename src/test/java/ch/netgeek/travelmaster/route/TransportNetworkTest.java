@@ -49,6 +49,7 @@ public class TransportNetworkTest {
         ArrayList<Connection> connections = new ArrayList<Connection>();
         ArrayList<Calendar> departuresFirstStation = new ArrayList<Calendar>();
         ArrayList<Calendar> departuresLastStation = new ArrayList<Calendar>();
+        ArrayList<Line> lines = new ArrayList<Line>();
         
         Station station1 = new Station("1. Station");
         Station station2 = new Station("2. Station");
@@ -65,6 +66,49 @@ public class TransportNetworkTest {
         Calendar c2 = Calendar.getInstance();
         Calendar c3 = Calendar.getInstance();
         Calendar c4 = Calendar.getInstance();
+        Line line01 = new Line(3, "Metro");
+        Line line02 = new Line(3, "Metro");
+        Line line03 = new Line(3, "Metro");
+        Line line04 = new Line(3, "Metro");
+        Line line05 = new Line(3, "Metro");
+        Line line06 = new Line(3, "Metro");
+        Line line07 = new Line(3, "Metro");
+        Line line08 = new Line(3, "Metro");
+        Line line09 = new Line(3, "Metro");
+        Line line10 = new Line(3, "Metro");
+        Line line11 = new Line(3, "Metro");
+        Line line12 = new Line(3, "Metro");
+        Line line13 = new Line(3, "Metro");
+        Line line14 = new Line(3, "Metro");
+        Line line15 = new Line(3, "Metro");
+        Line line16 = new Line(3, "Metro");
+        Line line17 = new Line(3, "Metro");
+        Line line18 = new Line(3, "Metro");
+        Line line19 = new Line(3, "Metro");
+        Line line20 = new Line(3, "Metro");
+        Line line21 = new Line(3, "Metro");
+        Line line22 = new Line(3, "Metro");
+        Line line23 = new Line(3, "Metro");
+        Line line24 = new Line(3, "Metro");
+        Calendar lineC01 = Calendar.getInstance();
+        Calendar lineC02 = Calendar.getInstance();
+        Calendar lineC03 = Calendar.getInstance();
+        Calendar lineC04 = Calendar.getInstance();
+        Calendar lineC05 = Calendar.getInstance();
+        Calendar lineC06 = Calendar.getInstance();
+        Calendar lineC07 = Calendar.getInstance();
+        Calendar lineC08 = Calendar.getInstance();
+        Calendar lineC01 = Calendar.getInstance();
+        Calendar c02 = Calendar.getInstance();
+        Calendar c03 = Calendar.getInstance();
+        Calendar c04 = Calendar.getInstance();
+        Calendar c05 = Calendar.getInstance();
+        Calendar c06 = Calendar.getInstance();
+        Calendar c07 = Calendar.getInstance();
+        Calendar c08 = Calendar.getInstance();
+        
+        
+        line1.addDeparture(station1, station2, departure)
 
         stations.add(station1);
         stations.add(station2);
@@ -76,7 +120,7 @@ public class TransportNetworkTest {
         connections.add(connection2);
         connections.add(connection3);
         connections.add(connection4);
-        connections.add(connection5);        
+        connections.add(connection5);      
         c1.set(0, 0, 0, 15, 03);
         c2.set(0, 0, 0, 15, 33);
         c3.set(0, 0, 0, 15, 18);
@@ -86,7 +130,9 @@ public class TransportNetworkTest {
         departuresLastStation.add(c3);
         departuresLastStation.add(c4);
         
-        test.addLine(3, "Bus", stations, departuresFirstStation, 
+        
+        
+        test.addLine(3, "Metro", stations, departuresFirstStation, 
         		departuresLastStation);
         assertTrue(test.getLines() != null);
     }
@@ -115,6 +161,15 @@ public class TransportNetworkTest {
     	ArrayList<Station> neighborStationList = new ArrayList<Station>();
     	neighborStationList.add(stationB);
         assertEquals(neighborStationList, test.getNeighborStationList(stationA));
+    }
+    
+    @Test
+    public void testGetConnectionList() {
+    	Connection connection = new Connection(stationA, stationB, 10);
+    	test.addConnection(stationA, stationB, 10);
+        ArrayList<Connection> connectionList = new ArrayList<Connection>();
+        connectionList.add(connection);
+        assertEquals(test.getStationList(), connectionList);
     }
 
     @Test

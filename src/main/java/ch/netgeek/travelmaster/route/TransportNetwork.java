@@ -186,6 +186,23 @@ public class TransportNetwork {
     }
     
     /**
+     * Returns a Connection with given stations A and B. Returns null, if the 
+     * connection doesn't exist.
+     * 
+     * @param stationA          The stationA
+     * @param stationB          The stationB
+     * @return                  The connection object
+     */
+    public Connection getConnection(Station stationA, Station stationB) {
+        Connection connection = connections.get(Arrays.asList(stationA, stationB));
+        
+        if(connection == null){
+        	connection = connections.get(Arrays.asList(stationB, stationA));
+        }
+    	return connection;
+    }
+    
+    /**
      * Returns a list of all connections
      * 
      * @return                  The connections in an ArrayList
