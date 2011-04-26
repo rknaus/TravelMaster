@@ -75,8 +75,65 @@ public class TransportNetwork {
     public void addLine(int number, String type, ArrayList<Station> stations, 
             ArrayList<Calendar> departuresFirstStation, 
             ArrayList<Calendar> departuresLastStation) {
+        
+    	Line line = new Line(number, type);
+    	TransportNetwork tn = new TransportNetwork();
+     	
+    	for(Station station : stations){
+    		for(Station neighbor : tn.getNeighborStationList(station)){   			
+    			if(neighbor != null){
+    				continue;
+    			}
+    			else{
+    				break;
+    			}
+    		}
+    	}
+    	
+    	for(Calendar departure : departuresFirstStation){
+    		for(int i = 0; i < stations.size(); i++){
+    			for(Connection connection : connections.values()){
+    				if(connection.getStationA().equals(i) 
+    						&& connection.getStationB().equals(i++)
+    						|| connection.getStationA().equals(i++) 
+    						&& connection.getStationB().equals(i)){
+    					Calendar c = Calendar.getInstance();
+    					c.set(0, 0, 0, 0, connection.getDuration());
+    					departure.add(Calendar.MINUTE, connection.getDuration());
+    				}
+    				else{
+    					continue;
+    				}
+    	    		line.addDeparture(stations.get(i), stations.get(i++), 
+    	    				departure);
+    	    		lines.add(line);
+    			}	
+    		}
+    	}
+    	
+    	for(Calendar departure : departuresLastStation){
+    		for(int i = stations.size(); i > 0; i--){
+    			for(Connection connection : connections.values()){
+    				if(connection.getStationA().equals(i) 
+    						&& connection.getStationB().equals(i--)
+    						|| connection.getStationA().equals(i--) 
+    						&& connection.getStationB().equals(i)){
+    					Calendar c = Calendar.getInstance();
+    					c.set(0, 0, 0, 0, connection.getDuration());
+    					departure.add(Calendar.MINUTE, connection.getDuration());
+    				}
+    				else{
+    					continue;
+    				}
+    	    		line.addDeparture(stations.get(i), stations.get(i--), 
+    	    				departure);
+    	    		lines.add(line);
+    			}	
+    		}
+    	}
+    	
         // TODO Check if the Stations are connected to each other in the order
-        //      the Stations are in the ArrayList.
+        // the Stations are in the ArrayList.
         
         // TODO Create a new Line object with the number and type
         
@@ -86,6 +143,7 @@ public class TransportNetwork {
         //      the Connection class.
         //      The same has to be done going from the last station to the first
         //      station using the departuresLastStation this time.
+    	//		add Line to every connections
     }
     
     /**
@@ -125,6 +183,19 @@ public class TransportNetwork {
             neighborStationList.add(connection.getNeighborStation(station));
         }
         return neighborStationList;
+    }
+    
+    /**
+     * Returns a list of all connections
+     * 
+     * @return                  The connections in an ArrayList
+     */
+    public ArrayList<Connection> getConnectionList() {
+        ArrayList<Connection> connectionList = new ArrayList<Connection>();
+        for (Connection connection : connections.values()) {
+            connectionList.add(connection);
+        }
+        return connectionList;
     }
     
     /**
