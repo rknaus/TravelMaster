@@ -2,11 +2,15 @@ package ch.netgeek.travelmaster.io;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+
+import ch.netgeek.travelmaster.route.Station;
+import ch.netgeek.travelmaster.route.TransportNetwork;
 
 
 /**
@@ -23,6 +27,7 @@ public class XMLReader {
     private File stationsFile;
     private File connectionsFile;
     private File linesFile;
+    private TransportNetwork transportNetwork;
 
     // Elements in XML files
     private final String stationTag;
@@ -47,10 +52,11 @@ public class XMLReader {
      * @param linesFileName             the filename (and path) for the lines
      */
     public XMLReader(String stationsFileName, String connectionsFileName,
-            String linesFileName) {
+            String linesFileName, TransportNetwork transportNetwork) {
         stationsFile = new File(stationsFileName);
         connectionsFile = new File(connectionsFileName);
         linesFile = new File(linesFileName);
+        this.transportNetwork = transportNetwork;
         
         stationTag = "station";
         connectionTag = "connection";
@@ -218,5 +224,123 @@ public class XMLReader {
                     departuresFirstStation, departuresLastStation));
         }
         return lines;
+    }
+    
+    /**
+     * Adds stations to the TransportNetwork object.
+     * 
+     * @param stations              The list with StationData objects to add
+     */
+    public void addStations(ArrayList<StationData> stations) {
+        for (StationData stationData : stations) {
+            transportNetwork.addStation(stationData.getStation());
+        }
+    }
+    
+    /**
+     * Adds connections to the TransportNetwork object.
+     * 
+     * @param connections           The list with ConnectionData objects to add
+     */
+    public void addConnections(ArrayList<ConnectionData> connections) {
+        for (ConnectionData connectionData : connections) {
+            Station stationA = 
+                transportNetwork.getStation(connectionData.getStationA());
+            Station stationB = 
+                transportNetwork.getStation(connectionData.getStationB());
+            int duration = connectionData.getDuration();
+            if (stationA != null || stationB != null) {
+                transportNetwork.addConnection(stationA, stationB, duration);
+            }
+        }
+    }
+    
+    /**
+     * Adds lines to the TransportNetwork object.
+     * 
+     * @param lines                 The list with LineData objects to add
+     */
+    public void addLines(ArrayList<LineData> lines) {
+        for (LineData lineData : lines) {
+            int number = lineData.getNumber();
+            String type = lineData.getType();
+            ArrayList<Station> stations = new ArrayList<Station>();
+            for (String stationString : lineData.getStations()) {
+                Station station = transportNetwork.getStation(stationString);
+                if (station != null) {
+                    stations.add(station);
+                } else {
+                    break;
+                }
+            }
+            
+            // LineData.getLines and lines must have the same size
+            if (lineData.getStations().size() != stations.size()) {
+                continue;
+            }
+            ArrayList<Calendar> departuresFirstStation = new ArrayList<Calendar>();
+            for (String departureString : lineData.getDeparturesFirstStation()) {
+                
+                // Departure time must be ##:## -> 5 characters long
+                if (departureString.length() != 5) {
+                    break;
+                }
+                
+                // Departure hour and minute must be convertable to int
+                int hour;
+                int minute;
+                try {
+                    hour = Integer.parseInt(departureString.substring(0, 2));
+                    minute = Integer.parseInt(departureString.substring(3));
+                } catch (NumberFormatException e) {
+                    break;
+                }
+                Calendar departure = Calendar.getInstance();
+                departure.set(0, 0, 0, hour, minute);
+                departuresFirstStation.add(departure);
+            }
+            
+            /* 
+             * LineData.getDeparturesFirstStation and departuresFirstStation 
+             * must have the same size
+             */
+            if (lineData.getDeparturesFirstStation().size() 
+                    != departuresFirstStation.size()) {
+                continue;
+            }
+            ArrayList<Calendar> departuresLastStation = new ArrayList<Calendar>();
+            for (String departureString : lineData.getDeparturesLastStation()) {
+                
+                // Departure time must be ##:## -> 5 characters long
+                if (departureString.length() != 5) {
+                    break;
+                }
+                
+                // Departure hour and minute must be convertable to int
+                int hour;
+                int minute;
+                try {
+                    hour = Integer.parseInt(departureString.substring(0, 2));
+                    minute = Integer.parseInt(departureString.substring(3));
+                } catch (NumberFormatException e) {
+                    break;
+                }
+                Calendar departure = Calendar.getInstance();
+                departure.set(0, 0, 0, hour, minute);
+                departuresLastStation.add(departure);
+            }
+            
+            /* 
+             * LineData.getDeparturesLastStation and departuresLastStation must
+             * have the same size
+             */
+            if (lineData.getDeparturesLastStation().size() 
+                    != departuresLastStation.size()) {
+                continue;
+            }
+            
+            transportNetwork.addLine(number, type, stations, 
+                    departuresFirstStation, departuresLastStation);
+        }
     }
 }
