@@ -154,6 +154,50 @@
 			<departure>00:40</departure>
 			<departure>01:10</departure>
 		</departuresFirstStation>
+		<departuresLastStation>
+			<departure>05:20</departure>
+			<departure>05:50</departure>
+			<departure>06:20</departure>
+			<departure>06:50</departure>
+			<departure>07:20</departure>
+			<departure>07:50</departure>
+			<departure>08:20</departure>
+			<departure>08:50</departure>
+			<departure>09:20</departure>
+			<departure>09:50</departure>
+			<departure>10:20</departure>
+			<departure>10:50</departure>
+			<departure>11:20</departure>
+			<departure>11:50</departure>
+			<departure>12:20</departure>
+			<departure>12:50</departure>
+			<departure>13:20</departure>
+			<departure>13:50</departure>
+			<departure>14:20</departure>
+			<departure>14:50</departure>
+			<departure>15:20</departure>
+			<departure>15:50</departure>
+			<departure>16:20</departure>
+			<departure>16:50</departure>
+			<departure>17:20</departure>
+			<departure>17:50</departure>
+			<departure>18:20</departure>
+			<departure>18:50</departure>
+			<departure>19:20</departure>
+			<departure>19:50</departure>
+			<departure>20:20</departure>
+			<departure>20:50</departure>
+			<departure>21:20</departure>
+			<departure>21:50</departure>
+			<departure>22:20</departure>
+			<departure>22:50</departure>
+			<departure>23:20</departure>
+			<departure>23:50</departure>
+			<departure>00:20</departure>
+			<departure>00:50</departure>
+			<departure>01:20</departure>
+		</departuresLastStation>
+		
 	</line>
 	<line>
 		<number>3</number>
