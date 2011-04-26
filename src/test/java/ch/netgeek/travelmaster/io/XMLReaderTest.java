@@ -374,10 +374,8 @@ public class XMLReaderTest {
         // Having correct departure times defined
         xmlReader.addLines(lineDataList);
         for (int i = 0; i < lineDataList.size(); i++) {
-            System.out.println(transportNetwork.getStationList().size());
-            System.out.println(transportNetwork.getConnectionList().size());
-            System.out.println(transportNetwork.getLines().size());
-            assertTrue(lineDataList.get(i).getNumber() == transportNetwork.getLines().get(i).getNumber());
+            assertTrue(lineDataList.get(i).getNumber() == 
+                transportNetwork.getLines().get(i).getNumber());
         }
     }
 }
