@@ -12,6 +12,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.netgeek.travelmaster.route.Station;
+import ch.netgeek.travelmaster.route.TransportNetwork;
+
 /**
  * JUnit test cases for the XMLReader class.
  * 
@@ -21,14 +24,18 @@ import org.junit.Test;
 public class XMLReaderTest {
 
     // variable declaration
+    private TransportNetwork transportNetwork;
     private XMLReader xmlReader;
-    private XMLReader faultyXMLReader;
+    private XMLReader emptyXMLReader;
     private String stationsFileName;
     private String connectionsFileName;
     private String linesFileName;
     private File stationsFile;
     private File connectionsFile;
     private File linesFile;
+    private ArrayList<StationData> stationDataList;
+    private ArrayList<ConnectionData> connectionDataList;
+    private ArrayList<LineData> lineDataList;
     
     /**
      * Sets up a standard xml reader object which can be used for the following
@@ -36,12 +43,16 @@ public class XMLReaderTest {
      */
     @Before
     public void setUpXMLReader() {
+        transportNetwork = new TransportNetwork();
         stationsFileName = "testStations.xml";
         connectionsFileName = "testConnections.xml";
         linesFileName = "testLines.xml";
         stationsFile = new File(stationsFileName);
         connectionsFile = new File(connectionsFileName);
         linesFile = new File(linesFileName);
+        stationDataList = new ArrayList<StationData>();
+        connectionDataList = new ArrayList<ConnectionData>();
+        lineDataList = new ArrayList<LineData>();
         try {
             FileWriter stationsWriter = new FileWriter(stationsFile);
             FileWriter connectionsWriter = new FileWriter(connectionsFile);
@@ -142,8 +153,41 @@ public class XMLReaderTest {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        xmlReader = new XMLReader(stationsFileName, connectionsFileName, linesFileName);
-        faultyXMLReader = new XMLReader("test1.xml", "test2.xml", "test3.xml");
+        xmlReader = new XMLReader(stationsFileName, connectionsFileName, 
+                linesFileName, transportNetwork);
+        emptyXMLReader = new XMLReader("test1.xml", "test2.xml", "test3.xml", 
+                transportNetwork);
+        stationDataList.add(new StationData("North"));
+        stationDataList.add(new StationData("South"));
+        stationDataList.add(new StationData("West"));
+        stationDataList.add(new StationData("East"));
+        stationDataList.add(new StationData("Center"));
+        connectionDataList.add(new ConnectionData("North", "Center", 5));
+        connectionDataList.add(new ConnectionData("Center", "South", 10));
+        connectionDataList.add(new ConnectionData("West", "Center", 15));
+        connectionDataList.add(new ConnectionData("Center", "East", 20));
+        ArrayList<String> stations = new ArrayList<String>();
+        stations.add("North");
+        stations.add("Center");
+        stations.add("South");
+        ArrayList<String> departuresFirstStation = new ArrayList<String>();
+        departuresFirstStation.add("08:40");
+        departuresFirstStation.add("16:40");
+        ArrayList<String> departuresLastStation = new ArrayList<String>();
+        departuresLastStation.add("09:40");
+        departuresLastStation.add("17:40");
+        lineDataList.add(new LineData(1, "Metro", stations, departuresFirstStation, 
+                departuresLastStation));
+        stations.clear();
+        departuresFirstStation.clear();
+        departuresLastStation.clear();
+        stations.add("West");
+        stations.add("Center");
+        stations.add("East");
+        departuresFirstStation.add("10:00");
+        departuresLastStation.add("11:00");
+        lineDataList.add(new LineData(2, "Bus", stations, departuresFirstStation, 
+                departuresLastStation));
     }
     
     /**
@@ -162,7 +206,8 @@ public class XMLReaderTest {
     @Test
     public void testXMLReader() {
         XMLReader testXMLReader = 
-            new XMLReader(stationsFileName, connectionsFileName, linesFileName);
+            new XMLReader(stationsFileName, connectionsFileName, linesFileName, 
+                    transportNetwork);
         assertEquals(XMLReader.class, testXMLReader.getClass());
     }
 
@@ -174,14 +219,13 @@ public class XMLReaderTest {
         
         // Existing XML file 
         ArrayList<StationData> stationDataList = xmlReader.readStation();
-        String[] stationNameList = {"North", "South", "West", "East", "Center"};
         for (int i = 0; i < stationDataList.size(); i++) {
-            assertEquals(stationNameList[i], stationDataList.get(i).getStation());
+            assertEquals(stationDataList.get(i), stationDataList.get(i).getStation());
         }
         
         // Not existing XML file
-        ArrayList<StationData> faultyStationDataList = faultyXMLReader.readStation();
-        assertTrue(0 == faultyStationDataList.size());
+        ArrayList<StationData> emptyStationDataList = emptyXMLReader.readStation();
+        assertTrue(0 == emptyStationDataList.size());
     }
 
     /**
@@ -192,18 +236,19 @@ public class XMLReaderTest {
         
         // Existing XML file 
         ArrayList<ConnectionData> connectionDataList = xmlReader.readConnection();
-        String[] connectionStationAList = {"North", "Center", "West", "Center"};
-        String[] connectionStationBList = {"Center", "South", "Center", "East"};
-        int[] connectionDurationList = {5, 10, 15, 20};
         for (int i = 0; i < connectionDataList.size(); i++) {
-            assertEquals(connectionStationAList[i], connectionDataList.get(i).getStationA());
-            assertEquals(connectionStationBList[i], connectionDataList.get(i).getStationB());
-            assertTrue(connectionDurationList[i] == connectionDataList.get(i).getDuration());
+            assertEquals(connectionDataList.get(i).getStationA(), 
+                    connectionDataList.get(i).getStationA());
+            assertEquals(connectionDataList.get(i).getStationB(), 
+                    connectionDataList.get(i).getStationB());
+            assertTrue(connectionDataList.get(i).getDuration() 
+                    == connectionDataList.get(i).getDuration());
         }
         
         // Not existing XML file
-        ArrayList<ConnectionData> faultyConnectionDataList = faultyXMLReader.readConnection();
-        assertTrue(0 == faultyConnectionDataList.size());
+        ArrayList<ConnectionData> emptyConnectionDataList = 
+            emptyXMLReader.readConnection();
+        assertTrue(0 == emptyConnectionDataList.size());
     }
 
     /**
@@ -214,36 +259,125 @@ public class XMLReaderTest {
         
         // Existing XML file 
         ArrayList<LineData> lineDataList = xmlReader.readLine();
-        int[] lineNumberList = {1, 2};
-        String[] lineTypeList = {"Metro", "Bus"};
-        String[][] lineStationsList = {{"North", "Center", "South"}, 
-                {"West", "Center", "East"}};
-        String[][] lineDeparturesFirstStationList = {{"08:40", "16:40"}, {"10:00"}};
-        String[][] lineDeparturesLastStationList = {{"09:40", "17:40"}, {"11:00"}};
         
         for (int i = 0; i < lineDataList.size(); i++) {
-            assertTrue(lineNumberList[i] == lineDataList.get(i).getNumber());
-            assertEquals(lineTypeList[i], lineDataList.get(i).getType());
+            assertTrue(lineDataList.get(i).getNumber() 
+                    == lineDataList.get(i).getNumber());
+            assertEquals(lineDataList.get(i).getType(), 
+                    lineDataList.get(i).getType());
             ArrayList<String> tmpStationsList = lineDataList.get(i).getStations();
             for(int j = 0; j < tmpStationsList.size(); i++) {
-                assertEquals(lineStationsList[i][j], tmpStationsList.get(j));
+                assertEquals(lineDataList.get(i).getStations().get(j), 
+                        tmpStationsList.get(j));
             }
             ArrayList<String> tmpDeparturesFirstStationList = 
                 lineDataList.get(i).getDeparturesFirstStation();
             for(int j = 0; j < tmpDeparturesFirstStationList.size(); i++) {
-                assertEquals(lineDeparturesFirstStationList[i][j], 
+                assertEquals(lineDataList.get(i).getDeparturesFirstStation().get(j), 
                         tmpDeparturesFirstStationList.get(j));
             }
             ArrayList<String> tmpDeparturesLastStationList = 
                 lineDataList.get(i).getDeparturesLastStation();
             for(int j = 0; j < tmpDeparturesLastStationList.size(); i++) {
-                assertEquals(lineDeparturesLastStationList[i][j], 
+                assertEquals(lineDataList.get(i).getDeparturesLastStation().get(j), 
                         tmpDeparturesLastStationList.get(j));
             }
         }
         
         // Not existing XML file
-        ArrayList<LineData> faultyLineDataList = faultyXMLReader.readLine();
-        assertTrue(0 == faultyLineDataList.size());
+        ArrayList<LineData> emptyLineDataList = emptyXMLReader.readLine();
+        assertTrue(0 == emptyLineDataList.size());
+    }
+    
+    /**
+     * Adding the stations to the TransportNetwork
+     */
+    @Test
+    public void testAddStations() {
+        xmlReader.addStations(stationDataList);
+        for (int i = 0; i < stationDataList.size(); i++) {
+            String expected = stationDataList.get(i).getStation();
+            String actual = transportNetwork.getStation(expected).getName();
+            assertEquals(expected, actual);
+        }
+    }
+    
+    /**
+     * Adding the connections to the TransportNetwork
+     */
+    @Test
+    public void testAddConnections() {
+        
+        // Without having any stations defined!
+        xmlReader.addConnections(connectionDataList);
+        assertTrue(0 == transportNetwork.getConnectionList().size());
+        
+        // Having Stations defined already
+        xmlReader.addStations(stationDataList);
+        xmlReader.addConnections(connectionDataList);
+        for (int i = 0; i < connectionDataList.size(); i++) {
+            Station stationA = transportNetwork.getStation(
+                    connectionDataList.get(i).getStationA());
+            Station stationB = transportNetwork.getStation(
+                    connectionDataList.get(i).getStationB());
+            assertTrue(connectionDataList.get(i).getDuration() == 
+                transportNetwork.getConnection(stationA, stationB).getDuration());
+        }
+        
+    }
+    
+    /**
+     * Adding the lines to the TransportNetwork
+     */
+    @Test
+    public void testAddLines() {
+        
+        // Without having stations and connections defined!
+        xmlReader.addLines(lineDataList);
+        assertTrue(0 == transportNetwork.getLines().size());
+        
+        // Without having connections defined!
+        xmlReader.addStations(stationDataList);
+        xmlReader.addLines(lineDataList);
+        assertTrue(0 == transportNetwork.getLines().size());
+        xmlReader.addConnections(connectionDataList);
+        
+        // Having illegal departure times
+        ArrayList<LineData> faultyLineDataList = new ArrayList<LineData>();
+        ArrayList<String> stations0 = new ArrayList<String>();
+        stations0.add("North");
+        stations0.add("Center");
+        stations0.add("South");
+        ArrayList<String> departuresFirstStation0 = new ArrayList<String>();
+        departuresFirstStation0.add("0::40");
+        departuresFirstStation0.add("16:40");
+        ArrayList<String> departuresLastStation0 = new ArrayList<String>();
+        departuresLastStation0.add("0::40");
+        departuresLastStation0.add("17:40");
+        faultyLineDataList.add(new LineData(1, "Metro", stations0, 
+                departuresFirstStation0, departuresLastStation0));
+        ArrayList<String> stations1 = new ArrayList<String>();
+        stations1.add("North");
+        stations1.add("Center");
+        stations1.add("South");
+        ArrayList<String> departuresFirstStation1 = new ArrayList<String>();
+        departuresFirstStation1.add("08:400");
+        departuresFirstStation1.add("16:40");
+        ArrayList<String> departuresLastStation1 = new ArrayList<String>();
+        departuresLastStation1.add("109340");
+        departuresLastStation1.add("17:40");
+        faultyLineDataList.add(new LineData(1, "Metro", stations1, 
+                departuresFirstStation1, departuresLastStation1));
+        xmlReader.addLines(faultyLineDataList);
+        assertTrue(0 == transportNetwork.getLines().size());
+        
+        // Having correct departure times defined
+        xmlReader.addLines(lineDataList);
+        for (int i = 0; i < lineDataList.size(); i++) {
+            System.out.println(transportNetwork.getStationList().size());
+            System.out.println(transportNetwork.getConnectionList().size());
+            System.out.println(transportNetwork.getLines().size());
+            assertTrue(lineDataList.get(i).getNumber() == transportNetwork.getLines().get(i).getNumber());
+        }
     }
 }
