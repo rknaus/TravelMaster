@@ -93,19 +93,17 @@ public class TransportNetwork {
     	for(Calendar departure : departuresFirstStation){
     		for(int i = 0; i < stations.size(); i++){
     			for(Connection connection : connections.values()){
-    				if(connection.getStationA().equals(i) 
-    						&& connection.getStationB().equals(i++)
-    						|| connection.getStationA().equals(i++) 
-    						&& connection.getStationB().equals(i)){
-    					Calendar c = Calendar.getInstance();
-    					c.set(0, 0, 0, 0, connection.getDuration());
+    				if(connection.getStationA().equals(stations.get(i))
+    						&& connection.getStationB().equals(stations.get(i+1))
+    						|| connection.getStationA().equals(stations.get(i+1)) 
+    						&& connection.getStationB().equals(stations.get(i))){
+        	    		line.addDeparture(stations.get(i), stations.get(i++), 
+        	    				departure);
     					departure.add(Calendar.MINUTE, connection.getDuration());
     				}
     				else{
     					continue;
     				}
-    	    		line.addDeparture(stations.get(i), stations.get(i++), 
-    	    				departure);
     	    		lines.add(line);
     			}	
     		}
@@ -114,19 +112,17 @@ public class TransportNetwork {
     	for(Calendar departure : departuresLastStation){
     		for(int i = stations.size(); i > 0; i--){
     			for(Connection connection : connections.values()){
-    				if(connection.getStationA().equals(i) 
-    						&& connection.getStationB().equals(i--)
-    						|| connection.getStationA().equals(i--) 
-    						&& connection.getStationB().equals(i)){
-    					Calendar c = Calendar.getInstance();
-    					c.set(0, 0, 0, 0, connection.getDuration());
+    				if(connection.getStationA().equals(stations.get(i)) 
+    						&& connection.getStationB().equals(stations.get(i-1))
+    						|| connection.getStationA().equals(stations.get(i-1)) 
+    						&& connection.getStationB().equals(stations.get(i))){
+        	    		line.addDeparture(stations.get(i), stations.get(i--), 
+        	    				departure);
     					departure.add(Calendar.MINUTE, connection.getDuration());
     				}
     				else{
     					continue;
     				}
-    	    		line.addDeparture(stations.get(i), stations.get(i--), 
-    	    				departure);
     	    		lines.add(line);
     			}	
     		}

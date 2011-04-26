@@ -98,14 +98,22 @@ public class TransportNetworkTest {
         Calendar lineC06 = Calendar.getInstance();
         Calendar lineC07 = Calendar.getInstance();
         Calendar lineC08 = Calendar.getInstance();
-        Calendar lineC01 = Calendar.getInstance();
-        Calendar c02 = Calendar.getInstance();
-        Calendar c03 = Calendar.getInstance();
-        Calendar c04 = Calendar.getInstance();
-        Calendar c05 = Calendar.getInstance();
-        Calendar c06 = Calendar.getInstance();
-        Calendar c07 = Calendar.getInstance();
-        Calendar c08 = Calendar.getInstance();
+        Calendar lineC09 = Calendar.getInstance();
+        Calendar lineC10 = Calendar.getInstance();
+        Calendar lineC11 = Calendar.getInstance();
+        Calendar lineC12 = Calendar.getInstance();
+        Calendar lineC13 = Calendar.getInstance();
+        Calendar lineC14 = Calendar.getInstance();
+        Calendar lineC15 = Calendar.getInstance();
+        Calendar lineC16 = Calendar.getInstance();
+        Calendar lineC17 = Calendar.getInstance();
+        Calendar lineC18 = Calendar.getInstance();
+        Calendar lineC19 = Calendar.getInstance();
+        Calendar lineC20 = Calendar.getInstance();
+        Calendar lineC21 = Calendar.getInstance();
+        Calendar lineC22 = Calendar.getInstance();
+        Calendar lineC23 = Calendar.getInstance();
+        Calendar lineC24 = Calendar.getInstance();
         
         
         line1.addDeparture(station1, station2, departure)
