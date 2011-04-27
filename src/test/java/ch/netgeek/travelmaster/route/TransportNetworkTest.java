@@ -225,8 +225,6 @@ public class TransportNetworkTest {
     @Test
     public void testGetConnectionList() {
     	Connection connection = new Connection(stationA, stationB, 10);
-    	stationA.addConnection(connection);
-    	stationB.addConnection(connection);
     	test.addConnection(stationA, stationB, 10);
         ArrayList<Connection> connectionList = new ArrayList<Connection>();
         connectionList.add(connection);
