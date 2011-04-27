@@ -91,55 +91,64 @@ public class TransportNetwork {
     	}
     	
     	for(Calendar departure : departuresFirstStation){
-    		for(int i = 0; i < stations.size(); i++){
-    			for(Connection connection : connections.values()){
-    				if(connection.getStationA().equals(stations.get(i))
-    						&& connection.getStationB().equals(stations.get(i+1))
-    						|| connection.getStationA().equals(stations.get(i+1)) 
-    						&& connection.getStationB().equals(stations.get(i))){
-        	    		line.addDeparture(stations.get(i), stations.get(i++), 
-        	    				departure);
-    					departure.add(Calendar.MINUTE, connection.getDuration());
-    				}
-    				else{
-    					continue;
-    				}
-    	    		lines.add(line);
-    			}	
+    		for(int i = 0; i < (stations.size()-1); i++){
+    			Station stationA = tn.getConnection(stations.get(i), 
+    					stations.get(i+1)).getStationA();
+    			Station stationB = tn.getConnection(stations.get(i), 
+    					stations.get(i+1)).getStationB();
+    			int duration = connections.get(
+    					Arrays.asList(stationA, stationB)).getDuration();
+    			
+    			line.addDeparture(stations.get(i), stations.get(i+1), departure);
+    			lines.add(line);
+    			departure.add(Calendar.MINUTE, duration);  
+ 		
+//    			for(Connection connection : connections.values()){
+//    				if(connection.getStationA().equals(stations.get(i))
+//    						&& connection.getStationB().equals(stations.get(i+1))
+//    						|| connection.getStationA().equals(stations.get(i+1)) 
+//    						&& connection.getStationB().equals(stations.get(i))){
+//        	    		line.addDeparture(stations.get(i), stations.get(i++), 
+//        	    				departure);
+//    					departure.add(Calendar.MINUTE, connection.getDuration());
+//    				}
+//    				else{
+//    					continue;
+//    				}
+//    	    		lines.add(line);
+//    			}	
     		}
     	}
     	
     	for(Calendar departure : departuresLastStation){
-    		for(int i = stations.size(); i > 0; i--){
-    			for(Connection connection : connections.values()){
-    				if(connection.getStationA().equals(stations.get(i)) 
-    						&& connection.getStationB().equals(stations.get(i-1))
-    						|| connection.getStationA().equals(stations.get(i-1)) 
-    						&& connection.getStationB().equals(stations.get(i))){
-        	    		line.addDeparture(stations.get(i), stations.get(i--), 
-        	    				departure);
-    					departure.add(Calendar.MINUTE, connection.getDuration());
-    				}
-    				else{
-    					continue;
-    				}
-    	    		lines.add(line);
-    			}	
+    		for(int i = (stations.size()-1); i > 0; i--){
+    			Station stationA = tn.getConnection(stations.get(i), 
+    					stations.get(i-1)).getStationA();
+    			Station stationB = tn.getConnection(stations.get(i), 
+    					stations.get(i-1)).getStationB();
+    			int duration = connections.get(
+    					Arrays.asList(stationA, stationB)).getDuration();
+    			
+    			line.addDeparture(stations.get(i), stations.get(i-1), departure);
+    			lines.add(line);
+    			departure.add(Calendar.MINUTE, duration);
+    			
+//    			for(Connection connection : connections.values()){
+//    				if(connection.getStationA().equals(stations.get(i)) 
+//    						&& connection.getStationB().equals(stations.get(i-1))
+//    						|| connection.getStationA().equals(stations.get(i-1)) 
+//    						&& connection.getStationB().equals(stations.get(i))){
+//        	    		line.addDeparture(stations.get(i), stations.get(i--), 
+//        	    				departure);
+//    					departure.add(Calendar.MINUTE, connection.getDuration());
+//    				}
+//    				else{
+//    					continue;
+//    				}
+//    	    		lines.add(line);
+//    			}	
     		}
     	}
-    	
-        // TODO Check if the Stations are connected to each other in the order
-        // the Stations are in the ArrayList.
-        
-        // TODO Create a new Line object with the number and type
-        
-        // TODO Iterate through all Stations via the Connections from the first
-        //      station of the Line to the last one and generate the TimeTable
-        //      information using the departuresFirstStation and the duration of
-        //      the Connection class.
-        //      The same has to be done going from the last station to the first
-        //      station using the departuresLastStation this time.
-    	//		add Line to every connections
     }
     
     /**

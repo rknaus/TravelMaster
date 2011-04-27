@@ -190,7 +190,9 @@ public class TransportNetworkTest {
         lines.add(line18b);
         lines.add(line19b);
         lines.add(line20b);
-       
+   
+        test.addLine(3, "Metro", stations, departuresFirstStation, 
+        		departuresLastStation);
         assertTrue(test.getLines() != null);
     }
 
@@ -223,10 +225,12 @@ public class TransportNetworkTest {
     @Test
     public void testGetConnectionList() {
     	Connection connection = new Connection(stationA, stationB, 10);
+    	stationA.addConnection(connection);
+    	stationB.addConnection(connection);
     	test.addConnection(stationA, stationB, 10);
         ArrayList<Connection> connectionList = new ArrayList<Connection>();
         connectionList.add(connection);
-        assertEquals(test.getConnectionList(), connectionList);
+        assertEquals(connectionList, test.getConnectionList());
     }
 
     @Test
