@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +16,7 @@ public class TransportNetworkTest {
     private Station sWest;
     private Station sEast;
     private Station sCenter;
-    private Connection cNorthSouth;
+    private Connection cNorthCenter;
     private Connection cCenterSouth;
     private Connection cWestCenter;
     private Connection cCenterEast;
@@ -70,7 +69,7 @@ public class TransportNetworkTest {
         transportNetwork.addConnection(sCenter, sSouth, 10);
         transportNetwork.addConnection(sWest, sCenter, 15);
         transportNetwork.addConnection(sCenter, sEast, 20);
-        cNorthSouth = transportNetwork.getConnection(sNorth, sCenter);
+        cNorthCenter = transportNetwork.getConnection(sNorth, sCenter);
         cCenterSouth = transportNetwork.getConnection(sCenter, sSouth);
         cWestCenter = transportNetwork.getConnection(sWest, sCenter);
         cCenterEast = transportNetwork.getConnection(sCenter, sEast);
@@ -155,7 +154,62 @@ public class TransportNetworkTest {
      */
     @Test
     public void testAddLine() {
-        fail("Not yet implemented");
+        int line3Number = 3;
+        String line3Type = "Airplain";
+        Line line3 = new Line(line3Number, line3Type);
+        ArrayList<Station> line3Stations = new ArrayList<Station>();
+        line3Stations.add(sNorth);
+        line3Stations.add(sCenter);
+        line3Stations.add(sEast);
+        ArrayList<Calendar> line3DeparturesFirstStation = new ArrayList<Calendar>();
+        Calendar line3DepFirst1 = Calendar.getInstance();
+        line3DepFirst1.set(0, 0, 0, 20, 0);
+        line3DeparturesFirstStation.add(line3DepFirst1);
+        ArrayList<Calendar> line3DeparturesLastStation = new ArrayList<Calendar>();
+        Calendar line3DepLast1 = Calendar.getInstance();
+        line3DepLast1.set(0, 0, 0, 23, 55);
+        line3DeparturesLastStation.add(line3DepLast1);
+        transportNetwork.addLine(line3Number, line3Type, line3Stations, 
+                line3DeparturesFirstStation, line3DeparturesLastStation);
+        ArrayList<Line> lines = transportNetwork.getLines();
+        assertTrue(3 == lines.size());
+        for (Line line : lines) {
+            if (line.getNumber() == 3) {
+                assertEquals(line3.getType(), line.getType());
+                TimeTable tNorthCenter = line.getTimeTable(sNorth, sCenter);
+                ArrayList<Calendar> dNorthCenter = tNorthCenter.getDepartures();
+                for (Calendar departure : dNorthCenter) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(20 == hoursOfDay);
+                    assertTrue(0 == minutes);
+                }
+                TimeTable tCenterEast = line.getTimeTable(sCenter, sEast);
+                ArrayList<Calendar> dCenterEast = tCenterEast.getDepartures();
+                for (Calendar departure : dCenterEast) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(20 == hoursOfDay);
+                    assertTrue(5 == minutes);
+                }
+                TimeTable tEastCenter = line.getTimeTable(sEast, sCenter);
+                ArrayList<Calendar> dEastCenter = tEastCenter.getDepartures();
+                for (Calendar departure : dEastCenter) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(23 == hoursOfDay);
+                    assertTrue(55 == minutes);
+                }
+                TimeTable tCenterNorth = line.getTimeTable(sCenter, sNorth);
+                ArrayList<Calendar> dCenterNorth = tCenterNorth.getDepartures();
+                for (Calendar departure : dCenterNorth) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(0 == hoursOfDay);
+                    assertTrue(15 == minutes);
+                }
+            }
+        }
     }
 
     /**
@@ -214,16 +268,19 @@ public class TransportNetworkTest {
         
     }
     
+    /**
+     * Getting the connection list of the transport network
+     */
     @Test
     public void testGetConnection() {
         Connection c1 = transportNetwork.getConnection(sNorth, sCenter);
         Connection c2 = transportNetwork.getConnection(sCenter, sSouth);
         Connection c3 = transportNetwork.getConnection(sWest, sCenter);
         Connection c4 = transportNetwork.getConnection(sCenter, sEast);
-        assertTrue(5 == c1.getDuration());
-        assertTrue(10 == c2.getDuration());
-        assertTrue(15 == c3.getDuration());
-        assertTrue(20 == c4.getDuration());
+        assertTrue(cNorthCenter.getDuration() == c1.getDuration());
+        assertTrue(cCenterSouth.getDuration() == c2.getDuration());
+        assertTrue(cWestCenter.getDuration() == c3.getDuration());
+        assertTrue(cCenterEast.getDuration() == c4.getDuration());
     }
     
     /**
@@ -234,16 +291,16 @@ public class TransportNetworkTest {
         ArrayList<Connection> connections = transportNetwork.getConnectionList();
         assertTrue(4 == connections.size());
         for (Connection connection : connections) {
-            if (connection.getDuration() == 5) {
+            if (connection.getDuration() == cNorthCenter.getDuration()) {
                 assertEquals(sNorth, connection.getStationA());
                 assertEquals(sCenter, connection.getStationB());
-            } else if (connection.getDuration() == 10) {
+            } else if (connection.getDuration() == cCenterSouth.getDuration()) {
                 assertEquals(sCenter, connection.getStationA());
                 assertEquals(sSouth, connection.getStationB());
-            } else if (connection.getDuration() == 15) {
+            } else if (connection.getDuration() == cWestCenter.getDuration()) {
                 assertEquals(sWest, connection.getStationA());
                 assertEquals(sCenter, connection.getStationB());
-            } else if (connection.getDuration() == 20) {
+            } else if (connection.getDuration() == cCenterEast.getDuration()) {
                 assertEquals(sCenter, connection.getStationA());
                 assertEquals(sEast, connection.getStationB());
             } else {
@@ -288,7 +345,6 @@ public class TransportNetworkTest {
                         fail("Departures are wrong");
                     }
                 }
-                
                 TimeTable tSouthCenter = line.getTimeTable(sSouth, sCenter);
                 ArrayList<Calendar> dSouthCenter = tSouthCenter.getDepartures();
                 for (Calendar departure : dSouthCenter) {
@@ -317,11 +373,38 @@ public class TransportNetworkTest {
                 }
             } else if (line.getNumber() == 2) {
                 assertEquals(line2.getType(), line.getType());
-                
-                
-                // TODO CONTINUE HERE!
-                
-                
+                TimeTable tWestCenter = line.getTimeTable(sWest, sCenter);
+                ArrayList<Calendar> dWestCenter = tWestCenter.getDepartures();
+                for (Calendar departure : dWestCenter) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(10 == hoursOfDay);
+                    assertTrue(0 == minutes);
+                }
+                TimeTable tCenterEast = line.getTimeTable(sCenter, sEast);
+                ArrayList<Calendar> dCenterEast = tCenterEast.getDepartures();
+                for (Calendar departure : dCenterEast) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(10 == hoursOfDay);
+                    assertTrue(15 == minutes);
+                }
+                TimeTable tEastCenter = line.getTimeTable(sEast, sCenter);
+                ArrayList<Calendar> dEastCenter = tEastCenter.getDepartures();
+                for (Calendar departure : dEastCenter) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(11 == hoursOfDay);
+                    assertTrue(0 == minutes);
+                }
+                TimeTable tCenterWest = line.getTimeTable(sCenter, sWest);
+                ArrayList<Calendar> dCenterWest = tCenterWest.getDepartures();
+                for (Calendar departure : dCenterWest) {
+                    int hoursOfDay = departure.get(Calendar.HOUR_OF_DAY);
+                    int minutes = departure.get(Calendar.MINUTE);
+                    assertTrue(11 == hoursOfDay);
+                    assertTrue(20 == minutes);
+                }
             } else {
                 fail("Line list is not correct");
             }
