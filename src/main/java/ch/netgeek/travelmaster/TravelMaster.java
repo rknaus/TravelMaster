@@ -2,7 +2,6 @@ package ch.netgeek.travelmaster;
 
 import ch.netgeek.travelmaster.io.XMLReader;
 import ch.netgeek.travelmaster.route.TransportNetwork;
-import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 
 /**
  * This is the TravelMaster main program.
@@ -19,9 +18,16 @@ public class TravelMaster {
      * @param args              Java default arg value
      */
     public static void main(String[] args) {
-        // TODO Add method calls and the program initialisation here.
     	
-    	XMLReader buffer = new XMLReader();
+        TransportNetwork transportNetwork = new TransportNetwork();
+        String stationsFileName = "stations.xml";
+        String connectionsFileName = "connections.xml";
+        String linesFileName = "lines.xml";
+    	XMLReader xmlReader = new XMLReader(stationsFileName, 
+    	        connectionsFileName, linesFileName, transportNetwork);
+    	xmlReader.addStations(xmlReader.readStation());
+    	xmlReader.addConnections(xmlReader.readConnection());
+    	xmlReader.addLines(xmlReader.readLine());
     	
     }
 
