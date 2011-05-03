@@ -45,7 +45,8 @@ public class TransportNetwork {
 
     /**
      * Adds a new Connection to the transport network. To add a new connections,
-     * both stations A and B must be initialized already.
+     * both stations A and B must be initialized already. The connection also
+     * must get added to the station A and B.
      * 
      * @param stationA          The station A as Station
      * @param stationB          The station B as Station
@@ -56,6 +57,10 @@ public class TransportNetwork {
                 !(connections.containsKey(Arrays.asList(stationB, stationA)))) {
             Connection connection = new Connection(stationA, stationB, duration);
             connections.put(Arrays.asList(stationA, stationB), connection);
+            Station tmpStationA = getStation(stationA.getName());
+            tmpStationA.addConnection(connection);
+            Station tmpStationB = getStation(stationB.getName());
+            tmpStationB.addConnection(connection);
         }
     }
 
@@ -77,78 +82,150 @@ public class TransportNetwork {
             ArrayList<Calendar> departuresLastStation) {
         
     	Line line = new Line(number, type);
-    	TransportNetwork tn = new TransportNetwork();
      	
-    	for(Station station : stations){
-    		for(Station neighbor : tn.getNeighborStationList(station)){   			
-    			if(neighbor != null){
-    				continue;
-    			}
-    			else{
-    				break;
-    			}
-    		}
+    	/*
+    	 * Checking if the Stations list of the line is valid according to the
+    	 * Stations and Connections already initialized.
+    	 */
+    	boolean stationsCorrect = true;
+    	
+    	// stations list must not be empty
+    	if (stations.size() == 0) {
+    	    stationsCorrect = false;
     	}
     	
-    	for(Calendar departure : departuresFirstStation){
-    		for(int i = 0; i < (stations.size()-1); i++){
-    			Station stationA = tn.getConnection(stations.get(i), 
-    					stations.get(i+1)).getStationA();
-    			Station stationB = tn.getConnection(stations.get(i), 
-    					stations.get(i+1)).getStationB();
-    			int duration = connections.get(
-    					Arrays.asList(stationA, stationB)).getDuration();
-    			
-    			line.addDeparture(stations.get(i), stations.get(i+1), departure);
-    			lines.add(line);
-    			departure.add(Calendar.MINUTE, duration);  
- 		
-//    			for(Connection connection : connections.values()){
-//    				if(connection.getStationA().equals(stations.get(i))
-//    						&& connection.getStationB().equals(stations.get(i+1))
-//    						|| connection.getStationA().equals(stations.get(i+1)) 
-//    						&& connection.getStationB().equals(stations.get(i))){
-//        	    		line.addDeparture(stations.get(i), stations.get(i++), 
-//        	    				departure);
-//    					departure.add(Calendar.MINUTE, connection.getDuration());
-//    				}
-//    				else{
-//    					continue;
-//    				}
-//    	    		lines.add(line);
-//    			}	
-    		}
-    	}
-    	
-    	for(Calendar departure : departuresLastStation){
-    		for(int i = (stations.size()-1); i > 0; i--){
-    			Station stationA = tn.getConnection(stations.get(i), 
-    					stations.get(i-1)).getStationA();
-    			Station stationB = tn.getConnection(stations.get(i), 
-    					stations.get(i-1)).getStationB();
-    			int duration = connections.get(
-    					Arrays.asList(stationA, stationB)).getDuration();
-    			
-    			line.addDeparture(stations.get(i), stations.get(i-1), departure);
-    			lines.add(line);
-    			departure.add(Calendar.MINUTE, duration);
-    			
-//    			for(Connection connection : connections.values()){
-//    				if(connection.getStationA().equals(stations.get(i)) 
-//    						&& connection.getStationB().equals(stations.get(i-1))
-//    						|| connection.getStationA().equals(stations.get(i-1)) 
-//    						&& connection.getStationB().equals(stations.get(i))){
-//        	    		line.addDeparture(stations.get(i), stations.get(i--), 
-//        	    				departure);
-//    					departure.add(Calendar.MINUTE, connection.getDuration());
-//    				}
-//    				else{
-//    					continue;
-//    				}
-//    	    		lines.add(line);
-//    			}	
-    		}
-    	}
+    	Station lineStation = stations.get(0);
+        Station station = getStation(stations.get(0).getName());
+        
+        // first Station must exist
+        if ((lineStation.equals(station))) {
+            
+            /*
+             * Check if the rest of the stations exist and if they are connected 
+             * together like expected.
+             */
+            for (int i = 1; i < (stations.size() - 1); i++) {
+                Station lineNeighborStation = stations.get(i + 1);
+                station = getStation(stations.get(i).getName());
+                
+                /* 
+                 * all stations expect the last station must have the correct
+                 * neighbor station.
+                 */
+                ArrayList<Station> neighborStationList = getNeighborStationList(station);
+                
+                // Neighbor Stations must exist
+                if (neighborStationList.size() == 0) {
+                    stationsCorrect = false;
+                    break;
+                }
+                boolean foundNeighbor = false;
+                for (Station neighborStation : neighborStationList) {
+                    if (lineNeighborStation.equals(neighborStation)) {
+                        foundNeighbor = true;
+                    }
+                }
+                if (foundNeighbor == false) {
+                    stationsCorrect = false;
+                    break;
+                }
+            }
+        } else {
+            stationsCorrect = false;
+        }
+        
+        /*
+         * If the stations of the line are all valid, the line can get added to
+         * the TransportNetwork.
+         */
+        if (stationsCorrect) {
+            
+            // Adding the line to the lines list of TransportNetwork
+            lines.add(line);
+            
+            /*
+             * Adding the line to the connections and calculating the timetable
+             * for each direction and connection
+             */
+            ArrayList<Calendar> departuresD1 = departuresFirstStation;
+            ArrayList<Calendar> departuresD2 = departuresLastStation;
+            
+//            //TODO DELETE!
+//            System.out.println("########################");
+            
+            for (int i = 0; i < (stations.size() - 1); i++) {
+                int j = stations.size() - 1 - i;
+                
+                // Defining stations and connection in direction one (D1)
+                Station stationD1 = getStation(stations.get(i).getName());
+                Station neighborStationD1 = getStation(stations.get(i + 1).getName());
+                Connection connectionD1 = getConnection(stationD1, neighborStationD1);
+                
+//                //TODO DELETE!
+//                System.out.println("-Direction 1-------------------");
+//                System.out.println(stationD1.getName());
+//                System.out.println(neighborStationD1.getName());
+                
+                // Adding the timeTable for each connection in direction one (D1)
+                for (int k = 0; k < departuresD1.size(); k++) {
+                    
+//                    //TODO DELETE!
+//                    System.out.println("-Direction 1-Departure----------");
+//                    System.out.println(departuresD1.get(k).get(Calendar.HOUR_OF_DAY) + ":" + departuresD1.get(k).get(Calendar.MINUTE));
+                    
+                    Calendar departure = Calendar.getInstance();
+                    int hoursOfDay = departuresD1.get(k).get(Calendar.HOUR_OF_DAY);
+                    int minutes = departuresD1.get(k).get(Calendar.MINUTE);
+                    departure.set(0, 0, 0, hoursOfDay, minutes);
+                    line.addDeparture(stationD1, neighborStationD1, 
+                            departure);
+                    
+                    /*
+                     * adding the travel time to the departure which is the
+                     * correct departure time for the next iteration
+                     */
+                    departuresD1.get(k).add(Calendar.MINUTE, 
+                            connectionD1.getDuration());
+                }
+                
+                // Defining stations and connection in direction two (D2)
+                Station stationD2 = getStation(stations.get(j).getName());
+                Station neighborStationD2 = getStation(stations.get(j - 1).getName());
+                Connection connectionD2 = getConnection(stationD2, neighborStationD2);
+                
+                
+//                //TODO DELETE!
+//                System.out.println("-Direction 2-------------------");
+//                System.out.println(stationD2.getName());
+//                System.out.println(neighborStationD2.getName());
+                
+                // Adding the timeTable for each connection in direction two (D2)
+                for (int k = 0; k < departuresD2.size(); k++) {
+                    
+//                    //TODO DELETE!
+//                    System.out.println("-Direction 2-Departure----------");
+//                    System.out.println(departuresD2.get(k).get(Calendar.HOUR_OF_DAY) + ":" + departuresD2.get(k).get(Calendar.MINUTE));
+                    
+                    Calendar departure = Calendar.getInstance();
+                    int hoursOfDay = departuresD2.get(k).get(Calendar.HOUR_OF_DAY);
+                    int minutes = departuresD2.get(k).get(Calendar.MINUTE);
+                    departure.set(0, 0, 0, hoursOfDay, minutes);
+                    line.addDeparture(stationD2, neighborStationD2, 
+                            departure);
+                    
+                    /*
+                     * adding the travel time to the departure which is the
+                     * correct departure time for the next iteration
+                     */
+                    departuresD2.get(k).add(Calendar.MINUTE, 
+                            connectionD2.getDuration());
+                }
+                
+                // Adding line to the connection (only in one direction!)
+                connectionD1.addLine(line);
+                
+            }
+        }
     }
     
     /**
@@ -201,7 +278,7 @@ public class TransportNetwork {
     public Connection getConnection(Station stationA, Station stationB) {
         Connection connection = connections.get(Arrays.asList(stationA, stationB));
         
-        if(connection == null){
+        if(connection == null) {
         	connection = connections.get(Arrays.asList(stationB, stationA));
         }
     	return connection;
