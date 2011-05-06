@@ -8,6 +8,12 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * JUnit test cases for the TransportNetwork class
+ * 
+ * @author      Dieu P. Van, Ruben Knaus
+ * @version     0.1
+ */
 public class TransportNetworkTest {
 
 	private TransportNetwork transportNetwork;

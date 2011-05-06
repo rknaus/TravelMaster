@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author      Dieu P. Van, Ruben Knaus
  * @version     0.1
  */
-public class Station {
+public class Station implements Comparable<Station> {
 
     // variables declaration
     private String name;
@@ -71,5 +71,16 @@ public class Station {
         } else if (!name.equals(other.name))
             return false;
         return true;
+    }
+
+    /**
+     * Compares the station with another station by name.
+     * 
+     * @param station       the other station
+     * @return              
+     */
+    @Override
+    public int compareTo(Station station) {
+        return this.name.compareTo(station.getName());
     }
 }
