@@ -71,7 +71,7 @@ public class TimeTable {
             for (int i = 0; i < departures.size(); i++) {
                 Calendar indexCalendar = departures.get(i);
                 int indexValue = indexCalendar.get(Calendar.HOUR_OF_DAY) * 60
-                + indexCalendar.get(i);
+                + indexCalendar.get(Calendar.MINUTE);
                 if (indexValue >= departureValue) {
                     return departures.get(i);
                 }
