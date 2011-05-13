@@ -151,9 +151,6 @@ public class RouteCalculator {
         
         while ((station = getNextStation()) != null) {
             
-            // station must not be settled already
-            assert !isSettled(station);
-            
             // if the destination is reached, stop here
             if (station.equals(destination)) {
                 break;

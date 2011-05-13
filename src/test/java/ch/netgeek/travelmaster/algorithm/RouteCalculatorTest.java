@@ -9,9 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.netgeek.travelmaster.route.Connection;
-import ch.netgeek.travelmaster.route.Line;
 import ch.netgeek.travelmaster.route.Station;
-import ch.netgeek.travelmaster.route.TimeTable;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
 /**
@@ -29,12 +27,6 @@ public class RouteCalculatorTest {
     private Station sWest;
     private Station sEast;
     private Station sCenter;
-    private Connection cNorthCenter;
-    private Connection cCenterSouth;
-    private Connection cWestCenter;
-    private Connection cCenterEast;
-    private Line line1;
-    private Line line2;
     
     /**
      * Sets up a standard Transport Network for the route calculator
@@ -59,9 +51,6 @@ public class RouteCalculatorTest {
          */
         transportNetwork = new TransportNetwork();
 
-        line1 = new Line(1, "Bus");
-        line2 = new Line(2, "Train");
-
         // Adding Stations to transport network
         transportNetwork.addStation("North");
         transportNetwork.addStation("South");
@@ -79,10 +68,6 @@ public class RouteCalculatorTest {
         transportNetwork.addConnection(sCenter, sSouth, 10);
         transportNetwork.addConnection(sWest, sCenter, 15);
         transportNetwork.addConnection(sCenter, sEast, 20);
-        cNorthCenter = transportNetwork.getConnection(sNorth, sCenter);
-        cCenterSouth = transportNetwork.getConnection(sCenter, sSouth);
-        cWestCenter = transportNetwork.getConnection(sWest, sCenter);
-        cCenterEast = transportNetwork.getConnection(sCenter, sEast);
 
         // Adding Lines to transport network
         int line1Number = 1;
@@ -107,7 +92,6 @@ public class RouteCalculatorTest {
         line1DeparturesLastStation.add(line1DepLast2);
         transportNetwork.addLine(line1Number, line1Type, line1Stations, 
                 line1DeparturesFirstStation, line1DeparturesLastStation);
-        line1 = transportNetwork.getLines().get(0);
         int line2Number = 2;
         String line2Type = "Train";
         ArrayList<Station> line2Stations = new ArrayList<Station>();
@@ -124,7 +108,6 @@ public class RouteCalculatorTest {
         line2DeparturesLastStation.add(line2DepLast1);
         transportNetwork.addLine(line2Number, line2Type, line2Stations, 
                 line2DeparturesFirstStation, line2DeparturesLastStation);
-        line2 = transportNetwork.getLines().get(1);
         
         // Initializing the route calculator
         routeCalculator = new RouteCalculator(transportNetwork);
