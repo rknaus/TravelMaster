@@ -18,10 +18,21 @@ public class GUI {
 		//Creates a menu bar
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
+		JMenuItem about = new JMenuItem("About TravelMaster");
+		JMenuItem exit = new JMenuItem("Exit");
 		menuBar.add(fileMenu);
 		menuBar.setPreferredSize(new Dimension(20,25));
-		fileMenu.add(new JMenuItem("About TravelMaster"));
-		fileMenu.add(new JMenuItem("Exit"));
+		about.setFont(new Font("arial",0,12));
+		exit.setFont(new Font("arial",0,12));
+		fileMenu.setFont(new Font("arial",0,12));
+		fileMenu.add(about);
+		fileMenu.add(exit);	
+		
+		Action exitAction = new AbstractAction("Exit"){
+			public void actionPermormed(ActionEvent e){
+				System.exit(0);
+			}
+		}
 		
 		//Creates a banner for the NORTH frame
 		JPanel pBanner = new JPanel();
@@ -96,7 +107,7 @@ public class GUI {
 		bClear.setBackground(Color.LIGHT_GRAY);
 		pInput.add(bClear);
 		
-		//Component for the result panel
+		//Component for the output
 		pOutput.setPreferredSize(new Dimension(440,0));
 		pOutput.setAlignmentX(Component.LEFT_ALIGNMENT);
 		JLabel lTitle2 = new JLabel("Connection");
@@ -108,6 +119,7 @@ public class GUI {
 		//Adds input mask panel and result panel together as one
 		pWest.setPreferredSize(new Dimension(440,0));
 		pWest.setAlignmentX(Component.LEFT_ALIGNMENT);
+		pWest.setAlignmentY(Component.TOP_ALIGNMENT);
 		pWest.add(pInput);
 		pWest.add(pOutput);
 		
@@ -118,7 +130,7 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(BorderLayout.NORTH, lBanner).setBackground(Color.WHITE);
-		frame.getContentPane().add(BorderLayout.WEST, pWest);
+		frame.getContentPane().add(BorderLayout.WEST, pWest).setBackground(Color.WHITE);
 		frame.getContentPane().add(BorderLayout.CENTER, tfMap).setBackground(Color.WHITE);
 		frame.setSize(1000,750);
 		frame.setVisible(true);	
