@@ -20,135 +20,183 @@ import org.junit.Test;
 public class StopoverTest {
 	
 	//variable declaration
-	private Station station;
-	private Calendar travelTime;
-	private Stopover test;
+	private Station source;
+	private Station destination;
+	private Connection connection;
+	private Line line;
+	private Calendar departureTime;
+	private Calendar arrivalTime;
+	private int travelDuration;
+	private Stopover stopover;
 
     /**
      * Sets up definitions, which can be used for the following tests.
      */
 	@Before
-	public void setUpStoverTest(){
-		station = new Station("station");
-		travelTime = Calendar.getInstance();
-		travelTime.set(0, 0, 0, 9, 50);
-		test = new Stopover(station,travelTime);
+	public void setUpStoverTest() {
+	    source = new Station("Source");
+	    destination = new Station("Destination");
+		connection = new Connection(source, destination, 10);
+		line = new Line(2, "Bus");
+		departureTime = Calendar.getInstance();
+		departureTime.set(0, 0, 0, 9, 50);
+		arrivalTime = Calendar.getInstance();
+		arrivalTime.set(0, 0, 0, 10, 0);
+		travelDuration = 15;
+		stopover = new Stopover(source, destination, connection, line, 
+		        departureTime, arrivalTime, travelDuration);
 	}
 	
     /**
      * Basic test which initializes a line object.
      */
 	@Test
-	public void testStopover(){
-		Calendar travelTime2 = Calendar.getInstance();
-		travelTime2.set(0, 0, 0, 8, 30);
-		Station station2 = new Station("station2");
-		Stopover stopover = new Stopover(station2, travelTime2);
-		assertEquals(stopover.getTravelTime(), travelTime2);
-		assertEquals(stopover.getStation(), station2);
+	public void testStopover() {
+	    source = new Station("Source");
+        destination = new Station("Destination");
+        connection = new Connection(source, destination, 10);
+        line = new Line(2, "Bus");
+        departureTime = Calendar.getInstance();
+        departureTime.set(0, 0, 0, 9, 50);
+        arrivalTime = Calendar.getInstance();
+        arrivalTime.set(0, 0, 0, 10, 0);
+        travelDuration = 15;
+        stopover = new Stopover(source, destination, connection, line, 
+                departureTime, arrivalTime, travelDuration);
+        assertEquals(Stopover.class, stopover.getClass());
 	}
+	
+	/**
+	 * Sets a new source station
+	 */
+	@Test
+	public void testSetSource() {
+	    Station source = new Station("Test");
+	    stopover.setSource(source);
+	    assertEquals(source, stopover.getSource());
+	}
+	
+	/**
+     * Sets a new destination station
+     */
+    @Test
+    public void testSetDestination() {
+        Station destination = new Station("Test");
+        stopover.setDestination(destination);
+        assertEquals(destination, stopover.getDestinatio());
+    }
 	
     /**
      * Sets a new connection
      */	
 	@Test
-	public void testSetConnection(){
+	public void testSetConnection() {
 		Station stationA = new Station("stationA");
 		Station stationB = new Station("stationB");
 		Connection connection = new Connection(stationA, stationB, 4);
-		test.setConnection(connection);
-		assertTrue(test.getConnection() != null);
+		stopover.setConnection(connection);
+		assertTrue(stopover.getConnection().getDuration() == 4);
 	}
 	
     /**
      * Sets a new line
      */	
 	@Test
-	public void testSetLine(){
+	public void testSetLine() {
 		Line line = new Line(3, "line");
-		test.setLine(line);
-		assertTrue(test.getLine() != null);
+		stopover.setLine(line);
+		assertTrue(stopover.getLine().getNumber() == 3);
+		assertEquals("line", stopover.getLine().getType());
 	}
+    
+    /**
+     * Sets a departure time
+     */ 
+    @Test
+    public void testSetDepartureTime() {
+        Calendar departureTime = Calendar.getInstance();
+        departureTime.set(0, 0, 0, 6, 35);
+        stopover.setDepartureTime(departureTime);
+        assertEquals(departureTime, stopover.getDepartureTime());
+    }
 	
     /**
      * Sets a arrival time
      */	
 	@Test
-	public void testSetArrivalTime(){
+	public void testSetArrivalTime() {
 		Calendar arrivalTime = Calendar.getInstance();
 		arrivalTime.set(0, 0, 0, 4, 40);
-		test.setArrivalTime(arrivalTime);
-		assertTrue(test.getArrivalTime()!= null);
+		stopover.setArrivalTime(arrivalTime);
+		assertEquals(arrivalTime, stopover.getArrivalTime());
+	}
+	
+	/**
+	 * Sets the total travel duration
+	 */
+	@Test
+	public void testSetTravelDuration() {
+	    int duration = 80;
+	    stopover.setTravelDuration(duration);
+	    assertTrue(80 == stopover.getTravelDuration());
 	}
 	
     /**
-     * Sets a departure time
+     * Returns the source station
      */	
 	@Test
-	public void testSetDepartureTime(){
-		Calendar departureTime = Calendar.getInstance();
-		departureTime.set(0, 0, 0, 6, 35);
-		test.setDepartureTime(departureTime);
-		assertTrue(test.getDepartureTime()!= null);
+	public void testGetSource() {
+		assertEquals(source, stopover.getSource());
 	}
 	
-    /**
-     * Gets the station
-     */	
-	@Test
-	public void testGetStation(){
-		assertEquals(test.getStation(), station);
-	}
+	/**
+     * Returns the destination station
+     */ 
+    @Test
+    public void testGetDestination() {
+        assertEquals(destination, stopover.getDestinatio());
+    }
 	
     /**
      * Gets the connection
      */	
 	@Test
-	public void testGetConnection(){
-		Station stationA = new Station("stationA");
-		Station stationB = new Station("stationB");
-		Connection connection = new Connection(stationA, stationB, 4);
-		test.setConnection(connection);
-		assertEquals(connection, test.getConnection());
+	public void testGetConnection() {
+		assertEquals(source, stopover.getConnection().getStationA());
+		assertEquals(destination, stopover.getConnection().getStationB());
+		assertTrue(10 == stopover.getConnection().getDuration());
 	}
 	
-    /**
-     * Sets the line
-     */	
+	/**
+	 * Returns the line
+	 */
 	@Test
-	public void testGetLine(){
-		Line line = new Line(3, "line");
-		test.setLine(line);
-		assertEquals(line, test.getLine());
+	public void testGetLine() {
+	    assertEquals("Bus", stopover.getLine().getType());
+	    assertTrue(2 == stopover.getLine().getNumber());
 	}
+    
+    /**
+     * Gets the departure time
+     */ 
+    @Test
+    public void testGetDepartureTime() {
+        assertEquals(departureTime, stopover.getDepartureTime());
+    }
 	
     /**
      * Gets the arrival time
      */	
 	@Test
-	public void testGetArrivalTime(){
-		Calendar arrivalTime = Calendar.getInstance();
-		arrivalTime.set(0, 0, 0, 4, 40);
-		test.setArrivalTime(arrivalTime);
-		assertEquals(arrivalTime, test.getArrivalTime());
+	public void testGetArrivalTime() {
+		assertEquals(arrivalTime, stopover.getArrivalTime());
 	}
 	
     /**
-     * Gets the departure time
+     * Gets the travel duration
      */	
 	@Test
-	public void testGetDepartureTime(){
-		Calendar departureTime = Calendar.getInstance();
-		departureTime.set(0, 0, 0, 6, 35);
-		test.setDepartureTime(departureTime);
-		assertEquals(departureTime, test.getDepartureTime());
-	}
-	
-    /**
-     * Gets the travel time
-     */	
-	@Test
-	public void testGetTravelTime(){
-		assertEquals(travelTime, test.getTravelTime());
+	public void testGetTravelDuration() {
+		assertTrue(travelDuration == stopover.getTravelDuration());
 	}
 }

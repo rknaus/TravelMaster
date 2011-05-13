@@ -187,7 +187,7 @@ public class RouteCalculator {
             return null;
         }
         
-        Stopover lastStopover = new Stopover(destination, shortestArrivalTime.get(destination));
+        ArrayList<Stopover> stopover = new ArrayList<Stopover>();
         
         //TODO CONTINUE here!!!
         
