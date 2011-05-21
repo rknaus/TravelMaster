@@ -2,14 +2,27 @@ package ch.netgeek.travelmaster.gui;
 
 import javax.swing.*;
 
+import ch.netgeek.travelmaster.algorithm.RouteCalculator;
+import ch.netgeek.travelmaster.route.TransportNetwork;
+
 import java.awt.*;
 
+/**
+ * This class represents the TravelMaster GUI.<br>
+ * It is divided into three areas:<br>
+ * - The input area where the user can enter the time table requests<br>
+ * - The output area where the time table gets displayed<br>
+ * - The map of the transport network as an overview for the user
+ *
+ * @author      Ruben Knaus, Dieu P. Van
+ * @version     0.1
+ *
+ */
 public class GUI {
-	
-	public static void main(String[] args){
-		GUI gui = new GUI();
-		gui.setFrames();
-	}
+    
+    public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator) {
+        setFrames();
+    }
 	
 	public void setFrames(){
 		

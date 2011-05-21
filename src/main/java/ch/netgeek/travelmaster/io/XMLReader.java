@@ -269,7 +269,7 @@ public class XMLReader {
             Station stationB = 
                 transportNetwork.getStation(connectionData.getStationB());
             int duration = connectionData.getDuration();
-            if (stationA != null || stationB != null) {
+            if (stationA != null && stationB != null) {
                 transportNetwork.addConnection(stationA, stationB, duration);
             }
         }
