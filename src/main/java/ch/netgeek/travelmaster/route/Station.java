@@ -13,17 +13,47 @@ public class Station implements Comparable<Station> {
 
     // variables declaration
     private String name;
+    private int xPos;
+    private int yPos;
     private ArrayList<Connection> connections;
 
     /**
-     * Requires a name which should be unique and should stay the permanently 
-     * the same (HashCode).
+     * Requires a name, an x-position and an y-position coordinate
      * 
      * @param name          The name of the station
      */
-    public Station(String name) {
-        this.name = name;
+    public Station(String name, int xPos, int yPos) {
+        setName(name);
+        setXPos(xPos);
+        setYPos(yPos);
         connections = new ArrayList<Connection>();
+    }
+    
+    /**
+     * Sets the name of the station.
+     * 
+     * @param name          The name of the station
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    /**
+     * Sets the x-position of the station.
+     * 
+     * @param xPos          The x-position
+     */
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
+    }
+    
+    /**
+     * Sets the y-position of the station.
+     * 
+     * @param yPos          The y-position
+     */
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
     }
 
     /**
@@ -33,6 +63,24 @@ public class Station implements Comparable<Station> {
      */
     public String getName(){
         return name;
+    }
+    
+    /**
+     * Returns the x-position of the station.
+     * 
+     * @return              The x-position
+     */
+    public int getXPos() {
+        return xPos;
+    }
+    
+    /**
+     * Returns the y-position of the station.
+     * 
+     * @return              The y-position
+     */
+    public int getYPos() {
+        return yPos;
     }
 
     /**
@@ -70,6 +118,12 @@ public class Station implements Comparable<Station> {
                 return false;
         } else if (!name.equals(other.name))
             return false;
+        if (xPos != other.getXPos()) {
+            return false;
+        }
+        if (yPos != other.getYPos()) {
+            return false;
+        }
         return true;
     }
 
@@ -81,6 +135,18 @@ public class Station implements Comparable<Station> {
      */
     @Override
     public int compareTo(Station station) {
-        return this.name.compareTo(station.getName());
+        int difference = 0;
+        if (name == null) {
+            difference = (station.getName() == null ? 0 : +1);
+        } else {
+            difference = (station.getName() == null ? -1
+                    : name.compareTo(station.getName()));
+        }
+        if (difference != 0) return difference;
+        if (xPos < station.getXPos()) return -1;
+        if (xPos > station.getXPos()) return +1;
+        if (yPos < station.getYPos()) return -1;
+        if (yPos > station.getYPos()) return +1;
+        return 0;
     }
 }

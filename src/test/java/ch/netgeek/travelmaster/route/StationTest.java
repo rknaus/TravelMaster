@@ -14,9 +14,13 @@ import org.junit.Test;
 public class StationTest {
 
     // variables declaration
-    private String stationName;
+    private String name;
+    private int xPos;
+    private int yPos;
     private Station station;
-    private String otherStationName;
+    private String otherName;
+    private int otherXPos;
+    private int otherYPos;
     private Station otherStation;
     private Connection connection;
     
@@ -25,10 +29,14 @@ public class StationTest {
      */
     @Before
     public void setUpStation() {
-        stationName = "This Station";
-        station = new Station(stationName);
-        otherStationName = "Other Station";
-        otherStation = new Station(otherStationName);
+        name = "This Station";
+        xPos = 10;
+        yPos = 20;
+        station = new Station(name, xPos, yPos);
+        otherName = "Other Station";
+        otherXPos = 30;
+        otherYPos = 40;
+        otherStation = new Station(otherName, otherXPos, otherYPos);
         connection = new Connection(station, otherStation, 5);
         station.addConnection(connection);
     }
@@ -39,8 +47,37 @@ public class StationTest {
     @Test
     public void testStation() {
         String testName = "test";
-        Station test = new Station(testName);
-        assertEquals("test", test.getName());
+        int testXPos = 50;
+        int testYPos = 60;
+        Station test = new Station(testName, testXPos, testYPos);
+        assertEquals(Station.class, test.getClass());
+    }
+
+    /**
+     * Setting the name of the station.
+     */
+    @Test
+    public void testSetName() {
+        station.setName("test");
+        assertEquals("test", station.getName());
+    }
+
+    /**
+     * Setting the x-pos of the station.
+     */
+    @Test
+    public void testSetXPos() {
+        station.setXPos(1);
+        assertTrue(1 == station.getXPos());
+    }
+
+    /**
+     * Setting the y-pos of the station.
+     */
+    @Test
+    public void testSetYPos() {
+        station.setYPos(1);
+        assertTrue(1 == station.getYPos());
     }
 
     /**
@@ -49,6 +86,22 @@ public class StationTest {
     @Test
     public void testGetName() {
         assertEquals("This Station", station.getName());
+    }
+
+    /**
+     * Getting the x-pos of the station.
+     */
+    @Test
+    public void testGetXPos() {
+        assertTrue(xPos == station.getXPos());
+    }
+
+    /**
+     * Getting the y-pos of the station.
+     */
+    @Test
+    public void testGetYPos() {
+        assertTrue(yPos == station.getYPos());
     }
 
     /**
@@ -66,7 +119,7 @@ public class StationTest {
      */
     @Test
     public void testAddConnection() {
-        Connection testConnection = new Connection(station, new Station("B"), 12);
+        Connection testConnection = new Connection(station, new Station("B", 0, 0), 12);
         station.addConnection(testConnection);
         assertEquals(testConnection.getDuration(), 
                 station.getConncections().get(1).getDuration());
@@ -78,11 +131,21 @@ public class StationTest {
      */
     @Test
     public void testEqualsObject() {
-        assertTrue(station.equals(new Station("This Station")));
+        assertTrue(station.equals(new Station(name, xPos, yPos)));
         assertTrue(station.equals(station));
         assertFalse(station.equals(otherStation));
-        assertFalse(station.equals("This Station"));
         assertFalse(station.equals(null));
+    }
+
+    /**
+     * Testing the compareTo function
+     */
+    @Test
+    public void testCompareTo() {
+        assertTrue(0 == station.compareTo(new Station(name, xPos, yPos)));
+        assertTrue(0 != station.compareTo(new Station("that station", xPos, yPos)));
+        assertTrue(0 != station.compareTo(new Station(name, 9, yPos)));
+        assertTrue(0 != station.compareTo(new Station(name, xPos, 19)));
     }
 
 }
