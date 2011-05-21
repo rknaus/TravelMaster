@@ -65,15 +65,15 @@ public class XMLReaderTest {
              * The example route:
              *                      Line1 08:40, 16:40
              *                        |
-             *                      North
+             *                      North (110/210)
              *                        |
              *                        5
              * 10:00                  |                   11:00
              * Line2--West---15-----Center-----20---East--Line2
-             *                        |
+             *        (10/110)        | (110/110)   (210/110)
              *                       10
              *                        |
-             *                      South
+             *                      South (110/10)
              *                        |
              *                      Line1 09:40, 17:40
              */

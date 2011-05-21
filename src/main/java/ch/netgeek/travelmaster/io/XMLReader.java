@@ -252,7 +252,8 @@ public class XMLReader {
      */
     public void addStations(ArrayList<StationData> stations) {
         for (StationData stationData : stations) {
-            transportNetwork.addStation(stationData.getName());
+            transportNetwork.addStation(stationData.getName(), 
+                    stationData.getXPos(), stationData.getYPos());
         }
     }
     

@@ -37,26 +37,26 @@ public class RouteCalculatorTest {
          * The example route:
          *                      Line1 08:40, 16:40
          *                        |
-         *                      North
+         *                      North (110/210)
          *                        |
          *                        5
          * 10:00                  |                   11:00
          * Line2--West---15-----Center-----20---East--Line2
-         *                        |
+         *        (10/110)        | (110/110)   (210/110)
          *                       10
          *                        |
-         *                      South
+         *                      South (110/10)
          *                        |
          *                      Line1 09:40, 17:40
          */
         transportNetwork = new TransportNetwork();
 
         // Adding Stations to transport network
-        transportNetwork.addStation("North");
-        transportNetwork.addStation("South");
-        transportNetwork.addStation("West");
-        transportNetwork.addStation("East");
-        transportNetwork.addStation("Center");
+        transportNetwork.addStation("North", 110, 210);
+        transportNetwork.addStation("South", 110, 10);
+        transportNetwork.addStation("West", 10, 110);
+        transportNetwork.addStation("East", 210, 110);
+        transportNetwork.addStation("Center", 110, 110);
         sNorth = transportNetwork.getStation("North");
         sSouth = transportNetwork.getStation("South");
         sWest = transportNetwork.getStation("West");
@@ -165,7 +165,6 @@ public class RouteCalculatorTest {
         // First stopover
         stopover = stopoverList.get(0);
         assertEquals(sSouth, stopover.getSource());
-        System.out.println(stopover.getDepartureTime().get(Calendar.HOUR_OF_DAY));
         assertTrue(9 == stopover.getDepartureTime().get(Calendar.HOUR_OF_DAY));
         assertTrue(40 == stopover.getDepartureTime().get(Calendar.MINUTE));
         assertEquals(sCenter, stopover.getDestinatio());

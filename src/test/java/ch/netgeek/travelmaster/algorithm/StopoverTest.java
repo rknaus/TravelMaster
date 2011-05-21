@@ -34,8 +34,8 @@ public class StopoverTest {
      */
 	@Before
 	public void setUpStoverTest() {
-	    source = new Station("Source");
-	    destination = new Station("Destination");
+	    source = new Station("Source", 0, 0);
+	    destination = new Station("Destination", 0, 0);
 		connection = new Connection(source, destination, 10);
 		line = new Line(2, "Bus");
 		departureTime = Calendar.getInstance();
@@ -52,8 +52,8 @@ public class StopoverTest {
      */
 	@Test
 	public void testStopover() {
-	    source = new Station("Source");
-        destination = new Station("Destination");
+	    source = new Station("Source", 0, 0);
+        destination = new Station("Destination", 0, 0);
         connection = new Connection(source, destination, 10);
         line = new Line(2, "Bus");
         departureTime = Calendar.getInstance();
@@ -71,7 +71,7 @@ public class StopoverTest {
 	 */
 	@Test
 	public void testSetSource() {
-	    Station source = new Station("Test");
+	    Station source = new Station("Test", 0, 0);
 	    stopover.setSource(source);
 	    assertEquals(source, stopover.getSource());
 	}
@@ -81,7 +81,7 @@ public class StopoverTest {
      */
     @Test
     public void testSetDestination() {
-        Station destination = new Station("Test");
+        Station destination = new Station("Test", 0, 0);
         stopover.setDestination(destination);
         assertEquals(destination, stopover.getDestinatio());
     }
@@ -91,8 +91,8 @@ public class StopoverTest {
      */	
 	@Test
 	public void testSetConnection() {
-		Station stationA = new Station("stationA");
-		Station stationB = new Station("stationB");
+		Station stationA = new Station("stationA", 0, 0);
+		Station stationB = new Station("stationB", 0, 0);
 		Connection connection = new Connection(stationA, stationB, 4);
 		stopover.setConnection(connection);
 		assertTrue(stopover.getConnection().getDuration() == 4);
