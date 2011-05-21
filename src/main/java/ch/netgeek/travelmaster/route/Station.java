@@ -34,7 +34,7 @@ public class Station implements Comparable<Station> {
      * 
      * @param name          The name of the station
      */
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
     

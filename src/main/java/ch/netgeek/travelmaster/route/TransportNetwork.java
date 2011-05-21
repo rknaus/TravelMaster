@@ -36,9 +36,9 @@ public class TransportNetwork {
      * 
      * @param name              The station name
      */
-    public void addStation(String name) {
+    public void addStation(String name, int xPos, int yPos) {
         if (!(stations.containsKey(name))) {
-            Station station = new Station(name);
+            Station station = new Station(name, xPos, yPos);
             stations.put(name, station);
         }
     }
@@ -149,10 +149,6 @@ public class TransportNetwork {
              */
             ArrayList<Calendar> departuresD1 = departuresFirstStation;
             ArrayList<Calendar> departuresD2 = departuresLastStation;
-            
-//            //TODO DELETE!
-//            System.out.println("########################");
-            
             for (int i = 0; i < (stations.size() - 1); i++) {
                 int j = stations.size() - 1 - i;
                 
@@ -161,18 +157,8 @@ public class TransportNetwork {
                 Station neighborStationD1 = getStation(stations.get(i + 1).getName());
                 Connection connectionD1 = getConnection(stationD1, neighborStationD1);
                 
-//                //TODO DELETE!
-//                System.out.println("-Direction 1-------------------");
-//                System.out.println(stationD1.getName());
-//                System.out.println(neighborStationD1.getName());
-                
                 // Adding the timeTable for each connection in direction one (D1)
                 for (int k = 0; k < departuresD1.size(); k++) {
-                    
-//                    //TODO DELETE!
-//                    System.out.println("-Direction 1-Departure----------");
-//                    System.out.println(departuresD1.get(k).get(Calendar.HOUR_OF_DAY) + ":" + departuresD1.get(k).get(Calendar.MINUTE));
-                    
                     Calendar departure = Calendar.getInstance();
                     int hoursOfDay = departuresD1.get(k).get(Calendar.HOUR_OF_DAY);
                     int minutes = departuresD1.get(k).get(Calendar.MINUTE);
@@ -193,18 +179,8 @@ public class TransportNetwork {
                 Station neighborStationD2 = getStation(stations.get(j - 1).getName());
                 Connection connectionD2 = getConnection(stationD2, neighborStationD2);
                 
-                
-//                //TODO DELETE!
-//                System.out.println("-Direction 2-------------------");
-//                System.out.println(stationD2.getName());
-//                System.out.println(neighborStationD2.getName());
-                
                 // Adding the timeTable for each connection in direction two (D2)
                 for (int k = 0; k < departuresD2.size(); k++) {
-                    
-//                    //TODO DELETE!
-//                    System.out.println("-Direction 2-Departure----------");
-//                    System.out.println(departuresD2.get(k).get(Calendar.HOUR_OF_DAY) + ":" + departuresD2.get(k).get(Calendar.MINUTE));
                     
                     Calendar departure = Calendar.getInstance();
                     int hoursOfDay = departuresD2.get(k).get(Calendar.HOUR_OF_DAY);

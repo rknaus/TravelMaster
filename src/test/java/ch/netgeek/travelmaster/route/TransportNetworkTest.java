@@ -39,15 +39,15 @@ public class TransportNetworkTest {
          * The example route:
          *                      Line1 08:40, 16:40
          *                        |
-         *                      North
+         *                      North (110/210)
          *                        |
          *                        5
          * 10:00                  |                   11:00
          * Line2--West---15-----Center-----20---East--Line2
-         *                        |
+         *        (10/110)        | (110/110)   (210/110)
          *                       10
          *                        |
-         *                      South
+         *                      South (110/10)
          *                        |
          *                      Line1 09:40, 17:40
          */
@@ -59,11 +59,11 @@ public class TransportNetworkTest {
         line2 = new Line(2, "Train");
         
         // Adding Stations to transport network
-        transportNetwork.addStation("North");
-        transportNetwork.addStation("South");
-        transportNetwork.addStation("West");
-        transportNetwork.addStation("East");
-        transportNetwork.addStation("Center");
+        transportNetwork.addStation("North", 110, 210);
+        transportNetwork.addStation("South", 110, 10);
+        transportNetwork.addStation("West", 10, 110);
+        transportNetwork.addStation("East", 210, 110);
+        transportNetwork.addStation("Center", 110, 110);
         sNorth = transportNetwork.getStation("North");
         sSouth = transportNetwork.getStation("South");
         sWest = transportNetwork.getStation("West");
@@ -136,9 +136,13 @@ public class TransportNetworkTest {
      */
     @Test
     public void testAddStation() {
-        String station = "Hollywood";
-        transportNetwork.addStation(station);
-        assertEquals(station, transportNetwork.getStation(station).getName());    
+        String stationName = "Hollywood";
+        int stationXPos = 10;
+        int stationYPos = 10;
+        transportNetwork.addStation(stationName, stationXPos, stationYPos);
+        assertEquals(stationName, transportNetwork.getStation(stationName).getName());
+        assertTrue(stationXPos == transportNetwork.getStation(stationName).getXPos());
+        assertTrue(stationYPos == transportNetwork.getStation(stationName).getYPos());
     }
 
     /**
@@ -240,20 +244,20 @@ public class TransportNetworkTest {
     	assertTrue(5 == stations.size());
     	for(Station station : stations) {
     	    Station expected;
-    	    if (station.equals(new Station("North"))) {
-    	        expected = new Station("North");
+    	    if (station.equals(new Station("North", 110, 210))) {
+    	        expected = new Station("North", 110, 210);
     	        assertEquals(expected, station);
-    	    } else if (station.equals(new Station("South"))) {
-    	        expected = new Station("South");
+    	    } else if (station.equals(new Station("South", 110, 10))) {
+    	        expected = new Station("South", 110, 10);
     	        assertEquals(expected, station);
-    	    } else if (station.equals(new Station("West"))) {
-    	        expected = new Station("West");
+    	    } else if (station.equals(new Station("West", 10, 110))) {
+    	        expected = new Station("West", 10, 110);
     	        assertEquals(expected, station);
-            } else if (station.equals(new Station("East"))) {
-                expected = new Station("East");
+            } else if (station.equals(new Station("East", 210, 110))) {
+                expected = new Station("East", 210, 110);
                 assertEquals(expected, station);
-            } else if (station.equals(new Station("Center"))) {
-                expected = new Station("Center");
+            } else if (station.equals(new Station("Center", 110, 110))) {
+                expected = new Station("Center", 110, 110);
                 assertEquals(expected, station);
             } else {
                 fail("Station List not correct!");

@@ -54,15 +54,6 @@ public class StationTest {
     }
 
     /**
-     * Setting the name of the station.
-     */
-    @Test
-    public void testSetName() {
-        station.setName("test");
-        assertEquals("test", station.getName());
-    }
-
-    /**
      * Setting the x-pos of the station.
      */
     @Test
