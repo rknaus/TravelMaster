@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -31,6 +32,9 @@ public class XMLReader {
 
     // Elements in XML files
     private final String stationTag;
+    private final String nameTag;
+    private final String xPosTag;
+    private final String yPosTag;
     private final String connectionTag;
     private final String stationATag;
     private final String stationBTag;
@@ -59,6 +63,9 @@ public class XMLReader {
         this.transportNetwork = transportNetwork;
         
         stationTag = "station";
+        nameTag = "name";
+        xPosTag = "xpos";
+        yPosTag = "ypos";
         connectionTag = "connection";
         stationATag = "stationA";
         stationBTag = "stationB";
@@ -84,7 +91,7 @@ public class XMLReader {
         try {
             
             // Create document from file and get the root element
-            SAXBuilder builder = new SAXBuilder(true);
+            SAXBuilder builder = new SAXBuilder();
             Document doc = builder.build(stationsFile);
             root = doc.getRootElement();
         } catch (Exception e) {
@@ -99,10 +106,16 @@ public class XMLReader {
             Element lineElement = (Element) lineIterator.next();
             
             // Getting the station name
-            String station = lineElement.getText();
+            String name = lineElement.getChildText(nameTag);
+            
+            // Getting the xPos
+            int xPos = Integer.parseInt(lineElement.getChildText(xPosTag));
+            
+            // Getting the xPos
+            int yPos = Integer.parseInt(lineElement.getChildText(yPosTag));
             
             // Adding the values as StationData object to the array list
-            stations.add(new StationData(station));		
+            stations.add(new StationData(name, xPos, yPos));		
         }
         return stations;
     }
@@ -119,7 +132,7 @@ public class XMLReader {
         try {
             
             // Create document from file and get the root element
-            SAXBuilder builder = new SAXBuilder(true);
+            SAXBuilder builder = new SAXBuilder();
             Document doc = builder.build(connectionsFile);
             root = doc.getRootElement();
         } catch (Exception e) {
@@ -160,7 +173,7 @@ public class XMLReader {
         try {
             
             // Create document from file and get the root element
-            SAXBuilder builder = new SAXBuilder(true);
+            SAXBuilder builder = new SAXBuilder();
             Document doc = builder.build(linesFile);
             root = doc.getRootElement();
         } catch (Exception e) {
@@ -176,20 +189,21 @@ public class XMLReader {
             
             // Getting the line number
             int number = Integer.parseInt(lineElement.getChildText(numberTag));
-            
+
             // Getting the line type
             String type = lineElement.getChildText(typeTag);
-            
+
             /*
              * Getting the stations the line serves with an interation over the
              * xml <stations> tag
              */
             ArrayList<String> stations = new ArrayList<String>();
-            Iterator<?> subLineIterator = 
-                lineElement.getChildren(stationsTag).iterator();
-            while (subLineIterator.hasNext()) {
-                Element subLineElement = (Element) subLineIterator.next();
-                String station = subLineElement.getChildText(stationTag);
+            Element stationsElement = lineElement.getChild(stationsTag);
+            Iterator<?> stationIterator = 
+                stationsElement.getChildren(stationTag).iterator();
+            while (stationIterator.hasNext()) {
+                Element stationElement = (Element) stationIterator.next();
+                String station = stationElement.getText();                
                 stations.add(station);
             }
             
@@ -198,11 +212,14 @@ public class XMLReader {
              * iteration over the xml <departuresFirstStation> tag
              */
             ArrayList<String> departuresFirstStation = new ArrayList<String>();
-            subLineIterator = 
-                lineElement.getChildren(departuresFirstStationTag).iterator();
-            while (subLineIterator.hasNext()) {
-                Element subLineElement = (Element) subLineIterator.next();
-                String station = subLineElement.getChildText(departureTag);
+            Element departuresFirstStationElement = 
+                lineElement.getChild(departuresFirstStationTag);
+            Iterator<?> depFirstStationIterator = 
+                departuresFirstStationElement.getChildren(departureTag).iterator();
+            while (depFirstStationIterator.hasNext()) {
+                Element departureElement = 
+                    (Element) depFirstStationIterator.next();
+                String station = departureElement.getText();
                 departuresFirstStation.add(station);
             }
             
@@ -211,11 +228,14 @@ public class XMLReader {
              * iteration over the xml <departuresLastStation> tag
              */
             ArrayList<String> departuresLastStation = new ArrayList<String>();
-            subLineIterator = 
-                lineElement.getChildren(departuresLastStationTag).iterator();
-            while (subLineIterator.hasNext()) {
-                Element subLineElement = (Element) subLineIterator.next();
-                String station = subLineElement.getChildText(departureTag);
+            Element departuresLastStationElement = 
+                lineElement.getChild(departuresLastStationTag);
+            Iterator<?> depLastStationIterator = 
+                departuresLastStationElement.getChildren(departureTag).iterator();
+            while (depLastStationIterator.hasNext()) {
+                Element departureElement = 
+                    (Element) depLastStationIterator.next();
+                String station = departureElement.getText();
                 departuresLastStation.add(station);
             }
             
@@ -233,7 +253,7 @@ public class XMLReader {
      */
     public void addStations(ArrayList<StationData> stations) {
         for (StationData stationData : stations) {
-            transportNetwork.addStation(stationData.getStation());
+            transportNetwork.addStation(stationData.getName());
         }
     }
     

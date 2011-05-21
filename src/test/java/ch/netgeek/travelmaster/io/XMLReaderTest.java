@@ -79,15 +79,37 @@ public class XMLReaderTest {
              */
             
             // Creating an example stations xml file
+            bufferedStationsWriter.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
             bufferedStationsWriter.write("<stations>\n");
-            bufferedStationsWriter.write("  <station>North</station>\n");
-            bufferedStationsWriter.write("  <station>South</station>\n");
-            bufferedStationsWriter.write("  <station>West</station>\n");
-            bufferedStationsWriter.write("  <station>East</station>\n");
-            bufferedStationsWriter.write("  <station>Center</station>\n");
+            bufferedStationsWriter.write("  <station>\n");
+            bufferedStationsWriter.write("    <name>North</name>\n");
+            bufferedStationsWriter.write("    <xpos>110</xpos>\n");
+            bufferedStationsWriter.write("    <ypos>10</ypos>\n");
+            bufferedStationsWriter.write("  </station>\n");
+            bufferedStationsWriter.write("  <station>\n");
+            bufferedStationsWriter.write("    <name>South</name>\n");
+            bufferedStationsWriter.write("    <xpos>110</xpos>\n");
+            bufferedStationsWriter.write("    <ypos>210</ypos>\n");
+            bufferedStationsWriter.write("  </station>\n");
+            bufferedStationsWriter.write("  <station>\n");
+            bufferedStationsWriter.write("    <name>West</name>\n");
+            bufferedStationsWriter.write("    <xpos>10</xpos>\n");
+            bufferedStationsWriter.write("    <ypos>110</ypos>\n");
+            bufferedStationsWriter.write("  </station>\n");
+            bufferedStationsWriter.write("  <station>\n");
+            bufferedStationsWriter.write("    <name>East</name>\n");
+            bufferedStationsWriter.write("    <xpos>210</xpos>\n");
+            bufferedStationsWriter.write("    <ypos>110</ypos>\n");
+            bufferedStationsWriter.write("  </station>\n");
+            bufferedStationsWriter.write("  <station>\n");
+            bufferedStationsWriter.write("    <name>Center</name>\n");
+            bufferedStationsWriter.write("    <xpos>110</xpos>\n");
+            bufferedStationsWriter.write("    <ypos>110</ypos>\n");
+            bufferedStationsWriter.write("  </station>\n");
             bufferedStationsWriter.write("</stations>\n");
             
             // Creating an example connections xml file
+            bufferedConnectionsWriter.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
             bufferedConnectionsWriter.write("<connections>\n");
             bufferedConnectionsWriter.write("   <connection>\n");
             bufferedConnectionsWriter.write("       <stationA>North</stationA>\n");
@@ -112,6 +134,7 @@ public class XMLReaderTest {
             bufferedConnectionsWriter.write("</connections>\n");
             
             // Creating an example lines xml file
+            bufferedLinesWriter.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
             bufferedLinesWriter.write("<lines>\n");
             bufferedLinesWriter.write(" <line>\n");
             bufferedLinesWriter.write("     <number>1</number>\n");
@@ -157,37 +180,39 @@ public class XMLReaderTest {
                 linesFileName, transportNetwork);
         emptyXMLReader = new XMLReader("test1.xml", "test2.xml", "test3.xml", 
                 transportNetwork);
-        stationDataList.add(new StationData("North"));
-        stationDataList.add(new StationData("South"));
-        stationDataList.add(new StationData("West"));
-        stationDataList.add(new StationData("East"));
-        stationDataList.add(new StationData("Center"));
+        stationDataList.add(new StationData("North", 110, 10));
+        stationDataList.add(new StationData("South", 110, 210));
+        stationDataList.add(new StationData("West", 10, 110));
+        stationDataList.add(new StationData("East", 210, 110));
+        stationDataList.add(new StationData("Center", 110, 110));
         connectionDataList.add(new ConnectionData("North", "Center", 5));
         connectionDataList.add(new ConnectionData("Center", "South", 10));
         connectionDataList.add(new ConnectionData("West", "Center", 15));
         connectionDataList.add(new ConnectionData("Center", "East", 20));
-        ArrayList<String> stations = new ArrayList<String>();
-        stations.add("North");
-        stations.add("Center");
-        stations.add("South");
-        ArrayList<String> departuresFirstStation = new ArrayList<String>();
-        departuresFirstStation.add("08:40");
-        departuresFirstStation.add("16:40");
-        ArrayList<String> departuresLastStation = new ArrayList<String>();
-        departuresLastStation.add("09:40");
-        departuresLastStation.add("17:40");
-        lineDataList.add(new LineData(1, "Metro", stations, departuresFirstStation, 
-                departuresLastStation));
-        stations.clear();
-        departuresFirstStation.clear();
-        departuresLastStation.clear();
-        stations.add("West");
-        stations.add("Center");
-        stations.add("East");
-        departuresFirstStation.add("10:00");
-        departuresLastStation.add("11:00");
-        lineDataList.add(new LineData(2, "Bus", stations, departuresFirstStation, 
-                departuresLastStation));
+        ArrayList<String> stations1 = new ArrayList<String>();
+        ArrayList<String> departuresFirstStation1 = new ArrayList<String>();
+        ArrayList<String> departuresLastStation1 = new ArrayList<String>();
+        stations1.add("North");
+        stations1.add("Center");
+        stations1.add("South");
+        departuresFirstStation1.add("08:40");
+        departuresFirstStation1.add("16:40");
+        departuresLastStation1.add("09:40");
+        departuresLastStation1.add("17:40");
+        lineDataList.add(new LineData(1, "Metro", stations1, 
+                departuresFirstStation1, departuresLastStation1));
+        ArrayList<String> stations2 = new ArrayList<String>();
+        ArrayList<String> departuresFirstStation2 = new ArrayList<String>();
+        ArrayList<String> departuresLastStation2 = new ArrayList<String>();
+        stations2.add("West");
+        stations2.add("Center");
+        stations2.add("East");
+        departuresFirstStation2.add("10:00");
+        departuresLastStation2.add("11:00");
+        lineDataList.add(new LineData(2, "Bus", stations2, 
+                departuresFirstStation2, departuresLastStation2));
+        
+        
     }
     
     /**
@@ -218,9 +243,14 @@ public class XMLReaderTest {
     public void testReadStation() {
         
         // Existing XML file 
-        ArrayList<StationData> stationDataList = xmlReader.readStation();
+        ArrayList<StationData> xmlStationDataList = xmlReader.readStation();
         for (int i = 0; i < stationDataList.size(); i++) {
-            assertEquals(stationDataList.get(i), stationDataList.get(i).getStation());
+            assertEquals(stationDataList.get(i).getName(), 
+                    xmlStationDataList.get(i).getName());
+            assertEquals(stationDataList.get(i).getXPos(), 
+                    xmlStationDataList.get(i).getXPos());
+            assertEquals(stationDataList.get(i).getYPos(), 
+                    xmlStationDataList.get(i).getYPos());
         }
         
         // Not existing XML file
@@ -235,14 +265,14 @@ public class XMLReaderTest {
     public void testReadConnection() {
         
         // Existing XML file 
-        ArrayList<ConnectionData> connectionDataList = xmlReader.readConnection();
+        ArrayList<ConnectionData> xmlConnectionDataList = xmlReader.readConnection();
         for (int i = 0; i < connectionDataList.size(); i++) {
             assertEquals(connectionDataList.get(i).getStationA(), 
-                    connectionDataList.get(i).getStationA());
+                    xmlConnectionDataList.get(i).getStationA());
             assertEquals(connectionDataList.get(i).getStationB(), 
-                    connectionDataList.get(i).getStationB());
+                    xmlConnectionDataList.get(i).getStationB());
             assertTrue(connectionDataList.get(i).getDuration() 
-                    == connectionDataList.get(i).getDuration());
+                    == xmlConnectionDataList.get(i).getDuration());
         }
         
         // Not existing XML file
@@ -258,29 +288,40 @@ public class XMLReaderTest {
     public void testReadLine() {
         
         // Existing XML file 
-        ArrayList<LineData> lineDataList = xmlReader.readLine();
+        ArrayList<LineData> xmlLineDataList = xmlReader.readLine();
         
         for (int i = 0; i < lineDataList.size(); i++) {
             assertTrue(lineDataList.get(i).getNumber() 
-                    == lineDataList.get(i).getNumber());
+                    == xmlLineDataList.get(i).getNumber());
             assertEquals(lineDataList.get(i).getType(), 
-                    lineDataList.get(i).getType());
+                    xmlLineDataList.get(i).getType());
+            
+            // Iterating over all stations of the line
+            ArrayList<String> tmpXmlStationsList = xmlLineDataList.get(i).getStations();
             ArrayList<String> tmpStationsList = lineDataList.get(i).getStations();
-            for(int j = 0; j < tmpStationsList.size(); i++) {
-                assertEquals(lineDataList.get(i).getStations().get(j), 
-                        tmpStationsList.get(j));
+            for(int j = 0; j < tmpStationsList.size(); j++) {
+                assertEquals(tmpStationsList.get(j), 
+                        tmpXmlStationsList.get(j));
             }
-            ArrayList<String> tmpDeparturesFirstStationList = 
+            
+            // Iterating over all departures of the line's first station
+            ArrayList<String> tmpXmlDepFirstStationList = 
+                xmlLineDataList.get(i).getDeparturesFirstStation();
+            ArrayList<String> tmpDepFirstStationList = 
                 lineDataList.get(i).getDeparturesFirstStation();
-            for(int j = 0; j < tmpDeparturesFirstStationList.size(); i++) {
-                assertEquals(lineDataList.get(i).getDeparturesFirstStation().get(j), 
-                        tmpDeparturesFirstStationList.get(j));
+            for(int j = 0; j < tmpDepFirstStationList.size(); j++) {
+                assertEquals(tmpDepFirstStationList.get(j), 
+                        tmpXmlDepFirstStationList.get(j));
             }
-            ArrayList<String> tmpDeparturesLastStationList = 
+            
+            // Iterating over all departures of the line's last station
+            ArrayList<String> tmpXmlDepLastStationList = 
+                xmlLineDataList.get(i).getDeparturesLastStation();
+            ArrayList<String> tmpDepLastStationList = 
                 lineDataList.get(i).getDeparturesLastStation();
-            for(int j = 0; j < tmpDeparturesLastStationList.size(); i++) {
-                assertEquals(lineDataList.get(i).getDeparturesLastStation().get(j), 
-                        tmpDeparturesLastStationList.get(j));
+            for(int j = 0; j < tmpDepLastStationList.size(); j++) {
+                assertEquals(tmpDepLastStationList.get(j), 
+                        tmpXmlDepLastStationList.get(j));
             }
         }
         
@@ -296,7 +337,7 @@ public class XMLReaderTest {
     public void testAddStations() {
         xmlReader.addStations(stationDataList);
         for (int i = 0; i < stationDataList.size(); i++) {
-            String expected = stationDataList.get(i).getStation();
+            String expected = stationDataList.get(i).getName();
             String actual = transportNetwork.getStation(expected).getName();
             assertEquals(expected, actual);
         }

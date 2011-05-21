@@ -28,12 +28,13 @@ public class GUI {
 		fileMenu.add(about);
 		fileMenu.add(exit);	
 		
-		Action exitAction = new AbstractAction("Exit"){
-			public void actionPermormed(ActionEvent e){
-				System.exit(0);
-			}
-		}
-		
+		// TODO Dieu: Continue here :-)
+//		Action exitAction = new AbstractAction("Exit"){
+//			public void actionPermormed(ActionEvent e){
+//				System.exit(0);
+//			}
+//		}
+//		
 		//Creates a banner for the NORTH frame
 		JPanel pBanner = new JPanel();
 		pBanner.setLayout(new FlowLayout());
