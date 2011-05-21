@@ -37,8 +37,9 @@ public class LineTest {
         departure.set(0, 0, 0, 9, 50);
         sourceName = "src";
         destinationName = "dst";
-        source = new Station(sourceName);
-        destination = new Station(destinationName);
+        int pos = 0;
+        source = new Station(sourceName, pos, pos);
+        destination = new Station(destinationName, pos, pos);
         line.addDeparture(source, destination, departure);
     }
     
@@ -94,8 +95,8 @@ public class LineTest {
      */
     @Test
     public void testAddDeparture() {
-        Station testSrc = new Station("foo");
-        Station testDst = new Station("bar");
+        Station testSrc = new Station("foo", 0, 0);
+        Station testDst = new Station("bar", 0, 0);
         Calendar testDep = Calendar.getInstance();
         line.addDeparture(testSrc, testDst, testDep);
         assertEquals(testDep, 
