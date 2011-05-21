@@ -15,7 +15,11 @@ public class ConnectionTest {
 
     // variables declaration
     private String stationNameA;
+    private int stationXPosA;
+    private int stationYPosA;
     private String stationNameB;
+    private int stationXPosB;
+    private int stationYPosB;
     private int duration;
     private Station stationA;
     private Station stationB;
@@ -29,10 +33,14 @@ public class ConnectionTest {
     @Before
     public void setUpConnection() {
         stationNameA = "NameA";
+        stationXPosA = 10;
+        stationYPosA = 20;
         stationNameB = "NameB";
+        stationXPosB = 30;
+        stationYPosB = 40;
         duration = 5;
-        stationA = new Station(stationNameA);
-        stationB = new Station(stationNameB);
+        stationA = new Station(stationNameA, stationXPosA, stationYPosA);
+        stationB = new Station(stationNameB, stationXPosB, stationYPosB);
         connection = new Connection(stationA, stationB, duration);
         line1 = new Line(1, "Bus");
         line2 = new Line(2, "Bus");
@@ -45,8 +53,8 @@ public class ConnectionTest {
      */
     @Test
     public void testConnection() {
-        Station testA = new Station("TestA");
-        Station testB = new Station("TestB");
+        Station testA = new Station("TestA", 0, 0);
+        Station testB = new Station("TestB", 0, 0);
         Connection connection = new Connection(testA, testB, 12);
         assertEquals(testA, connection.getStationA());
         assertEquals(testB, connection.getStationB());
@@ -58,7 +66,7 @@ public class ConnectionTest {
      */
     @Test
     public void testSetStationA() {
-        Station newStationA = new Station("newA");
+        Station newStationA = new Station("newA", 0, 0);
         connection.setStationA(newStationA);
         assertEquals(newStationA, connection.getStationA());
     }
@@ -68,7 +76,7 @@ public class ConnectionTest {
      */
     @Test
     public void testSetStationB() {
-        Station newStationB = new Station("newB");
+        Station newStationB = new Station("newB", 0, 0);
         connection.setStationB(newStationB);
         assertEquals(newStationB, connection.getStationB());
     }
@@ -97,7 +105,7 @@ public class ConnectionTest {
     public void testGetNeighborStation() {
         assertEquals(stationB, connection.getNeighborStation(stationA));
         assertEquals(stationA, connection.getNeighborStation(stationB));
-        assertNull(connection.getNeighborStation(new Station("test")));
+        assertNull(connection.getNeighborStation(new Station("test", 0, 0)));
     }
 
     /**
