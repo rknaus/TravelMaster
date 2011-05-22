@@ -6,6 +6,8 @@ import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * This class represents the TravelMaster GUI.<br>
@@ -19,134 +21,283 @@ import java.awt.*;
  *
  */
 public class GUI {
-    
-    public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator) {
-        setFrames();
-    }
-	
-	public void setFrames(){
-		
-		JFrame frame = new JFrame();
-		JLabel lBlank = new JLabel();
-		//Creates a menu bar
-		JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu("File");
-		JMenuItem about = new JMenuItem("About TravelMaster");
-		JMenuItem exit = new JMenuItem("Exit");
-		menuBar.add(fileMenu);
-		menuBar.setPreferredSize(new Dimension(20,25));
-		about.setFont(new Font("arial",0,12));
-		exit.setFont(new Font("arial",0,12));
-		fileMenu.setFont(new Font("arial",0,12));
-		fileMenu.add(about);
-		fileMenu.add(exit);	
-		
-		// TODO Dieu: Continue here :-)
-//		Action exitAction = new AbstractAction("Exit"){
-//			public void actionPermormed(ActionEvent e){
-//				System.exit(0);
-//			}
-//		}
-//		
-		//Creates a banner for the NORTH frame
-		JPanel pBanner = new JPanel();
-		pBanner.setLayout(new FlowLayout());
-		//Creates a container for output/input mask
-		JPanel pWest = new JPanel();
-		pWest.setLayout(new BoxLayout(pWest, BoxLayout.Y_AXIS));
-		//Creates a container for the input mask
-		JPanel pInput = new JPanel();
-		pInput.setLayout(new FlowLayout(0));
-		//creates a container for the output
-		JPanel pOutput = new JPanel();
-		pOutput.setLayout(new FlowLayout(0));
-		
-		//Components for the NORTH frame
-		JLabel lBanner = new JLabel(" TRAVELMASTER");
-		lBanner.setFont(new Font("arial",1,30));
-		lBanner.setForeground(Color.GRAY);
-		lBanner.setPreferredSize(new Dimension(100,60));
-		pBanner.add(lBanner);
-		
-		//Components for pInput
-		pInput.setPreferredSize(new Dimension(440,0));
-		pInput.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
-		JLabel lTitle = new JLabel("Timetable");
-		lTitle.setPreferredSize(new Dimension(375,30));
-		lTitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		lTitle.setFont(new Font("arial",1,16));
-		pInput.add(lTitle);
-		
-		JLabel lStart = new JLabel("Start:");
-		lStart.setPreferredSize(new Dimension(60,10));
-		lStart.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		pInput.add(lStart);
-		
-		JTextField tfStart = new JTextField(32);
-		tfStart.setText("Abfahrtsort");
-		tfStart.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		pInput.add(tfStart);
-		
-		JLabel lEnd = new JLabel("Ziel:");
-		lEnd.setPreferredSize(new Dimension(60,10));
-		lEnd.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		pInput.add(lEnd);
-		
-		JTextField tfEnd = new JTextField(32);
-		tfEnd.setText("Zielort");
-		tfEnd.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		pInput.add(tfEnd);
-		
-		JLabel lTime = new JLabel("Abfahrt:");
-		lTime.setPreferredSize(new Dimension(60,10));
-		lTime.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		pInput.add(lTime);
-		
-		JTextField tfTime = new JTextField(5);
-		tfTime.setText("hh:mm");
-		tfTime.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		pInput.add(tfTime);
-		lBlank.setPreferredSize(new Dimension(280,10));
-		pInput.add(lBlank);
-		lBlank.setPreferredSize(new Dimension(350,5));
-		pInput.add(lBlank);
-		
-		JButton bSearch = new JButton("Search");
-		bSearch.setPreferredSize(new Dimension(90,25));
-		bSearch.setBackground(Color.LIGHT_GRAY);
-		pInput.add(bSearch);
-		JButton bClear = new JButton("Clear");
-		bClear.setPreferredSize(new Dimension(90,25));
-		bClear.setBackground(Color.LIGHT_GRAY);
-		pInput.add(bClear);
-		
-		//Component for the output
-		pOutput.setPreferredSize(new Dimension(440,0));
-		pOutput.setAlignmentX(Component.LEFT_ALIGNMENT);
-		JLabel lTitle2 = new JLabel("Connection");
-		lTitle2.setPreferredSize(new Dimension(375,30));
-		lTitle2.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		lTitle2.setFont(new Font("arial",1,16));
-		pOutput.add(lTitle2);
-		
-		//Adds input mask panel and result panel together as one
-		pWest.setPreferredSize(new Dimension(440,0));
-		pWest.setAlignmentX(Component.LEFT_ALIGNMENT);
-		pWest.setAlignmentY(Component.TOP_ALIGNMENT);
-		pWest.add(pInput);
-		pWest.add(pOutput);
-		
-		//Component for the CENTER frame
-		JTextField tfMap = new JTextField("MAP");
 
-		//assigns the components to the certain frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setJMenuBar(menuBar);
-		frame.getContentPane().add(BorderLayout.NORTH, lBanner).setBackground(Color.WHITE);
-		frame.getContentPane().add(BorderLayout.WEST, pWest).setBackground(Color.WHITE);
-		frame.getContentPane().add(BorderLayout.CENTER, tfMap).setBackground(Color.WHITE);
-		frame.setSize(1000,750);
-		frame.setVisible(true);	
-	}
+    // general variables declaration
+    private TransportNetwork transportNetwork;
+    private RouteCalculator routeCalculator;
+
+    // GUI variables declaration
+    private JFrame frame;
+    private JPanel bannerPanel;
+    private JPanel ioPanel;
+    private JPanel mapPanel;
+
+    /**
+     * Initializes the GUI.
+     * 
+     * @param transportNetwork      The transport network
+     * @param routeCalculator       The route calculator
+     */
+    public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator) {
+        this.transportNetwork = transportNetwork;
+        this.routeCalculator = routeCalculator;
+
+        // creates the frame
+        createFrame();
+    }
+
+    /**
+     * Creates the GUI layout. 
+     */
+    public void createFrame() {
+
+        frame = new JFrame("TravelMaster");
+
+        // creates the menu bar
+        createMenuBar();
+
+        // creates the banner panel
+        createBannerPanel();
+
+        // creates the input/output panel
+        createIOPanel();
+
+        // creates the transport network map
+        createMapPanel();
+
+        // set parameters like size, close operation, visibility, etc.
+        frame.setSize(1000,750);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    /**
+     * Creates the menu bar of the GUI and adds it to the frame.
+     */
+    private void createMenuBar() {
+
+        // Generating a menu bar (JMenuBar) and adding it to the window (JFrame)
+        JMenuBar menuBar = new JMenuBar();
+        frame.setJMenuBar(menuBar);
+
+        // Generates a menu (JMenu) and add it to the menu bar (JMenuBar)
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.setFont(new Font("arial", 0, 12));
+        menuBar.add(fileMenu);
+
+        // Generates menu items (JMenuItem) and adds them to the menu (JMenu)
+        JMenuItem aboutItem = new JMenuItem("About TravelMaster");
+        aboutItem.addActionListener(new AboutActionListener());
+        aboutItem.setFont(new Font("arial", 0, 12));
+        fileMenu.add(aboutItem);
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(new ExitActionListener());
+        exitItem.setFont(new Font("arial", 0, 12));
+        fileMenu.add(exitItem);
+    }
+
+    /**
+     * Action listener for the about menu entry.<br>
+     * It displays a popup window with some information about the software.
+     *
+     * @author      Ruben Knaus, Dieu P. Van
+     * @version     0.1
+     *
+     */
+    private class AboutActionListener implements ActionListener {
+
+        /**
+         * Performed action when pressing the about menu item.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Add popup window here
+
+        }
+    }
+
+    /**
+     * Action listener for the exit menu entry.<br>
+     * It closes the program.
+     *
+     * @author      Ruben Knaus, Dieu P. Van
+     * @version     0.1
+     *
+     */
+    private class ExitActionListener implements ActionListener {
+
+        /**
+         * Performed action when pressing the exit menu item.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Creates a banner panel on the top position of the GUI.<br>
+     * It displays the name/logo of the software.
+     */
+    private void createBannerPanel() {
+
+        // creates the banner panel and sets its layout
+        bannerPanel = new JPanel();
+        bannerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        bannerPanel.setSize(1000, 50);
+
+        // adds a label to the banner panel
+        JLabel bannerLabel = new JLabel(" TRAVELMASTER");
+        bannerLabel.setFont(new Font("arial", 1, 30));
+        bannerLabel.setForeground(Color.GRAY);
+        bannerPanel.add(bannerLabel);
+
+        // adds the panel to the frame
+        frame.getContentPane().add(BorderLayout.NORTH, bannerPanel);
+    }
+
+    /**
+     * Creates an input/output panel on the left position of the GUI.<br>
+     * It displays the input mask for the time table calculation (upper half) 
+     * and the result of the time table calculation (lower half)
+     */
+    private void createIOPanel() {
+
+        // creates the input/output panel and sets its layout
+        ioPanel = new JPanel();
+        ioPanel.setLayout(new BoxLayout(ioPanel, BoxLayout.Y_AXIS));
+        ioPanel.setPreferredSize(new Dimension(440, 700));
+        ioPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        ioPanel.setAlignmentY(JPanel.TOP_ALIGNMENT);
+
+        // creates the input panels and adds it to the input/output panel
+        createInputPanel();
+
+        // creates the input panels and adds it to the input/output panel
+        createOutputPanel();
+
+        // adds the IO Panel to the frame
+        frame.getContentPane().add(BorderLayout.WEST, ioPanel);
+    }
+
+    /**
+     * Creates an input panel at the top of the input/output panel.<br>
+     * It contains the form fields for the time table calculation.
+     */
+    private void createInputPanel() {
+
+        // creates the input panel and sets its layout
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        // Sets the size and alignement of the input panel
+        inputPanel.setPreferredSize(new Dimension(440, 300));
+        inputPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+
+        // adds a title label to the input panel
+        JLabel titleLabel = new JLabel("Timetable");
+        titleLabel.setPreferredSize(new Dimension(375, 30));
+        titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        titleLabel.setFont(new Font("arial", 1, 16));
+        inputPanel.add(titleLabel);
+
+        // adds a from textfield to the input panel
+        JLabel fromLabel = new JLabel("Von: ");
+        fromLabel.setPreferredSize(new Dimension(60, 10));
+        fromLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        inputPanel.add(fromLabel);
+        JTextField fromTextField = new JTextField("Abfahrtsort", 32);
+        fromTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        inputPanel.add(fromTextField);
+
+        // adds a to textfield to the input panel
+        JLabel toLabel = new JLabel("Nach: ");
+        toLabel.setPreferredSize(new Dimension(60, 10));
+        toLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        inputPanel.add(toLabel);
+        JTextField toTextField = new JTextField("Zielort", 32);
+        toTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        inputPanel.add(toTextField);
+
+        // adds textfields for the travel time to the input panel
+        JLabel timeLabel = new JLabel("Abfahrt: ");
+        timeLabel.setPreferredSize(new Dimension(60, 10));
+        timeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        inputPanel.add(timeLabel);
+        JTextField timeTextField = new JTextField("hh:mm", 5);
+        timeTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        inputPanel.add(timeTextField);
+
+        // adds a blank label to force a line break in the input panel
+        JLabel blankLabel = new JLabel();
+        blankLabel.setPreferredSize(new Dimension(280, 10));
+        inputPanel.add(blankLabel);
+
+        // adds a search button to the input panel
+        JButton searchButton = new JButton("Search");
+        searchButton.setPreferredSize(new Dimension(90, 25));
+        searchButton.setBackground(Color.LIGHT_GRAY);
+        inputPanel.add(searchButton);
+
+        // adds a clear button to the input panel
+        JButton clearButton = new JButton("Clear");
+        clearButton.setPreferredSize(new Dimension(90, 25));
+        clearButton.setBackground(Color.LIGHT_GRAY);
+        inputPanel.add(clearButton);
+
+        // adds the input panel to the io panel
+        ioPanel.add(inputPanel);
+    }
+
+    /**
+     * Creates an output panel at the bottom of the input/output panel.<br>
+     * It contains the result of the time table calculation.
+     */
+    private void createOutputPanel() {
+
+        // creates the output panel and sets its layout
+        JPanel outputPanel = new JPanel();
+        outputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        // Sets the size and alignement of the output panel
+        outputPanel.setPreferredSize(new Dimension(440, 400));
+        outputPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // adds a title label to the output panel
+        JLabel titleLabel = new JLabel("Connection");
+        titleLabel.setPreferredSize(new Dimension(375, 30));
+        titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        titleLabel.setFont(new Font("arial", 1, 16));
+        outputPanel.add(titleLabel);
+
+        // adds the output panel to the io panel
+        ioPanel.add(outputPanel);
+    }
+
+    /**
+     * Creates a map of the transport network and displays it on the left side
+     * (center) of the GUI.
+     */
+    private void createMapPanel() {
+
+        // creates the map panel and sets its layout
+        mapPanel = new JPanel();
+
+        // sets the size and allignement of the map panel
+        // TODO define the size and alignement!
+
+        // adds a title to the map panel
+        JLabel titleLabel = new JLabel("Map");
+        //titleLabel.setPreferredSize(new Dimension(375, 30));
+        titleLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        titleLabel.setFont(new Font("arial", 1, 16));
+        mapPanel.add(titleLabel);
+
+        // Creates the transport network map and adds it to the map panel
+        // TODO create the map here or in a separate function.
+
+        // adds the map Panel to the frame
+        frame.getContentPane().add(BorderLayout.CENTER, mapPanel).setBackground(Color.WHITE);
+    }
 }
