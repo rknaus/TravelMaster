@@ -1,6 +1,7 @@
 package ch.netgeek.travelmaster.gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.route.Station;
@@ -68,7 +69,7 @@ public class GUI {
         createMapPanel();
 
         // set parameters like size, close operation, visibility, etc.
-        frame.setSize(1200, 800);
+        frame.setSize(1200, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -291,40 +292,26 @@ public class GUI {
         int panelWidth = 760;
         int panelHeight = 700;
         mapPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
+        mapPanel.setBackground(Color.WHITE);
 
         // Creates the transport network map and adds it to the map panel
         ArrayList<Station> stationList = transportNetwork.getStationList();
         for (Station station : stationList) {
             String name = station.getName();
-            int x = station.getXPos();
-            int y = station.getYPos();
-            int width = 140;
-            int height = 20;
+            int x = station.getXPos() * (panelWidth / 100);
+            int y = station.getYPos() * (panelHeight / 100);
+            int width = 130;
+            int height = 30;
+            JPanel stationPanel = new JPanel();
+            stationPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+            stationPanel.setAlignmentY(JPanel.CENTER_ALIGNMENT);
+            stationPanel.setBounds(x, y, width, height);
             JLabel stationLabel = new JLabel(name);
-            stationLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-            stationLabel.setAlignmentY(JLabel.CENTER_ALIGNMENT);
-            stationLabel.setBounds(x, y, width, height);
-            mapPanel.add(stationLabel);
+            stationPanel.add(stationLabel);
+            mapPanel.add(stationPanel);
         }
-        
-        
-        // TODO create the map here or in a separate function.
-        
-//        JLabel stationLabel = new JLabel("Station");
-//        
-//        // the x and y coordinate
-//        int x = 10;
-//        int y = 50;
-//        
-//        // the width and height
-//        int width = 50;
-//        int height = 20;
-//        
-//        stationLabel.setBounds(x, y, width, height);
-//        mapPanel.add(stationLabel);
-        
 
         // adds the map Panel to the frame
-        frame.getContentPane().add(BorderLayout.CENTER, mapPanel).setBackground(Color.WHITE);
+        frame.getContentPane().add(BorderLayout.CENTER, mapPanel);
     }
 }
