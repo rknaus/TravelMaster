@@ -2,8 +2,12 @@ package ch.netgeek.travelmaster.gui;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
+import ch.netgeek.travelmaster.algorithm.Stopover;
 import ch.netgeek.travelmaster.route.Station;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
@@ -28,6 +32,7 @@ public class GUI {
     // general variables declaration
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
+    private TableModel tableModel;
 
     // GUI variables declaration
     private JFrame frame;
@@ -44,6 +49,7 @@ public class GUI {
     public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
+//        this.tableModel = tableModel;
 
         // creates the frame
         createFrame();
@@ -273,6 +279,26 @@ public class GUI {
         titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         titleLabel.setFont(new Font("arial", 1, 16));
         outputPanel.add(titleLabel);
+        
+        // creates a table
+        JTable table = new JTable(tableModel);
+        TableColumn cStations = 
+        	table.getColumnModel().getColumn(0);
+        TableColumn cLines = 
+        	table.getColumnModel().getColumn(1);
+        TableColumn cDeparture = 
+        	table.getColumnModel().getColumn(2);
+        TableColumn cArrival = 
+        	table.getColumnModel().getColumn(3);
+        TableColumn cDuration = 
+        	table.getColumnModel().getColumn(4);
+
+        // sets the titles of the columns
+        cStations.setHeaderValue("Station");
+        cLines.setHeaderValue("Linie");
+        cDeparture.setHeaderValue("Abfahrt");
+        cArrival.setHeaderValue("Ankunft");
+        cDuration.setHeaderValue("Reisedauer");
 
         // adds the output panel to the io panel
         ioPanel.add(outputPanel);

@@ -2,6 +2,7 @@ package ch.netgeek.travelmaster;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.gui.GUI;
+import ch.netgeek.travelmaster.gui.TableModel;
 import ch.netgeek.travelmaster.io.XMLReader;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
