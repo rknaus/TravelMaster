@@ -60,15 +60,20 @@ public class TableModel extends AbstractTableModel {
 	      * Depending on the rowIndex and the columnIndex, the correct data is
 	      * given out
 	      */
-	     if (columnIndex == 0) {                 // title column
+	     if (columnIndex == 0) {                 
+	    	 // Source station column
 	         return " " + connectionResult.get(rowIndex).getSource();
-	     } else if (columnIndex == 1) {          // date column
+	     } else if (columnIndex == 1) {          
+	    	 // line column
 	         return connectionResult.get(rowIndex).getLine();
-	     } else if (columnIndex == 2) {          // priority column
+	     } else if (columnIndex == 2) {          
+	    	 // departure column
 	         return connectionResult.get(rowIndex).getDepartureTime();
-	     } else if (columnIndex == 3) {          // status column
+	     } else if (columnIndex == 3) {          
+	    	 // arrival column
 	         return connectionResult.get(rowIndex).getArrivalTime();
-	     } else if (columnIndex == 4) {          // hidden ID column
+	     } else if (columnIndex == 4) {          
+	    	 // duration column
 	         return connectionResult.get(rowIndex).getTravelDuration();
 	     }
 	        
