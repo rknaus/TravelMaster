@@ -300,26 +300,6 @@ public class GUI {
         titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         titleLabel.setFont(new Font("arial", 1, 16));
         outputPanel.add(titleLabel);
-        
-        // creates a table
-//        JTable table = new JTable(tableModel);
-//        TableColumn cStations = 
-//        	table.getColumnModel().getColumn(0);
-//        TableColumn cLines = 
-//        	table.getColumnModel().getColumn(1);
-//        TableColumn cDeparture = 
-//        	table.getColumnModel().getColumn(2);
-//        TableColumn cArrival = 
-//        	table.getColumnModel().getColumn(3);
-//        TableColumn cDuration = 
-//        	table.getColumnModel().getColumn(4);
-//
-//        // sets the titles of the columns
-//        cStations.setHeaderValue("Station");
-//        cLines.setHeaderValue("Linie");
-//        cDeparture.setHeaderValue("Abfahrt");
-//        cArrival.setHeaderValue("Ankunft");
-//        cDuration.setHeaderValue("Reisedauer");
 
         // adds the output panel to the io panel
         ioPanel.add(outputPanel);
