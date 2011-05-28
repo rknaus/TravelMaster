@@ -302,12 +302,12 @@ public class GUI {
         outputPanel.add(titleLabel);
         
         // adds the the table to the tablePanel
-        JPanel tablePanel = new JPanel();
-        tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        tablePanel.add(connectionTable.getTable());
+//        JPanel tablePanel = new JPanel();
+//        tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+//        tablePanel.add(connectionTable.getTable());
         
         // adds the the tablePanel to the outputPanel
-        outputPanel.add(tablePanel);
+//        outputPanel.add(tablePanel);
 
         // adds the output panel to the io panel
         ioPanel.add(outputPanel);
