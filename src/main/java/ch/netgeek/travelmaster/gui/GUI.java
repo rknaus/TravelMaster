@@ -1,7 +1,7 @@
 package ch.netgeek.travelmaster.gui;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
+import javax.swing.text.TableView;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.route.TransportNetwork;
