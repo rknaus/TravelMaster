@@ -154,7 +154,7 @@ public class GUI {
         // creates the banner panel and sets its layout
         bannerPanel = new JPanel();
         bannerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        bannerPanel.setSize(1000, 50);
+        bannerPanel.setSize(1200, 50);
 
         // adds a label to the banner panel
         JLabel bannerLabel = new JLabel(" TRAVELMASTER");
