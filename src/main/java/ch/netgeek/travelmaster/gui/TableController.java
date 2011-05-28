@@ -6,16 +6,16 @@ import java.util.ArrayList;
 public class TableController {
 	
     private ArrayList<Stopover> connectionResult;
-    private GUI gui;
     private TableModel tableModel;
+    private TableView tableView;
     
     public TableController(ArrayList<Stopover> connectionResult){
     	this.connectionResult = connectionResult;
     	tableModel = new TableModel(connectionResult);
-//    	gui = new GUI(tableModel);
+    	tableView = new TableView(tableModel);
     }
     
-    public void getView(){
-    	//getView Code
+    public TableView getView(){
+    	return tableView;
     }
 }

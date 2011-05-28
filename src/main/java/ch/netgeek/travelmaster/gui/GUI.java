@@ -26,7 +26,7 @@ public class GUI {
     // general variables declaration
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
-    private TableModel tableModel;
+    private TableView connectionTable;
 
     // GUI variables declaration
     private JFrame frame;
@@ -43,7 +43,7 @@ public class GUI {
     public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
-//        this.tableModel = tableModel;
+//        this.connectionTable = connectionTable;
 
         // creates the frame
         createFrame();
@@ -300,6 +300,14 @@ public class GUI {
         titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         titleLabel.setFont(new Font("arial", 1, 16));
         outputPanel.add(titleLabel);
+        
+        // adds the the table to the tablePanel
+//        JPanel tablePanel = new JPanel();
+//        tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+//        tablePanel.add(connectionTable.getTable());
+        
+        // adds the the tablePanel to the outputPanel
+//        outputPanel.add(tablePanel);
 
         // adds the output panel to the io panel
         ioPanel.add(outputPanel);
