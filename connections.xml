@@ -52,16 +52,16 @@
 	</connection>
 	<connection>
 		<stationA>Arenal</stationA>
-		<stationB>Zurich Hauptbahnhof</stationB>
+		<stationB>Zurich HB</stationB>
 		<duration>4</duration>
 	</connection>
 	<connection>
-		<stationA>Gar L'Est</stationA>
+		<stationA>Gare L'Est</stationA>
 		<stationB>Bahnhofstrasse</stationB>
 		<duration>9</duration>
 	</connection>
 	<connection>
-		<stationA>Gar L'Est</stationA>
+		<stationA>Gare L'Est</stationA>
 		<stationB>Arenal</stationB>
 		<duration>4</duration>
 	</connection>

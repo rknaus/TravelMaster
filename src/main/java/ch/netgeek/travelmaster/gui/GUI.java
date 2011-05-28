@@ -316,32 +316,11 @@ public class GUI {
         int panelHeight = 700;
 
         // creates the map panel and sets its layout
-        mapPanel = new MapPanel(panelWidth, panelHeight, transportNetwork);
+        mapPanel = new MapPanel(panelWidth, panelHeight, 
+                transportNetwork.getStationList(), 
+                transportNetwork.getConnectionList());
         mapPanel.setLayout(null);
-
-        
         mapPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
-        mapPanel.setBackground(Color.WHITE);
-        
-        mapPanel.repaint();
-        
-//
-//        // Creates the transport network map and adds it to the map panel
-//        ArrayList<Station> stationList = transportNetwork.getStationList();
-//        for (Station station : stationList) {
-//            String name = station.getName();
-//            int x = station.getXPos() * (panelWidth / 100);
-//            int y = station.getYPos() * (panelHeight / 100);
-//            int width = 130;
-//            int height = 30;
-//            JPanel stationPanel = new JPanel();
-//            stationPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-//            stationPanel.setAlignmentY(JPanel.CENTER_ALIGNMENT);
-//            stationPanel.setBounds(x, y, width, height);
-//            JLabel stationLabel = new JLabel(name);
-//            stationPanel.add(stationLabel);
-//            mapPanel.add(stationPanel);
-//        }
 
         // adds the map Panel to the frame
         frame.getContentPane().add(BorderLayout.CENTER, mapPanel);
