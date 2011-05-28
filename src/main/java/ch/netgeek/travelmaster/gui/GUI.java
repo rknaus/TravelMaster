@@ -38,7 +38,7 @@ public class GUI {
     private JFrame frame;
     private JPanel bannerPanel;
     private JPanel ioPanel;
-    private JPanel mapPanel;
+    private MapPanel mapPanel;
 
     /**
      * Initializes the GUI.
@@ -309,35 +309,79 @@ public class GUI {
      * (center) of the GUI.
      */
     private void createMapPanel() {
-
-        // creates the map panel and sets its layout
-        mapPanel = new JPanel();
-        mapPanel.setLayout(null);
-
+        
         // sets the size and allignement of the map panel
         int panelWidth = 760;
         int panelHeight = 700;
+
+        // creates the map panel and sets its layout
+        mapPanel = new MapPanel();
+        mapPanel.setLayout(null);
+
+        
         mapPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
         mapPanel.setBackground(Color.WHITE);
-
-        // Creates the transport network map and adds it to the map panel
-        ArrayList<Station> stationList = transportNetwork.getStationList();
-        for (Station station : stationList) {
-            String name = station.getName();
-            int x = station.getXPos() * (panelWidth / 100);
-            int y = station.getYPos() * (panelHeight / 100);
-            int width = 130;
-            int height = 30;
-            JPanel stationPanel = new JPanel();
-            stationPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-            stationPanel.setAlignmentY(JPanel.CENTER_ALIGNMENT);
-            stationPanel.setBounds(x, y, width, height);
-            JLabel stationLabel = new JLabel(name);
-            stationPanel.add(stationLabel);
-            mapPanel.add(stationPanel);
-        }
+        
+        mapPanel.repaint();
+        
+//
+//        // Creates the transport network map and adds it to the map panel
+//        ArrayList<Station> stationList = transportNetwork.getStationList();
+//        for (Station station : stationList) {
+//            String name = station.getName();
+//            int x = station.getXPos() * (panelWidth / 100);
+//            int y = station.getYPos() * (panelHeight / 100);
+//            int width = 130;
+//            int height = 30;
+//            JPanel stationPanel = new JPanel();
+//            stationPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+//            stationPanel.setAlignmentY(JPanel.CENTER_ALIGNMENT);
+//            stationPanel.setBounds(x, y, width, height);
+//            JLabel stationLabel = new JLabel(name);
+//            stationPanel.add(stationLabel);
+//            mapPanel.add(stationPanel);
+//        }
 
         // adds the map Panel to the frame
         frame.getContentPane().add(BorderLayout.CENTER, mapPanel);
+    }
+    
+    private class MapPanel extends JPanel {
+        
+        private static final long serialVersionUID = -5402738780711033582L;
+        
+        private int panelWidth = this.getWidth();
+        private int panelHeight = this.getHeight();
+        
+
+        private void paintStations(Graphics g) {
+
+            System.out.println("Panel Width: "  + panelWidth);
+            System.out.println("Panel Height: " + panelHeight);
+            
+            ArrayList<Station> stationList = transportNetwork.getStationList();
+            int width = 130;
+            int height = 30;
+            for (Station station : stationList) {
+                String name = station.getName();
+                int x = station.getXPos() * (panelWidth / 100) - width / 2;
+                int y = station.getYPos() * (panelHeight / 100) - height / 2;
+                g.drawRoundRect(x, y, width, height, 5, 5);
+                System.out.println("Station: " + name + " x: " + x + " y: " + y);
+            }
+//            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+            g.drawLine(10, 10, 100, 50);
+        }
+        
+        private void paintConnections(Graphics g) {
+            
+        }
+        
+        @Override
+        protected void paintComponent(Graphics g ) {
+            super.paintComponent(g);
+            paintStations(g);
+        }
+        
     }
 }
