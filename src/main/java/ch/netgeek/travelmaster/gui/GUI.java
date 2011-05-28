@@ -150,10 +150,12 @@ public class GUI {
      * It displays the name/logo of the software.
      */
     private void createBannerPanel() {
-
+    	
         // creates the banner panel and sets its layout
         bannerPanel = new JPanel();
-        bannerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        FlowLayout bannerLayout = new FlowLayout(FlowLayout.LEFT);
+        bannerLayout.setHgap(0);
+        bannerPanel.setLayout(bannerLayout);
         bannerPanel.setSize(1200, 50);
 
         // adds a label to the banner panel
@@ -188,6 +190,7 @@ public class GUI {
 
         // adds the IO Panel to the frame
         frame.getContentPane().add(BorderLayout.WEST, ioPanel);
+        
     }
 
     /**
@@ -195,65 +198,89 @@ public class GUI {
      * It contains the form fields for the time table calculation.
      */
     private void createInputPanel() {
+        // definition for the text- and layout format
+        FlowLayout ioLabelLayout = new FlowLayout(FlowLayout.LEFT);
+        ioLabelLayout.setVgap(0);
+        Font font = new Font("arial", 0, 14);
 
         // creates the input panel and sets its layout
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 
         // Sets the size and alignement of the input panel
         inputPanel.setPreferredSize(new Dimension(440, 300));
         inputPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 
         // adds a title label to the input panel
-        JLabel titleLabel = new JLabel("Timetable");
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(ioLabelLayout);
+        JLabel titleLabel = new JLabel();
         titleLabel.setPreferredSize(new Dimension(375, 30));
         titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        titleLabel.setFont(new Font("arial", 1, 16));
-        inputPanel.add(titleLabel);
+        titleLabel.setFont(new Font("arial", 1, 18));
+        titleLabel.setText("Timetable");
+        titlePanel.add(titleLabel);
+        inputPanel.add(titlePanel);
 
         // adds a from textfield to the input panel
+        JPanel fromPanel = new JPanel();
+        fromPanel.setLayout(ioLabelLayout);
         JLabel fromLabel = new JLabel("Von: ");
         fromLabel.setPreferredSize(new Dimension(60, 10));
         fromLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        inputPanel.add(fromLabel);
+        fromLabel.setFont(font);
         JTextField fromTextField = new JTextField("Abfahrtsort", 32);
+        fromTextField.setFont(font);
         fromTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        inputPanel.add(fromTextField);
+        fromPanel.add(fromLabel);
+        fromPanel.add(fromTextField);
+        inputPanel.add(fromPanel);
 
         // adds a to textfield to the input panel
+        JPanel toPanel = new JPanel();
+        toPanel.setLayout(ioLabelLayout);
         JLabel toLabel = new JLabel("Nach: ");
+        toLabel.setFont(font);
         toLabel.setPreferredSize(new Dimension(60, 10));
         toLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        inputPanel.add(toLabel);
         JTextField toTextField = new JTextField("Zielort", 32);
         toTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        inputPanel.add(toTextField);
+        toTextField.setFont(font);
+        toPanel.add(toLabel);
+        toPanel.add(toTextField);
+        inputPanel.add(toPanel);
 
         // adds textfields for the travel time to the input panel
+        JPanel timePanel = new JPanel();
+        timePanel.setLayout(ioLabelLayout);
         JLabel timeLabel = new JLabel("Abfahrt: ");
+        timeLabel.setFont(font);
         timeLabel.setPreferredSize(new Dimension(60, 10));
         timeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        inputPanel.add(timeLabel);
         JTextField timeTextField = new JTextField("hh:mm", 5);
         timeTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        inputPanel.add(timeTextField);
+        timeTextField.setFont(font);
+        timePanel.add(timeLabel);
+        timePanel.add(timeTextField);
+        inputPanel.add(timePanel);
 
         // adds a blank label to force a line break in the input panel
         JLabel blankLabel = new JLabel();
         blankLabel.setPreferredSize(new Dimension(280, 10));
         inputPanel.add(blankLabel);
 
-        // adds a search button to the input panel
+        // adds a search and a clear button to the input panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(ioLabelLayout);
         JButton searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(90, 25));
         searchButton.setBackground(Color.LIGHT_GRAY);
-        inputPanel.add(searchButton);
-
-        // adds a clear button to the input panel
         JButton clearButton = new JButton("Clear");
         clearButton.setPreferredSize(new Dimension(90, 25));
         clearButton.setBackground(Color.LIGHT_GRAY);
-        inputPanel.add(clearButton);
+        buttonPanel.add(searchButton);
+        buttonPanel.add(clearButton);
+        inputPanel.add(buttonPanel);
 
         // adds the input panel to the io panel
         ioPanel.add(inputPanel);
