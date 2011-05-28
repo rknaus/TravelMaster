@@ -342,7 +342,7 @@ public class GUI {
         int panelHeight = 700;
 
         // creates the map panel and sets its layout
-        mapPanel = new MapPanel();
+        mapPanel = new MapPanel(panelWidth, panelHeight);
         mapPanel.setLayout(null);
 
         
@@ -377,8 +377,13 @@ public class GUI {
         
         private static final long serialVersionUID = -5402738780711033582L;
         
-        private int panelWidth = this.getWidth();
-        private int panelHeight = this.getHeight();
+        private int panelWidth;
+        private int panelHeight;
+        
+        public MapPanel(int panelWidth, int panelHeight) {
+            this.panelWidth = panelWidth;
+            this.panelHeight = panelHeight;
+        }
         
 
         private void paintStations(Graphics g) {
