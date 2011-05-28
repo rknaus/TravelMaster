@@ -35,13 +35,13 @@ public class MapPanel extends JPanel {
         int height = 30;
         for (Station station : stationList) {
             String name = station.getName();
-            int x = station.getXPos() * (panelWidth / 100) - width / 2;
-            int y = station.getYPos() * (panelHeight / 100) - height / 2;
+            int x = (station.getXPos() * (panelWidth / 100)) - (width / 2);
+            int y = (station.getYPos() * (panelHeight / 100)) - (height / 2);
             g.drawRoundRect(x, y, width, height, 5, 5);
             System.out.println("Station: " + name + " x: " + x + " y: " + y);
         }
 //        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        g.drawLine(10, 10, 100, 50);
+        g.drawLine(0, 10, 760, 10);
     }
     
     private void paintConnections(Graphics g) {

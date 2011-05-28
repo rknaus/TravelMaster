@@ -2,62 +2,62 @@
 <stations>
 	<station>
 		<name>Picadilly</name>
-		<xpos>5</xpos>
+		<xpos>10</xpos>
 		<ypos>20</ypos>
 	</station>
 	<station>
 		<name>Paradeplatz</name>
-		<xpos>5</xpos>
+		<xpos>10</xpos>
 		<ypos>40</ypos>
 	</station>
 	<station>
 		<name>Roma Plaza</name>
-		<xpos>35</xpos>
+		<xpos>38</xpos>
 		<ypos>60</ypos>
 	</station>
 	<station>
 		<name>Berninaplatz</name>
-		<xpos>35</xpos>
+		<xpos>38</xpos>
 		<ypos>80</ypos>
 	</station>
 	<station>
 		<name>Rockafeller Center</name>
-		<xpos>35</xpos>
+		<xpos>38</xpos>
 		<ypos>40</ypos>
 	</station>
 	<station>
 		<name>Schoerlistrasse</name>
-		<xpos>35</xpos>
+		<xpos>38</xpos>
 		<ypos>20</ypos>
 	</station>
 	<station>
 		<name>La Cite</name>
-		<xpos>65</xpos>
+		<xpos>66</xpos>
 		<ypos>60</ypos>
 	</station>
 	<station>
 		<name>Time Square</name>
-		<xpos>65</xpos>
+		<xpos>66</xpos>
 		<ypos>40</ypos>
 	</station>
 	<station>
 		<name>Bahnhofstrasse</name>
-		<xpos>65</xpos>
+		<xpos>66</xpos>
 		<ypos>5</ypos>
 	</station>
 	<station>
 		<name>Gare L'Est</name>
-		<xpos>90</xpos>
+		<xpos>94</xpos>
 		<ypos>20</ypos>
 	</station>
 	<station>
 		<name>Arenal</name>
-		<xpos>90</xpos>
+		<xpos>94</xpos>
 		<ypos>40</ypos>
 	</station>
 	<station>
 		<name>Zurich HB</name>
-		<xpos>90</xpos>
+		<xpos>94</xpos>
 		<ypos>60</ypos>
 	</station>
 </stations>
