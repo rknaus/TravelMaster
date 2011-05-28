@@ -1,20 +1,14 @@
 package ch.netgeek.travelmaster.gui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
-import ch.netgeek.travelmaster.algorithm.Stopover;
-import ch.netgeek.travelmaster.route.Station;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * This class represents the TravelMaster GUI.<br>
@@ -342,7 +336,7 @@ public class GUI {
         int panelHeight = 700;
 
         // creates the map panel and sets its layout
-        mapPanel = new MapPanel(panelWidth, panelHeight);
+        mapPanel = new MapPanel(panelWidth, panelHeight, transportNetwork);
         mapPanel.setLayout(null);
 
         
@@ -371,49 +365,5 @@ public class GUI {
 
         // adds the map Panel to the frame
         frame.getContentPane().add(BorderLayout.CENTER, mapPanel);
-    }
-    
-    private class MapPanel extends JPanel {
-        
-        private static final long serialVersionUID = -5402738780711033582L;
-        
-        private int panelWidth;
-        private int panelHeight;
-        
-        public MapPanel(int panelWidth, int panelHeight) {
-            this.panelWidth = panelWidth;
-            this.panelHeight = panelHeight;
-        }
-        
-
-        private void paintStations(Graphics g) {
-
-            System.out.println("Panel Width: "  + panelWidth);
-            System.out.println("Panel Height: " + panelHeight);
-            
-            ArrayList<Station> stationList = transportNetwork.getStationList();
-            int width = 130;
-            int height = 30;
-            for (Station station : stationList) {
-                String name = station.getName();
-                int x = station.getXPos() * (panelWidth / 100) - width / 2;
-                int y = station.getYPos() * (panelHeight / 100) - height / 2;
-                g.drawRoundRect(x, y, width, height, 5, 5);
-                System.out.println("Station: " + name + " x: " + x + " y: " + y);
-            }
-//            g.fillRect(0, 0, this.getWidth(), this.getHeight());
-            g.drawLine(10, 10, 100, 50);
-        }
-        
-        private void paintConnections(Graphics g) {
-            
-        }
-        
-        @Override
-        protected void paintComponent(Graphics g ) {
-            super.paintComponent(g);
-            paintStations(g);
-        }
-        
     }
 }
