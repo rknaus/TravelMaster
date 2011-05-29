@@ -27,14 +27,10 @@ public class GUI {
     // general variables declaration
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
-<<<<<<< HEAD
     private JTable connectionTable;
     private TableView view;
     private TableController controller;
-=======
-    private TableView connectionTable;
     private ArrayList<Stopover> stopoverList;
->>>>>>> f7c9c62f98e23b13121d343fd194aa7ebac9368b
 
     // GUI variables declaration
     private JFrame frame;
@@ -51,14 +47,10 @@ public class GUI {
     public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator, TableController controller) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
-<<<<<<< HEAD
         this.controller = controller;
         view = controller.getView();
         connectionTable = view.getTable();
-=======
         this.stopoverList = new ArrayList<Stopover>();
-//        this.connectionTable = connectionTable;
->>>>>>> f7c9c62f98e23b13121d343fd194aa7ebac9368b
 
         // creates the frame
         createFrame();
