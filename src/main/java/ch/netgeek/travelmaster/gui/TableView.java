@@ -35,33 +35,37 @@ public class TableView {
      */    
     public void createTable(){ 
     	connectionTable = new JTable(tableModel);
-    	TableColumn cStations = 
+    	TableColumn cSource = 
     		connectionTable.getColumnModel().getColumn(0);
-    	TableColumn cLines = 
+    	TableColumn cDestination = 
     		connectionTable.getColumnModel().getColumn(1);
-    	TableColumn cDeparture = 
+    	TableColumn cLines = 
     		connectionTable.getColumnModel().getColumn(2);
-    	TableColumn cArrival = 
+    	TableColumn cDeparture = 
     		connectionTable.getColumnModel().getColumn(3);
-    	TableColumn cDuration = 
+    	TableColumn cArrival = 
     		connectionTable.getColumnModel().getColumn(4);
+    	TableColumn cDuration = 
+    		connectionTable.getColumnModel().getColumn(5);
     
     	// sets the titles of the columns
-    	cStations.setHeaderValue("Station");
-    	cLines.setHeaderValue("Linie");
-    	cDeparture.setHeaderValue("Abft.");
-    	cArrival.setHeaderValue("Ankft.");
-    	cDuration.setHeaderValue("Dauer");
+    	cSource.setHeaderValue("Start");
+    	cDestination.setHeaderValue("Destination");
+    	cLines.setHeaderValue("Line");
+    	cDeparture.setHeaderValue("Dep.");
+    	cArrival.setHeaderValue("Arr.");
+    	cDuration.setHeaderValue("Duration");
     	
     	// table design (font, border, size etc.)
     	connectionTable.setOpaque(false);
     	connectionTable.setBackground(Color.WHITE);
     	connectionTable.getTableHeader().setReorderingAllowed(false);
     	connectionTable.getTableHeader().setResizingAllowed(false);
-    	connectionTable.getTableHeader().setFont(new Font("arial", 1, 14));
-        connectionTable.setFont(new Font("arial", 0, 14));
+    	connectionTable.getTableHeader().setFont(new Font("arial", 1, 12));
+        connectionTable.setFont(new Font("arial", 0, 12));
         connectionTable.setRowHeight(25);
-        cStations.setPreferredWidth(210);
+        cSource.setPreferredWidth(110);
+        cDestination.setPreferredWidth(110);
         cLines.setPreferredWidth(40);
         cDeparture.setPreferredWidth(50);
         cArrival.setPreferredWidth(50);

@@ -313,11 +313,9 @@ public class GUI {
         // adds the the table to the tablePanel
         JPanel tablePanel = new JPanel();
         JScrollPane tablePane = new JScrollPane(connectionTable);
-        tablePane.setPreferredSize(new Dimension(400, 160));
+        tablePane.setPreferredSize(new Dimension(410, 300));
         tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         tablePanel.add(tablePane);
-//        tablePanel.add(connectionTable.getTableHeader());
-//        tablePanel.add(connectionTable);
         
         // adds the the tablePanel to the outputPanel
         outputPanel.add(tablePanel);

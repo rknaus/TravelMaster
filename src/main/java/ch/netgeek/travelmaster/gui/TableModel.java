@@ -31,7 +31,7 @@ public class TableModel extends AbstractTableModel {
 	  */
 	 @Override
 	 public int getColumnCount() {
-		 return 5;
+		 return 6;
 	 }
 
 	 /**
@@ -42,7 +42,7 @@ public class TableModel extends AbstractTableModel {
 	 @Override
 	 public int getRowCount() {
 		 if (connectionResult.isEmpty()) {
-			 return 1;
+			 return 12;
 		 }     
 	     return connectionResult.size();
 	 }
@@ -72,16 +72,19 @@ public class TableModel extends AbstractTableModel {
 	     if (columnIndex == 0) {                 
 	    	 // Source station column
 	         return " " + connectionResult.get(rowIndex).getSource();
-	     } else if (columnIndex == 1) {          
+	     } else if (columnIndex == 1) {
+	    	 // Destination column
+	    	 return " " + connectionResult.get(rowIndex).getDestinatio();
+	     } else if (columnIndex == 2) {          
 	    	 // line column
 	         return connectionResult.get(rowIndex).getLine();
-	     } else if (columnIndex == 2) {          
+	     } else if (columnIndex == 3) {          
 	    	 // departure column
 	         return connectionResult.get(rowIndex).getDepartureTime();
-	     } else if (columnIndex == 3) {          
+	     } else if (columnIndex == 4) {          
 	    	 // arrival column
 	         return connectionResult.get(rowIndex).getArrivalTime();
-	     } else if (columnIndex == 4) {          
+	     } else if (columnIndex == 5) {          
 	    	 // duration column
 	         return connectionResult.get(rowIndex).getTravelDuration();
 	     }
