@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import ch.netgeek.travelmaster.algorithm.Stopover;
 import ch.netgeek.travelmaster.route.Connection;
 import ch.netgeek.travelmaster.route.Station;
 
@@ -28,6 +29,7 @@ public class MapPanel extends JPanel {
     private int panelHeight;
     private ArrayList<Station> stationList;
     private ArrayList<Connection> connectionList;
+    private ArrayList<Stopover> stopoverList;
     
     /**
      * Initializes the MapPanel.
@@ -39,11 +41,13 @@ public class MapPanel extends JPanel {
      */
     public MapPanel(int panelWidth, int panelHeight, 
             ArrayList<Station> stationList,
-            ArrayList<Connection> connectionList) {
+            ArrayList<Connection> connectionList, 
+            ArrayList<Stopover> stopoverList) {
         this.panelWidth = panelWidth;
         this.panelHeight = panelHeight;
         this.stationList = stationList;
         this.connectionList = connectionList;
+        this.stopoverList = stopoverList;
     }
     
     /**
@@ -92,6 +96,28 @@ public class MapPanel extends JPanel {
     }
     
     /**
+     * Draws the Stopover Connections into the JPanel (the connections which are
+     * on the way of a time table / a searched route.
+     * 
+     * @param g2                            The Graphics2D object
+     */
+    private void paintStopoverConnections(Graphics2D g2) {
+        if (stopoverList.size() != 0) {
+            g2.setColor(Color.RED);
+            BasicStroke stroke = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+            g2.setStroke(stroke);
+            for (Stopover stopover : stopoverList) {
+                Connection connection = stopover.getConnection();
+                int xA = connection.getStationA().getXPos() * (panelWidth / 100);
+                int yA = connection.getStationA().getYPos() * (panelHeight / 100);
+                int xB = connection.getStationB().getXPos() * (panelWidth / 100);
+                int yB = connection.getStationB().getYPos() * (panelHeight / 100);
+                g2.drawLine(xA, yA, xB, yB);
+            }
+        }
+    }
+    
+    /**
      * Main function which draws the content into the JPanel
      */
     @Override
@@ -102,6 +128,7 @@ public class MapPanel extends JPanel {
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         g2.setFont(font);
         paintConnections(g2);
+        paintStopoverConnections(g2);
         paintStations(g2);
     }
 

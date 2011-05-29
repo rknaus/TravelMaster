@@ -4,11 +4,13 @@ import javax.swing.*;
 import javax.swing.text.TableView;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
+import ch.netgeek.travelmaster.algorithm.Stopover;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * This class represents the TravelMaster GUI.<br>
@@ -27,6 +29,7 @@ public class GUI {
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
     private TableView connectionTable;
+    private ArrayList<Stopover> stopoverList;
 
     // GUI variables declaration
     private JFrame frame;
@@ -43,6 +46,7 @@ public class GUI {
     public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
+        this.stopoverList = new ArrayList<Stopover>();
 //        this.connectionTable = connectionTable;
 
         // creates the frame
@@ -326,7 +330,7 @@ public class GUI {
         // creates the map panel and sets its layout
         mapPanel = new MapPanel(panelWidth, panelHeight, 
                 transportNetwork.getStationList(), 
-                transportNetwork.getConnectionList());
+                transportNetwork.getConnectionList(), stopoverList);
         mapPanel.setLayout(null);
         mapPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
 
