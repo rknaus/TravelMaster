@@ -1,7 +1,6 @@
 package ch.netgeek.travelmaster.gui;
 
 import javax.swing.*;
-import javax.swing.text.TableView;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.route.TransportNetwork;
@@ -26,7 +25,9 @@ public class GUI {
     // general variables declaration
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
-    private TableView connectionTable;
+    private JTable connectionTable;
+    private TableView view;
+    private TableController controller;
 
     // GUI variables declaration
     private JFrame frame;
@@ -40,10 +41,12 @@ public class GUI {
      * @param transportNetwork      The transport network
      * @param routeCalculator       The route calculator
      */
-    public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator) {
+    public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator, TableController controller) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
-//        this.connectionTable = connectionTable;
+        this.controller = controller;
+        view = controller.getView();
+        connectionTable = view.getTable();
 
         // creates the frame
         createFrame();
@@ -302,12 +305,12 @@ public class GUI {
         outputPanel.add(titleLabel);
         
         // adds the the table to the tablePanel
-//        JPanel tablePanel = new JPanel();
-//        tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-//        tablePanel.add(connectionTable.getTable());
+        JPanel tablePanel = new JPanel();
+        tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        tablePanel.add(connectionTable.getTableHeader());
         
         // adds the the tablePanel to the outputPanel
-//        outputPanel.add(tablePanel);
+        outputPanel.add(tablePanel);
 
         // adds the output panel to the io panel
         ioPanel.add(outputPanel);

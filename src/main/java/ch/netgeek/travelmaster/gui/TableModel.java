@@ -17,7 +17,8 @@ public class TableModel extends AbstractTableModel {
 	  * The constructor of the TableModel class requires data to be returned by
 	  * its functions.
 	  * 
-	  * @param connectionResult      list of tasks to be stored in the object instance
+	  * @param connectionResult      list of connection to be stored in the <br>
+	  * object instance
 	  */
 	 public TableModel(ArrayList<Stopover> connectionResult) {
 		 this.connectionResult = connectionResult;
