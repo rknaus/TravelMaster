@@ -37,6 +37,10 @@ public class GUI {
     private JPanel bannerPanel;
     private JPanel ioPanel;
     private MapPanel mapPanel;
+    private JTextField fromTextField;
+    private JTextField timeTextField;
+    private JTextField toTextField;
+    private JButton clearButton;
 
     /**
      * Initializes the GUI.
@@ -221,18 +225,18 @@ public class GUI {
         titleLabel.setPreferredSize(new Dimension(375, 30));
         titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         titleLabel.setFont(new Font("arial", 1, 18));
-        titleLabel.setText("Timetable");
+        titleLabel.setText(" Timetable");
         titlePanel.add(titleLabel);
         inputPanel.add(titlePanel);
 
         // adds a from textfield to the input panel
         JPanel fromPanel = new JPanel();
         fromPanel.setLayout(ioLabelLayout);
-        JLabel fromLabel = new JLabel("Von: ");
+        JLabel fromLabel = new JLabel(" From:");
         fromLabel.setPreferredSize(new Dimension(60, 10));
         fromLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         fromLabel.setFont(font);
-        JTextField fromTextField = new JTextField("Abfahrtsort", 32);
+        fromTextField = new JTextField("Enter a place of departure", 28);
         fromTextField.setFont(font);
         fromTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         fromPanel.add(fromLabel);
@@ -242,11 +246,11 @@ public class GUI {
         // adds a to textfield to the input panel
         JPanel toPanel = new JPanel();
         toPanel.setLayout(ioLabelLayout);
-        JLabel toLabel = new JLabel("Nach: ");
+        JLabel toLabel = new JLabel(" To:");
         toLabel.setFont(font);
         toLabel.setPreferredSize(new Dimension(60, 10));
         toLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        JTextField toTextField = new JTextField("Zielort", 32);
+        toTextField = new JTextField("Enter a destination", 28);
         toTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         toTextField.setFont(font);
         toPanel.add(toLabel);
@@ -256,11 +260,11 @@ public class GUI {
         // adds textfields for the travel time to the input panel
         JPanel timePanel = new JPanel();
         timePanel.setLayout(ioLabelLayout);
-        JLabel timeLabel = new JLabel("Abfahrt: ");
+        JLabel timeLabel = new JLabel(" Time:");
         timeLabel.setFont(font);
-        timeLabel.setPreferredSize(new Dimension(60, 10));
+        timeLabel.setPreferredSize(new Dimension(60, 15));
         timeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        JTextField timeTextField = new JTextField("hh:mm", 5);
+        timeTextField = new JTextField("Enter the departure time 'hh:mm'", 28);
         timeTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         timeTextField.setFont(font);
         timePanel.add(timeLabel);
@@ -278,15 +282,31 @@ public class GUI {
         JButton searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(90, 25));
         searchButton.setBackground(Color.LIGHT_GRAY);
-        JButton clearButton = new JButton("Clear");
+        clearButton = new JButton("Clear");
         clearButton.setPreferredSize(new Dimension(90, 25));
         clearButton.setBackground(Color.LIGHT_GRAY);
+        clearButton.addActionListener(new ClearActionListener());
         buttonPanel.add(searchButton);
         buttonPanel.add(clearButton);
         inputPanel.add(buttonPanel);
 
         // adds the input panel to the io panel
         ioPanel.add(inputPanel);
+    }
+    
+    private class ClearActionListener implements ActionListener {
+
+        /**
+         * Performed action when pressing the exit menu item.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        	if(e.getSource() == clearButton){
+        		fromTextField.setText("Enter a place of departure");
+        		toTextField.setText("Enter a destination");
+        		timeTextField.setText("Enter the departure time 'hh:mm'");
+        	}
+    	}
     }
 
     /**
@@ -304,7 +324,7 @@ public class GUI {
         outputPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // adds a title label to the output panel
-        JLabel titleLabel = new JLabel("Connection");
+        JLabel titleLabel = new JLabel(" Connection");
         titleLabel.setPreferredSize(new Dimension(375, 30));
         titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         titleLabel.setFont(new Font("arial", 1, 18));
@@ -313,7 +333,7 @@ public class GUI {
         // adds the the table to the tablePanel
         JPanel tablePanel = new JPanel();
         JScrollPane tablePane = new JScrollPane(connectionTable);
-        tablePane.setPreferredSize(new Dimension(410, 300));
+        tablePane.setPreferredSize(new Dimension(410, 285));
         tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         tablePanel.add(tablePane);
         

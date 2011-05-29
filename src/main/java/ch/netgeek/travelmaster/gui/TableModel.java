@@ -42,7 +42,7 @@ public class TableModel extends AbstractTableModel {
 	 @Override
 	 public int getRowCount() {
 		 if (connectionResult.isEmpty()) {
-			 return 12;
+			 return 10;
 		 }     
 	     return connectionResult.size();
 	 }

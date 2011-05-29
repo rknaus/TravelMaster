@@ -58,6 +58,7 @@ public class TableView {
     	
     	// table design (font, border, size etc.)
     	connectionTable.setOpaque(false);
+    	connectionTable.setRowSelectionAllowed(false);
     	connectionTable.setBackground(Color.WHITE);
     	connectionTable.getTableHeader().setReorderingAllowed(false);
     	connectionTable.getTableHeader().setResizingAllowed(false);
