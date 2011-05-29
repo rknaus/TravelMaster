@@ -110,7 +110,7 @@
 			<station>Time Square</station>
 			<station>Gare L'Est</station>
 			<station>Arenal</station>
-			<station>Zurich Hauptbahnhof</station>
+			<station>Zurich HB</station>
 		</stations>
 		<departuresFirstStation>
 			<departure>05:10</departure>
@@ -308,7 +308,7 @@
 			<station>Rockafeller Center</station>
 			<station>Time Square</station>
 			<station>Arenal</station>
-			<station>Zurich Hauptbahnhof</station>
+			<station>Zurich HB</station>
 		</stations>
 		<departuresFirstStation>
 			<departure>05:26</departure>

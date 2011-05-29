@@ -153,7 +153,7 @@ public class MapPanel extends JPanel {
                 if (lines.length() == 0) {
                     lines = Integer.toString(line.getNumber());
                 } else {
-                    lines = lines + ", " + Integer.toString(line.getNumber());
+                    lines = lines + "," + Integer.toString(line.getNumber());
                 }
             }
             
@@ -170,19 +170,25 @@ public class MapPanel extends JPanel {
              * The position and size of the connection information (duration and 
              * line numbers)
              */
-            int width = 60;
+            int width = 40;
             int height = 35;
             int x = (xA + xB) / 2;
             int y = (yA + yB) / 2;
             int xRect = x - (width / 2);
             int yRect = y - (height / 2);
-            int xFont = x - 50;
-            int yFont = y + 5;
-            g2.setColor(Color.GRAY);
-            g2.fillRoundRect(xRect, yRect, width, height, 20, 20);
+            int xFont = x - 16;
+            int yFont1 = y - 4;
+            int yFont2 = y + 6;
+            int yFont3 = y + 16;
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fillRoundRect(xRect, yRect, width, height, 10, 10);
             g2.setColor(Color.BLACK);
-            g2.drawRoundRect(xRect, yRect, width, height, 20, 20);
-            g2.drawString(lines, xFont, yFont);
+            g2.drawRoundRect(xRect, yRect, width, height, 10, 10);
+            Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
+            g2.setFont(font);
+            g2.drawString(duration + " min", xFont, yFont1);
+            g2.drawString("Lines:", xFont, yFont2);
+            g2.drawString(lines, xFont, yFont3);
             
         }
     }
