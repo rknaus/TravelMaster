@@ -3,11 +3,13 @@ package ch.netgeek.travelmaster.gui;
 import javax.swing.*;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
+import ch.netgeek.travelmaster.algorithm.Stopover;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * This class represents the TravelMaster GUI.<br>
@@ -25,9 +27,14 @@ public class GUI {
     // general variables declaration
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
+<<<<<<< HEAD
     private JTable connectionTable;
     private TableView view;
     private TableController controller;
+=======
+    private TableView connectionTable;
+    private ArrayList<Stopover> stopoverList;
+>>>>>>> f7c9c62f98e23b13121d343fd194aa7ebac9368b
 
     // GUI variables declaration
     private JFrame frame;
@@ -44,9 +51,14 @@ public class GUI {
     public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator, TableController controller) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
+<<<<<<< HEAD
         this.controller = controller;
         view = controller.getView();
         connectionTable = view.getTable();
+=======
+        this.stopoverList = new ArrayList<Stopover>();
+//        this.connectionTable = connectionTable;
+>>>>>>> f7c9c62f98e23b13121d343fd194aa7ebac9368b
 
         // creates the frame
         createFrame();
@@ -329,7 +341,7 @@ public class GUI {
         // creates the map panel and sets its layout
         mapPanel = new MapPanel(panelWidth, panelHeight, 
                 transportNetwork.getStationList(), 
-                transportNetwork.getConnectionList());
+                transportNetwork.getConnectionList(), stopoverList);
         mapPanel.setLayout(null);
         mapPanel.setPreferredSize(new Dimension(panelWidth, panelHeight));
 
