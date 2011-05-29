@@ -307,12 +307,13 @@ public class GUI {
         JLabel titleLabel = new JLabel("Connection");
         titleLabel.setPreferredSize(new Dimension(375, 30));
         titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        titleLabel.setFont(new Font("arial", 1, 16));
+        titleLabel.setFont(new Font("arial", 1, 18));
         outputPanel.add(titleLabel);
         
         // adds the the table to the tablePanel
         JPanel tablePanel = new JPanel();
         JScrollPane tablePane = new JScrollPane(connectionTable);
+        tablePane.setPreferredSize(new Dimension(400, 160));
         tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         tablePanel.add(tablePane);
 //        tablePanel.add(connectionTable.getTableHeader());

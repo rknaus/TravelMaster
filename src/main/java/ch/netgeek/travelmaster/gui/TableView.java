@@ -49,8 +49,8 @@ public class TableView {
     	// sets the titles of the columns
     	cStations.setHeaderValue("Station");
     	cLines.setHeaderValue("Linie");
-    	cDeparture.setHeaderValue("Abfahrt");
-    	cArrival.setHeaderValue("Ankunft");
+    	cDeparture.setHeaderValue("Abft.");
+    	cArrival.setHeaderValue("Ankft.");
     	cDuration.setHeaderValue("Dauer");
     	
     	// table design (font, border, size etc.)
@@ -61,11 +61,11 @@ public class TableView {
     	connectionTable.getTableHeader().setFont(new Font("arial", 1, 14));
         connectionTable.setFont(new Font("arial", 0, 14));
         connectionTable.setRowHeight(25);
-        cStations.setPreferredWidth(100);
-        cLines.setPreferredWidth(15);
-        cDeparture.setPreferredWidth(20);
-        cArrival.setPreferredWidth(20);
-        cDuration.setPreferredWidth(20);
+        cStations.setPreferredWidth(210);
+        cLines.setPreferredWidth(40);
+        cDeparture.setPreferredWidth(50);
+        cArrival.setPreferredWidth(50);
+        cDuration.setPreferredWidth(50);
     }
     
     /**
