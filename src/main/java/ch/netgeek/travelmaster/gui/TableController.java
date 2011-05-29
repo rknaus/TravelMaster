@@ -15,6 +15,15 @@ public class TableController {
     	tableView = new TableView(tableModel);
     }
     
+    /**
+     * To get the current the list of the connection result
+     * 
+     * @return connectionResult    the arraylist with its result.
+     */
+    public ArrayList<Stopover> getConnectionResult() {
+        return connectionResult;
+    }
+    
     public TableView getView(){
     	return tableView;
     }

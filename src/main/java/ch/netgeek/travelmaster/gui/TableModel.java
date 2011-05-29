@@ -56,6 +56,14 @@ public class TableModel extends AbstractTableModel {
 	  */
 	 @Override
 	 public Object getValueAt(int rowIndex, int columnIndex) {
+		 
+	     /* 
+	      * If the stopover list has no entries, give back a message which says 
+	      * that there is no data.
+	      */
+	     if (connectionResult.isEmpty()) {
+	         return " ";
+	     }
 	 	        
 	     /*
 	      * Depending on the rowIndex and the columnIndex, the correct data is

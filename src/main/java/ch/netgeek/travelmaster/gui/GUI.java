@@ -50,6 +50,8 @@ public class GUI {
         this.controller = controller;
         view = controller.getView();
         connectionTable = view.getTable();
+        connectionTable.setVisible(true);
+        connectionTable.setRowSelectionInterval(0, 0);
         this.stopoverList = new ArrayList<Stopover>();
 
         // creates the frame
@@ -310,8 +312,11 @@ public class GUI {
         
         // adds the the table to the tablePanel
         JPanel tablePanel = new JPanel();
+        JScrollPane tablePane = new JScrollPane(connectionTable);
         tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        tablePanel.add(connectionTable.getTableHeader());
+        tablePanel.add(tablePane);
+//        tablePanel.add(connectionTable.getTableHeader());
+//        tablePanel.add(connectionTable);
         
         // adds the the tablePanel to the outputPanel
         outputPanel.add(tablePanel);
