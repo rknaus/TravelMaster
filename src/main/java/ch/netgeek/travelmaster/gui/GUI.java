@@ -233,10 +233,10 @@ public class GUI {
         JPanel fromPanel = new JPanel();
         fromPanel.setLayout(ioLabelLayout);
         JLabel fromLabel = new JLabel(" From:");
-        fromLabel.setPreferredSize(new Dimension(60, 10));
+        fromLabel.setPreferredSize(new Dimension(50, 10));
         fromLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         fromLabel.setFont(font);
-        fromTextField = new JTextField("Enter a place of departure", 28);
+        fromTextField = new JTextField("Enter the place of departure", 29);
         fromTextField.setFont(font);
         fromTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         fromPanel.add(fromLabel);
@@ -248,9 +248,9 @@ public class GUI {
         toPanel.setLayout(ioLabelLayout);
         JLabel toLabel = new JLabel(" To:");
         toLabel.setFont(font);
-        toLabel.setPreferredSize(new Dimension(60, 10));
+        toLabel.setPreferredSize(new Dimension(50, 10));
         toLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        toTextField = new JTextField("Enter a destination", 28);
+        toTextField = new JTextField("Enter the destination", 29);
         toTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         toTextField.setFont(font);
         toPanel.add(toLabel);
@@ -262,9 +262,9 @@ public class GUI {
         timePanel.setLayout(ioLabelLayout);
         JLabel timeLabel = new JLabel(" Time:");
         timeLabel.setFont(font);
-        timeLabel.setPreferredSize(new Dimension(60, 15));
+        timeLabel.setPreferredSize(new Dimension(50, 10));
         timeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        timeTextField = new JTextField("Enter the departure time 'hh:mm'", 28);
+        timeTextField = new JTextField("Enter the departure time 'hh:mm'", 29);
         timeTextField.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         timeTextField.setFont(font);
         timePanel.add(timeLabel);
@@ -297,13 +297,13 @@ public class GUI {
     private class ClearActionListener implements ActionListener {
 
         /**
-         * Performed action when pressing the exit menu item.
+         * Clears the search fields
          */
         @Override
         public void actionPerformed(ActionEvent e) {
         	if(e.getSource() == clearButton){
-        		fromTextField.setText("Enter a place of departure");
-        		toTextField.setText("Enter a destination");
+        		fromTextField.setText("Enter the place of departure");
+        		toTextField.setText("Enter the destination");
         		timeTextField.setText("Enter the departure time 'hh:mm'");
         	}
     	}
