@@ -320,8 +320,15 @@ public class GUI {
     	@Override
     	public void actionPerformed(ActionEvent e) {
     		if(e.getSource() == searchButton){
-    			if(fromTextField.getText().contains("Enter the place of departure")){
-    				JOptionPane.showMessageDialog(null, "Please enter the place of departure", "Ooops, something's missing!", JOptionPane.ERROR_MESSAGE);
+    			if(fromTextField.getText().contains("Enter the place of departure") || 
+    					fromTextField.getText().isEmpty() || toTextField.getText().contains("Enter the destination") || 
+    					toTextField.getText().isEmpty() || timeTextField.getText().contains("Enter the departure time 'hh:mm'") || 
+    					timeTextField.getText().isEmpty()){
+    				JOptionPane.showMessageDialog(null, "All fields are required!", "Ooops, something's missing!", 
+    						JOptionPane.ERROR_MESSAGE);
+    				fromTextField.setText("Enter the place of departure");
+            		toTextField.setText("Enter the destination");
+            		timeTextField.setText("Enter the departure time 'hh:mm'");
     			}
     		}
     	}
