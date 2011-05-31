@@ -31,6 +31,7 @@ public class GUI {
     private TableView view;
     private TableController controller;
     private ArrayList<Stopover> stopoverList;
+    private Stopover stopover;
 
     // GUI variables declaration
     private JFrame frame;
@@ -41,6 +42,7 @@ public class GUI {
     private JTextField timeTextField;
     private JTextField toTextField;
     private JButton clearButton;
+    private JButton searchButton;
 
     /**
      * Initializes the GUI.
@@ -279,9 +281,10 @@ public class GUI {
         // adds a search and a clear button to the input panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(ioLabelLayout);
-        JButton searchButton = new JButton("Search");
+        searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(90, 25));
         searchButton.setBackground(Color.LIGHT_GRAY);
+        searchButton.addActionListener(new SearchActionListener());
         clearButton = new JButton("Clear");
         clearButton.setPreferredSize(new Dimension(90, 25));
         clearButton.setBackground(Color.LIGHT_GRAY);
@@ -306,6 +309,21 @@ public class GUI {
         		toTextField.setText("Enter the destination");
         		timeTextField.setText("Enter the departure time 'hh:mm'");
         	}
+    	}
+    }
+    
+    private class SearchActionListener implements ActionListener {
+    	
+    	/**
+    	 * search button
+    	 */
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		if(e.getSource() == searchButton){
+    			if(fromTextField.getText().contains("Enter the place of departure")){
+    				JOptionPane.showMessageDialog(null, "Please enter the place of departure", "Ooops, something's missing!", JOptionPane.ERROR_MESSAGE);
+    			}
+    		}
     	}
     }
 
