@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.algorithm.Stopover;
+import ch.netgeek.travelmaster.route.Station;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
 import java.awt.*;
@@ -320,16 +321,47 @@ public class GUI {
     	@Override
     	public void actionPerformed(ActionEvent e) {
     		if(e.getSource() == searchButton){
-    			if(fromTextField.getText().contains("Enter the place of departure") || 
-    					fromTextField.getText().isEmpty() || toTextField.getText().contains("Enter the destination") || 
-    					toTextField.getText().isEmpty() || timeTextField.getText().contains("Enter the departure time 'hh:mm'") || 
-    					timeTextField.getText().isEmpty()){
-    				JOptionPane.showMessageDialog(null, "All fields are required!", "Ooops, something's missing!", 
+    			System.out.println(fromTextField.getText().equalsIgnoreCase(fromTextField.getText()));
+    			if(fromTextField.getText().contains("Enter the place of departure") || fromTextField.getText().isEmpty()){
+    				JOptionPane.showMessageDialog(null, "Please enter the place of the departure!", "Ooops, something's missing!", 
     						JOptionPane.ERROR_MESSAGE);
     				fromTextField.setText("Enter the place of departure");
+    			}
+    			else if(toTextField.getText().contains("Enter the destination") || toTextField.getText().isEmpty()){
+    				JOptionPane.showMessageDialog(null, "Please enter the destination!", "Ooops, something's missing!", 
+    						JOptionPane.ERROR_MESSAGE);
             		toTextField.setText("Enter the destination");
+    			}
+    			else if(timeTextField.getText().contains("Enter the departure time 'hh:mm'") || timeTextField.getText().isEmpty()){
+    				JOptionPane.showMessageDialog(null, "Please enter the time of departure!", "Ooops, something's missing!", 
+    						JOptionPane.ERROR_MESSAGE);
             		timeTextField.setText("Enter the departure time 'hh:mm'");
     			}
+    		else{
+    			if(fromTextField.getText().contains(toTextField.getText()) || toTextField.getText().contains(fromTextField.getText())){
+    				JOptionPane.showMessageDialog(null, "The place of departure and the destination can not be the same!", "Input error", JOptionPane.ERROR_MESSAGE);
+    				fromTextField.setText("Please enter the place of departure");
+    				toTextField.setText("Please enter the destination");
+    			}
+    			if(transportNetwork.getStation(fromTextField.getText()) == null){
+    				System.out.println(transportNetwork.getStation(fromTextField.getText()));
+    				JOptionPane.showMessageDialog(null, "The place of departure is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
+    				fromTextField.setText("Please enter a valid station");
+    			}
+    			else if(transportNetwork.getStation(toTextField.getText()) == null){
+    			
+    				JOptionPane.showMessageDialog(null, "The destination is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
+    				fromTextField.setText("Please enter a valid station");
+    			}
+    			else {
+    				JOptionPane.showMessageDialog(null, "from " + fromTextField.getText() + " to " + toTextField.getText() + " at " + timeTextField.getText() + "!", "Inputs", JOptionPane.INFORMATION_MESSAGE);
+    			}
+//    			else if(!timeTextField.getText().contains(transportNetwork.getStation(timeTextField.getText()).getName())){
+//    			
+//    				JOptionPane.showMessageDialog(null, "Departure time is not valid", "Invalid time format", JOptionPane.ERROR_MESSAGE);
+//    				fromTextField.setText("Please enter a valid time format");
+//    			}
+    		}
     		}
     	}
     }
