@@ -321,7 +321,6 @@ public class GUI {
     	@Override
     	public void actionPerformed(ActionEvent e) {
     		if(e.getSource() == searchButton){
-    			System.out.println(fromTextField.getText().equalsIgnoreCase(fromTextField.getText()));
     			if(fromTextField.getText().contains("Enter the place of departure") || fromTextField.getText().isEmpty()){
     				JOptionPane.showMessageDialog(null, "Please enter the place of the departure!", "Ooops, something's missing!", 
     						JOptionPane.ERROR_MESSAGE);
@@ -343,13 +342,11 @@ public class GUI {
     				fromTextField.setText("Please enter the place of departure");
     				toTextField.setText("Please enter the destination");
     			}
-    			if(transportNetwork.getStation(fromTextField.getText()) == null){
-    				System.out.println(transportNetwork.getStation(fromTextField.getText()));
+    			else if(transportNetwork.getStation(fromTextField.getText()) == null){
     				JOptionPane.showMessageDialog(null, "The place of departure is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
     				fromTextField.setText("Please enter a valid station");
     			}
     			else if(transportNetwork.getStation(toTextField.getText()) == null){
-    			
     				JOptionPane.showMessageDialog(null, "The destination is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
     				fromTextField.setText("Please enter a valid station");
     			}
