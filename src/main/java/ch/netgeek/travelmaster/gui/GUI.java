@@ -131,7 +131,11 @@ public class GUI {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Add popup window here
+            JOptionPane.showMessageDialog(null, "<html><body><p>TravelMaster</p><br><p>" +
+                    "Version 1.0.0" + "<br>Software Project 2, 2011</p><br>" +
+                    "<p>Founders:<br>Ruben Knaus & Dieu Van</p><p>Hochschule für Technik Zurich (HSZ-T), i09c</p>" +
+                    "<br><p>(c) Copyright TravelMaster contributors and founders 2011. All rights reserved.</p><br>" +
+                    "</body></html>", "About TravelMaster", JOptionPane.INFORMATION_MESSAGE);
 
         }
     }
@@ -337,7 +341,7 @@ public class GUI {
             		timeTextField.setText("Enter the departure time 'hh:mm'");
     			}
     		else{
-    			if(fromTextField.getText().contains(toTextField.getText()) || toTextField.getText().contains(fromTextField.getText())){
+    			if(fromTextField.getText().equalsIgnoreCase(toTextField.getText()) || toTextField.getText().equalsIgnoreCase(fromTextField.getText())){
     				JOptionPane.showMessageDialog(null, "The place of departure and the destination can not be the same!", "Input error", JOptionPane.ERROR_MESSAGE);
     				fromTextField.setText("Please enter the place of departure");
     				toTextField.setText("Please enter the destination");
