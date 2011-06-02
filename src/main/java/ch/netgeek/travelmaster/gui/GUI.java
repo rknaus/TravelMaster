@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.algorithm.Stopover;
+import ch.netgeek.travelmaster.route.Connection;
+import ch.netgeek.travelmaster.route.DepartureItem;
 import ch.netgeek.travelmaster.route.Station;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
@@ -39,6 +41,9 @@ public class GUI {
     private JPanel bannerPanel;
     private JPanel ioPanel;
     private MapPanel mapPanel;
+    private JComboBox fromComboBox;
+    private JComboBox toComboBox;
+    private JButton showButton;
     private JTextField fromTextField;
     private JTextField timeTextField;
     private JTextField toTextField;
@@ -131,11 +136,14 @@ public class GUI {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "<html><body><p>TravelMaster</p><br><p>" +
+            JOptionPane.showMessageDialog(null,
+                    "<html><body><p>TravelMaster</p><br><p>" +
                     "Version 1.0.0" + "<br>Software Project 2, 2011</p><br>" +
-                    "<p>Founders:<br>Ruben Knaus & Dieu Van</p><p>Hochschule für Technik Zurich (HSZ-T), i09c</p>" +
-                    "<br><p>(c) Copyright TravelMaster contributors and founders 2011. All rights reserved.</p><br>" +
-                    "</body></html>", "About TravelMaster", JOptionPane.INFORMATION_MESSAGE);
+                    "<p>Founders:<br>Ruben Knaus & Dieu Van</p><p>Hochschule " +
+                    "für Technik Zurich (HSZ-T), i09c</p><br><p>(c) Copyright" +
+                    " TravelMaster contributors and founders 2011. All rights" +
+                    " reserved.</p><br></body></html>", "About TravelMaster", 
+                    JOptionPane.INFORMATION_MESSAGE);
 
         }
     }
@@ -196,22 +204,149 @@ public class GUI {
         ioPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         ioPanel.setAlignmentY(JPanel.TOP_ALIGNMENT);
 
-        // creates the input panels and adds it to the input/output panel
+        // creates the departures panel and adds it to the input/output panel
+        createDeparturesPanel();
+        
+        // creates the input panel and adds it to the input/output panel
         createInputPanel();
 
-        // creates the input panels and adds it to the input/output panel
+        // creates the input panel and adds it to the input/output panel
         createOutputPanel();
 
         // adds the IO Panel to the frame
         frame.getContentPane().add(BorderLayout.WEST, ioPanel);
         
     }
+    
+    /**
+     * Creates a departures panel at the top of the input/output panel.<br>
+     * It gives the user the possibility to display a departure list for a 
+     * source and a destination station.
+     */
+    private void createDeparturesPanel() {
+        
+        // definition for the text- and layout format
+        FlowLayout ioLabelLayout = new FlowLayout(FlowLayout.LEFT);
+        ioLabelLayout.setVgap(0);
+        Font font = new Font("arial", 0, 14);
+        
+        // creates the departures panel and sets its layout
+        JPanel departuresPanel = new JPanel();
+        departuresPanel.setLayout(new BoxLayout(departuresPanel, BoxLayout.Y_AXIS));
+        
+        // Sets the size and alignement of the departures panel
+        departuresPanel.setPreferredSize(new Dimension(440, 120));
+        departuresPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        
+        // adds a title label to the departures panel
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(ioLabelLayout);
+        JLabel titleLabel = new JLabel();
+        titleLabel.setPreferredSize(new Dimension(375, 30));
+        titleLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        titleLabel.setFont(new Font("arial", 1, 18));
+        titleLabel.setText(" Departures");
+        titlePanel.add(titleLabel);
+        departuresPanel.add(titlePanel);
+        
+        // adds a departure combo box to the departures panel
+        JPanel fromPanel = new JPanel();
+        fromPanel.setLayout(ioLabelLayout);
+        JLabel fromLabel = new JLabel(" From:");
+        fromLabel.setPreferredSize(new Dimension(50, 10));
+        fromLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        fromLabel.setFont(font);
+        fromPanel.add(fromLabel);
+        fromComboBox = new JComboBox();
+        fromComboBox.setEditable(false);
+        fromComboBox.setPreferredSize(new Dimension(350, 30));
+        fromComboBox.addActionListener(new fromComboBoxListener());
+        ArrayList<Station> stationList = transportNetwork.getStationList();
+        for (Station station : stationList) {
+            fromComboBox.addItem(station.getName());
+        }
+        fromPanel.add(fromComboBox);
+        departuresPanel.add(fromPanel);
+        
+        // adds an arrival combo box to the departures panel
+        JPanel toPanel = new JPanel();
+        toPanel.setLayout(ioLabelLayout);
+        JLabel toLabel = new JLabel(" To:");
+        toLabel.setPreferredSize(new Dimension(50, 10));
+        toLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        toLabel.setFont(font);
+        toPanel.add(toLabel);
+        toComboBox = new JComboBox();
+        toComboBox.setEditable(false);
+        toComboBox.setPreferredSize(new Dimension(350, 30));
+        setToComboBoxItems();
+        toPanel.add(toComboBox);
+        departuresPanel.add(toPanel);
+        
+        // adds a show button to the departures panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(ioLabelLayout);
+        showButton = new JButton("Show");
+        showButton.setPreferredSize(new Dimension(90, 25));
+        showButton.setBackground(Color.LIGHT_GRAY);
+        showButton.addActionListener(new ShowActionListener());
+        buttonPanel.add(showButton);
+        departuresPanel.add(buttonPanel);
+        
+        // adds the departures panel to the io panel
+        ioPanel.add(departuresPanel);
+    }
+    
+    /**
+     * Adds the Stations to the to-combo box.
+     */
+    private void setToComboBoxItems() {
+        toComboBox.removeAllItems();
+        String fromStationString = fromComboBox.getSelectedItem().toString();
+        Station fromStation = transportNetwork.getStation(fromStationString);
+        ArrayList<Connection> connections = fromStation.getConncections();
+        for (Connection connection : connections) {
+            Station toStation = connection.getNeighborStation(fromStation);
+            toComboBox.addItem(toStation.getName());
+        }
+    }
+    
+    private class fromComboBoxListener implements ActionListener {
+
+        /**
+         * Adds other stations to the to-combo box.
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (toComboBox != null) {
+                setToComboBoxItems();
+            }
+        }
+    }
+    
+    private class ShowActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ArrayList<DepartureItem> departureItems = 
+                transportNetwork.getDepartures(
+                        fromComboBox.getSelectedItem().toString(), 
+                        toComboBox.getSelectedItem().toString());
+            new DepartureWindow(fromComboBox.getSelectedItem().toString(), 
+                    toComboBox.getSelectedItem().toString(), departureItems);
+            for (DepartureItem item : departureItems) {
+                System.out.println(item.getHour() + ":" + item.getMinute() + 
+                        ", Line " + item.getLine());
+            }
+        }
+    }
 
     /**
-     * Creates an input panel at the top of the input/output panel.<br>
+     * Creates an input panel in the middle of the input/output panel.<br>
      * It contains the form fields for the time table calculation.
      */
     private void createInputPanel() {
+        
         // definition for the text- and layout format
         FlowLayout ioLabelLayout = new FlowLayout(FlowLayout.LEFT);
         ioLabelLayout.setVgap(0);
@@ -222,7 +357,7 @@ public class GUI {
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 
         // Sets the size and alignement of the input panel
-        inputPanel.setPreferredSize(new Dimension(440, 300));
+        inputPanel.setPreferredSize(new Dimension(440, 180));
         inputPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 
         // adds a title label to the input panel
@@ -277,11 +412,6 @@ public class GUI {
         timePanel.add(timeLabel);
         timePanel.add(timeTextField);
         inputPanel.add(timePanel);
-
-        // adds a blank label to force a line break in the input panel
-        JLabel blankLabel = new JLabel();
-        blankLabel.setPreferredSize(new Dimension(280, 10));
-        inputPanel.add(blankLabel);
 
         // adds a search and a clear button to the input panel
         JPanel buttonPanel = new JPanel();

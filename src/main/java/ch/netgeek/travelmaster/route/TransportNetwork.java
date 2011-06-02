@@ -281,4 +281,65 @@ public class TransportNetwork {
     public ArrayList<Line> getLines() {
         return lines;
     }
+    
+    /**
+     * Returns a departure list of a station to be displayed in the gui.
+     * 
+     * @param sourceName        The source station name
+     * @param destinationName   The destination station name
+     * @return                  The list of departure items
+     */
+    public ArrayList<DepartureItem> getDepartures(String sourceName, String destinationName) {
+        Station source = getStation(sourceName);
+        Station destination = getStation(destinationName);
+        ArrayList<DepartureItem> departureItems = new ArrayList<DepartureItem>();
+        
+        // return empty departure item list if the station name doesn't exist
+        if (source == null || destination == null) {
+            return departureItems;
+        }
+        
+        Connection connection = getConnection(source, destination);
+        ArrayList<Line> lines = connection.getLines();
+        
+        // iterating over all lines to get each line's time table
+        for (Line line : lines) {
+            TimeTable timeTable = line.getTimeTable(source, destination);
+            ArrayList<Calendar> departures = timeTable.getDepartures();
+            
+            /*
+             * iterating over all departure items to insert them sorted into the
+             * departurec items list
+             */
+            for (Calendar departure : departures) {
+                int hour = departure.get(Calendar.HOUR_OF_DAY);
+                int minute = departure.get(Calendar.MINUTE);
+                DepartureItem departureItem = new DepartureItem(hour, minute, 
+                        line.getNumber());
+                
+                // if the departure items list is empty
+                if (departureItems.size() == 0) {
+                    departureItems.add(departureItem);
+                    continue;
+                }
+                boolean added = false;
+                
+                // adding the departure item to the correct position
+                for (int i = 0; i < departureItems.size(); i++) {
+                    if (departureItem.compareTo(departureItems.get(i)) <= 0) {
+                        departureItems.add(i, departureItem);
+                        added = true;
+                        break;
+                    }
+                }
+                
+                // if not added, add to the end
+                if (added == false) {
+                    departureItems.add(departureItem);
+                }
+            }
+        }
+        
+        return departureItems;
+    }
 }

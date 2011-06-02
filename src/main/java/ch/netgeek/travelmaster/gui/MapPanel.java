@@ -68,7 +68,7 @@ public class MapPanel extends JPanel {
     }
     
     /**
-     * Draws the Stations into the JPanel
+     * Draws the Stations into the JPanel.
      * 
      * @param g2                            The Graphics2D object
      */
