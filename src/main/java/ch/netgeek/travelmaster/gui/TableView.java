@@ -17,7 +17,7 @@ import javax.swing.table.TableColumn;
 public class TableView {
 	
 	// variable declaration
-	private JTable connectionTable;
+	private JTable stopoverTable;
 	private TableModel tableModel;
 	
     /**
@@ -34,19 +34,19 @@ public class TableView {
      * creates a new table for the connection result
      */    
     public void createTable(){ 
-    	connectionTable = new JTable(tableModel);
+        stopoverTable = new JTable(tableModel);
     	TableColumn cSource = 
-    		connectionTable.getColumnModel().getColumn(0);
+    	    stopoverTable.getColumnModel().getColumn(0);
     	TableColumn cDestination = 
-    		connectionTable.getColumnModel().getColumn(1);
+    	    stopoverTable.getColumnModel().getColumn(1);
     	TableColumn cLines = 
-    		connectionTable.getColumnModel().getColumn(2);
+    	    stopoverTable.getColumnModel().getColumn(2);
     	TableColumn cDeparture = 
-    		connectionTable.getColumnModel().getColumn(3);
+    	    stopoverTable.getColumnModel().getColumn(3);
     	TableColumn cArrival = 
-    		connectionTable.getColumnModel().getColumn(4);
+    	    stopoverTable.getColumnModel().getColumn(4);
     	TableColumn cDuration = 
-    		connectionTable.getColumnModel().getColumn(5);
+    	    stopoverTable.getColumnModel().getColumn(5);
     
     	// sets the titles of the columns
     	cSource.setHeaderValue("Start");
@@ -57,14 +57,14 @@ public class TableView {
     	cDuration.setHeaderValue("Duration");
     	
     	// table design (font, border, size etc.)
-    	connectionTable.setOpaque(false);
-    	connectionTable.setRowSelectionAllowed(false);
-    	connectionTable.setBackground(Color.WHITE);
-    	connectionTable.getTableHeader().setReorderingAllowed(false);
-    	connectionTable.getTableHeader().setResizingAllowed(false);
-    	connectionTable.getTableHeader().setFont(new Font("arial", 1, 12));
-        connectionTable.setFont(new Font("arial", 0, 12));
-        connectionTable.setRowHeight(25);
+    	stopoverTable.setOpaque(false);
+    	stopoverTable.setRowSelectionAllowed(false);
+    	stopoverTable.setBackground(Color.WHITE);
+    	stopoverTable.getTableHeader().setReorderingAllowed(false);
+    	stopoverTable.getTableHeader().setResizingAllowed(false);
+    	stopoverTable.getTableHeader().setFont(new Font("arial", 1, 12));
+    	stopoverTable.setFont(new Font("arial", 0, 12));
+    	stopoverTable.setRowHeight(25);
         cSource.setPreferredWidth(110);
         cDestination.setPreferredWidth(110);
         cLines.setPreferredWidth(40);
@@ -79,6 +79,6 @@ public class TableView {
      * @return      instance of the JTable object
      */
     public JTable getTable(){
-    	return connectionTable;
+    	return stopoverTable;
     }
 }

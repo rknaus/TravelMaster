@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class TableController {
 	
-    private ArrayList<Stopover> route;
+    private ArrayList<Stopover> stopoverList;
     private TableModel tableModel;
     private TableView tableView;
     
@@ -13,27 +13,18 @@ public class TableController {
      * Initializes the Table Controller
      */
     public TableController() {
-    	route = new ArrayList<Stopover>();
-    	tableModel = new TableModel(route);
+        stopoverList = new ArrayList<Stopover>();
+    	tableModel = new TableModel(stopoverList);
     	tableView = new TableView(tableModel);
     }
     
     /**
-     * Returns the current calculated route
+     * Returns the current calculated route list
      * 
      * @return                  The route as Stopover list
      */
-    public ArrayList<Stopover> getRoute() {
-        return route;
-    }
-
-    /**
-     * Sets the current calculated route
-     * 
-     * @param route             The route as Stopover list
-     */
-    public void setRoute(ArrayList<Stopover> route) {
-        this.route = route;
+    public ArrayList<Stopover> getStopoverList() {
+        return stopoverList;
     }
 
     /**

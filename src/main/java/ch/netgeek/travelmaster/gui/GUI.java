@@ -31,9 +31,8 @@ public class GUI {
     // general variables declaration
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
-    private JTable connectionTable;
+    private JTable stopoverTable;
     private TableView tableView;
-    private TableController tableController;
     private ArrayList<Stopover> stopoverList;
 
     // GUI variables declaration
@@ -62,12 +61,11 @@ public class GUI {
     public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator, TableController tableController) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
-        this.tableController = tableController;
         tableView = tableController.getView();
-        connectionTable = tableView.getTable();
-        connectionTable.setVisible(true);
-        connectionTable.setRowSelectionInterval(0, 0);
-        this.stopoverList = new ArrayList<Stopover>();
+        stopoverTable = tableView.getTable();
+        stopoverTable.setVisible(true);
+        stopoverTable.setRowSelectionInterval(0, 0);
+        stopoverList = tableController.getStopoverList();
 
         // creates the frame
         createFrame();
@@ -534,16 +532,15 @@ public class GUI {
     			}
     			
             	// if the time textfield contains no input
+    			String time = timeTextField.getText();
     			if (timeTextField.getText().contains(timeTextFieldValue) 
     			        || timeTextField.getText().isEmpty()) {
     			    errors = true;
                     errorMsgText = errorMsgText + "Please enter the departure time 'hh:mm'!\n";
     			    timeTextField.setText(timeTextFieldValue);
-    			}
     			
     			// if the time textfield contains no valid input
-    			String time = timeTextField.getText();
-    			if (time.length() != 5) {
+    			} else if (time.length() != 5) {
     			    errors = true;
                     errorMsgText = errorMsgText + "Please enter a valid departure time 'hh:mm'!\n";
                     timeTextField.setText(timeTextFieldValue);
@@ -599,9 +596,15 @@ public class GUI {
     			    int hours = Integer.parseInt(time.substring(0, 2));
                     int minutes = Integer.parseInt(time.substring(3, 5));
     			    departure.set(0, 0, 0, hours, minutes);
-    			    stopoverList = routeCalculator.calculateRoute(source, 
-    			            destination, departure);
-    			    tableController.setRoute(stopoverList);
+    			    
+    			    //TODO DELETE!
+    			    System.out.println("time: " + hours + ":" + minutes);
+    			    
+    			    stopoverList.clear();
+                    stopoverList.addAll(routeCalculator.calculateRoute(source, 
+                            destination, departure));
+    			    mapPanel.repaint();
+    			    stopoverTable.repaint();
     			}
     		}  // end of if search button
     	}  // end of function
@@ -630,7 +633,7 @@ public class GUI {
         
         // adds the the table to the tablePanel
         JPanel tablePanel = new JPanel();
-        JScrollPane tablePane = new JScrollPane(connectionTable);
+        JScrollPane tablePane = new JScrollPane(stopoverTable);
         tablePane.setPreferredSize(new Dimension(410, 285));
         tablePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         tablePanel.add(tablePane);
