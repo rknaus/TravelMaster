@@ -596,10 +596,6 @@ public class GUI {
     			    int hours = Integer.parseInt(time.substring(0, 2));
                     int minutes = Integer.parseInt(time.substring(3, 5));
     			    departure.set(0, 0, 0, hours, minutes);
-    			    
-    			    //TODO DELETE!
-    			    System.out.println("time: " + hours + ":" + minutes);
-    			    
     			    stopoverList.clear();
                     stopoverList.addAll(routeCalculator.calculateRoute(source, 
                             destination, departure));
