@@ -311,6 +311,16 @@ public class GUI {
         }
     }
     
+    /**
+     * Action listener for the from combo box.<br>
+     * When changing the selection in the from combo box to another station
+     * it automatically changes the entries in the to combo box to the 
+     * neighbors of the station in the from combo box.
+     *
+     * @author      Ruben Knaus, Dieu P. Van
+     * @version     0.1
+     *
+     */
     private class fromComboBoxListener implements ActionListener {
 
         /**
@@ -324,8 +334,21 @@ public class GUI {
         }
     }
     
+    /**
+     * Action listener for the show button.<br>
+     * When pressing the show button a new windows gets opened. It displays the
+     * departures and the line numbers from the selected station of the 'from
+     * combo box' to the selected station of the 'to combo box'.
+     *
+     * @author      Ruben Knaus, Dieu P. Van
+     * @version     0.1
+     *
+     */
     private class ShowActionListener implements ActionListener {
 
+        /**
+         * Opens a new window with departure information.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             ArrayList<DepartureItem> departureItems = 
@@ -432,6 +455,15 @@ public class GUI {
         ioPanel.add(inputPanel);
     }
     
+    /**
+     * Action listener for the clear button.<br>
+     * When pressing the clear button the from-, to- and the time-textfields
+     * get resetted to the default values.
+     *
+     * @author      Ruben Knaus, Dieu P. Van
+     * @version     0.1
+     *
+     */
     private class ClearActionListener implements ActionListener {
 
         /**
@@ -439,7 +471,7 @@ public class GUI {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-        	if(e.getSource() == clearButton){
+        	if(e.getSource() == clearButton) {
         		fromTextField.setText("Enter the place of departure");
         		toTextField.setText("Enter the destination");
         		timeTextField.setText("Enter the departure time 'hh:mm'");
@@ -447,6 +479,17 @@ public class GUI {
     	}
     }
     
+    /**
+     * Action listener for the search button.<br>
+     * When pressing the search button, the best route from one to the other
+     * station at a particular time gets calculated.<br>
+     * First the fields get validated and then the calculation gets initialized.
+     * The result gets displayed in the output panel in a table.
+     *
+     * @author      Ruben Knaus, Dieu P. Van
+     * @version     0.1
+     *
+     */
     private class SearchActionListener implements ActionListener {
     	
     	/**
@@ -454,48 +497,70 @@ public class GUI {
     	 */
     	@Override
     	public void actionPerformed(ActionEvent e) {
-    		if(e.getSource() == searchButton){
-    			if(fromTextField.getText().contains("Enter the place of departure") || fromTextField.getText().isEmpty()){
-    				JOptionPane.showMessageDialog(null, "Please enter the place of the departure!", "Ooops, something's missing!", 
+    		if(e.getSource() == searchButton) {
+    		    
+    		    // if the from textfield contains no input
+    			if(fromTextField.getText().contains("Enter the place of departure") 
+    			        || fromTextField.getText().isEmpty()) {
+    				JOptionPane.showMessageDialog(null, 
+    				        "Please enter the place of the departure!", 
+    				        "Ooops, something's missing!", 
     						JOptionPane.ERROR_MESSAGE);
     				fromTextField.setText("Enter the place of departure");
-    			}
-    			else if(toTextField.getText().contains("Enter the destination") || toTextField.getText().isEmpty()){
-    				JOptionPane.showMessageDialog(null, "Please enter the destination!", "Ooops, something's missing!", 
+    			
+    			// if the to textfield contains no input
+    			} else if(toTextField.getText().contains("Enter the destination") 
+    			        || toTextField.getText().isEmpty()) {
+    				JOptionPane.showMessageDialog(null, 
+    				        "Please enter the destination!", 
+    				        "Ooops, something's missing!", 
     						JOptionPane.ERROR_MESSAGE);
             		toTextField.setText("Enter the destination");
-    			}
-    			else if(timeTextField.getText().contains("Enter the departure time 'hh:mm'") || timeTextField.getText().isEmpty()){
-    				JOptionPane.showMessageDialog(null, "Please enter the time of departure!", "Ooops, something's missing!", 
+            		
+            	// if the time textfield contains no input
+    			} else if(timeTextField.getText().contains("Enter the departure time 'hh:mm'") 
+    			        || timeTextField.getText().isEmpty()) {
+    				JOptionPane.showMessageDialog(null, 
+    				        "Please enter the time of departure!", 
+    				        "Ooops, something's missing!", 
     						JOptionPane.ERROR_MESSAGE);
             		timeTextField.setText("Enter the departure time 'hh:mm'");
-    			}
-    		else{
-    			if(fromTextField.getText().equalsIgnoreCase(toTextField.getText()) || toTextField.getText().equalsIgnoreCase(fromTextField.getText())){
-    				JOptionPane.showMessageDialog(null, "The place of departure and the destination can not be the same!", "Input error", JOptionPane.ERROR_MESSAGE);
-    				fromTextField.setText("Please enter the place of departure");
-    				toTextField.setText("Please enter the destination");
-    			}
-    			else if(transportNetwork.getStation(fromTextField.getText()) == null){
-    				JOptionPane.showMessageDialog(null, "The place of departure is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
-    				fromTextField.setText("Please enter a valid station");
-    			}
-    			else if(transportNetwork.getStation(toTextField.getText()) == null){
-    				JOptionPane.showMessageDialog(null, "The destination is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
-    				fromTextField.setText("Please enter a valid station");
-    			}
-    			else {
-    				JOptionPane.showMessageDialog(null, "from " + fromTextField.getText() + " to " + toTextField.getText() + " at " + timeTextField.getText() + "!", "Inputs", JOptionPane.INFORMATION_MESSAGE);
-    			}
-//    			else if(!timeTextField.getText().contains(transportNetwork.getStation(timeTextField.getText()).getName())){
-//    			
-//    				JOptionPane.showMessageDialog(null, "Departure time is not valid", "Invalid time format", JOptionPane.ERROR_MESSAGE);
-//    				fromTextField.setText("Please enter a valid time format");
-//    			}
-    		}
-    		}
-    	}
-    }
+    			
+            	// if all fields contain some input
+    			} else {
+    			    
+    			    //
+    			    if(fromTextField.getText().equalsIgnoreCase(toTextField.getText()) 
+    			            || toTextField.getText().equalsIgnoreCase(fromTextField.getText())) {
+    			        JOptionPane.showMessageDialog(null, 
+    			                "The place of departure and the destination can not be the same!", 
+    			                "Input error", JOptionPane.ERROR_MESSAGE);
+    			        fromTextField.setText("Please enter the place of departure");
+    			        toTextField.setText("Please enter the destination");
+    			    
+    			    //
+    			    } else if(transportNetwork.getStation(fromTextField.getText()) == null) {
+    			        JOptionPane.showMessageDialog(null, "The place of departure is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
+    			        fromTextField.setText("Please enter a valid station");
+    			        
+    			    //
+    			    } else if(transportNetwork.getStation(toTextField.getText()) == null){
+    			        JOptionPane.showMessageDialog(null, "The destination is not valid", "Station not found", JOptionPane.ERROR_MESSAGE);
+    			        fromTextField.setText("Please enter a valid station");
+    			        
+    			    
+    			    } else {
+    			        JOptionPane.showMessageDialog(null, "from " + fromTextField.getText() + " to " + toTextField.getText() + " at " + timeTextField.getText() + "!", "Inputs", JOptionPane.INFORMATION_MESSAGE);
+    			    }
+    			    //    			else if(!timeTextField.getText().contains(transportNetwork.getStation(timeTextField.getText()).getName())){
+    			    //    			
+    			    //    				JOptionPane.showMessageDialog(null, "Departure time is not valid", "Invalid time format", JOptionPane.ERROR_MESSAGE);
+    			    //    				fromTextField.setText("Please enter a valid time format");
+    			    //    			}
+    			}  // end of if (further field validation checks)
+    		}  // end of if empty fields or not
+    	}  // end of if (search button)
+    } // end of function
 
     /**
      * Creates an output panel at the bottom of the input/output panel.<br>

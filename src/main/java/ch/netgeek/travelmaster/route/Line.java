@@ -100,5 +100,4 @@ public class Line {
     public TimeTable getTimeTable(Station source, Station destination) {
         return timeTables.get(Arrays.asList(source, destination));
     }
-    
 }
