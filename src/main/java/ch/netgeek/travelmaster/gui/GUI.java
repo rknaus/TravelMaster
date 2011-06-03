@@ -32,8 +32,8 @@ public class GUI {
     private TransportNetwork transportNetwork;
     private RouteCalculator routeCalculator;
     private JTable connectionTable;
-    private TableView view;
-    private TableController controller;
+    private TableView tableView;
+    private TableController tableController;
     private ArrayList<Stopover> stopoverList;
 
     // GUI variables declaration
@@ -59,12 +59,12 @@ public class GUI {
      * @param transportNetwork      The transport network
      * @param routeCalculator       The route calculator
      */
-    public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator, TableController controller) {
+    public GUI(TransportNetwork transportNetwork, RouteCalculator routeCalculator, TableController tableController) {
         this.transportNetwork = transportNetwork;
         this.routeCalculator = routeCalculator;
-        this.controller = controller;
-        view = controller.getView();
-        connectionTable = view.getTable();
+        this.tableController = tableController;
+        tableView = tableController.getView();
+        connectionTable = tableView.getTable();
         connectionTable.setVisible(true);
         connectionTable.setRowSelectionInterval(0, 0);
         this.stopoverList = new ArrayList<Stopover>();
@@ -360,10 +360,6 @@ public class GUI {
                         toComboBox.getSelectedItem().toString());
             new DepartureWindow(fromComboBox.getSelectedItem().toString(), 
                     toComboBox.getSelectedItem().toString(), departureItems);
-            for (DepartureItem item : departureItems) {
-                System.out.println(item.getHour() + ":" + item.getMinute() + 
-                        ", Line " + item.getLine());
-            }
         }
     }
 
@@ -568,8 +564,6 @@ public class GUI {
     			    if (timeError == false) {
     			        int hours = Integer.parseInt(time.substring(0, 2));
     			        int minutes = Integer.parseInt(time.substring(3, 5));
-    			        System.out.println(hours);
-    			        System.out.println(minutes);
     			        if (hours >= 24 || minutes >= 60) {
     			            timeError = true;
     			        }
@@ -599,16 +593,15 @@ public class GUI {
     			
     			// if all inputs are valid, search for the best connection
     			} else {
-    			    Station source = transportNetwork.getStation(fromTextFieldValue);
-    			    Station destination = transportNetwork.getStation(toTextFieldValue);
+    			    Station source = transportNetwork.getStation(fromTextField.getText());
+    			    Station destination = transportNetwork.getStation(toTextField.getText());
     			    Calendar departure = Calendar.getInstance();
     			    int hours = Integer.parseInt(time.substring(0, 2));
                     int minutes = Integer.parseInt(time.substring(3, 5));
     			    departure.set(0, 0, 0, hours, minutes);
     			    stopoverList = routeCalculator.calculateRoute(source, 
     			            destination, departure);
-    			    
-    			    JOptionPane.showMessageDialog(null, "from " + fromTextField.getText() + " to " + toTextField.getText() + " at " + timeTextField.getText() + "!", "Inputs", JOptionPane.INFORMATION_MESSAGE);
+    			    tableController.setRoute(stopoverList);
     			}
     		}  // end of if search button
     	}  // end of function

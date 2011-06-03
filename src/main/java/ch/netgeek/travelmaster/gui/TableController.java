@@ -5,25 +5,42 @@ import java.util.ArrayList;
 
 public class TableController {
 	
-    private ArrayList<Stopover> connectionResult;
+    private ArrayList<Stopover> route;
     private TableModel tableModel;
     private TableView tableView;
     
-    public TableController(ArrayList<Stopover> connectionResult){
-    	this.connectionResult = connectionResult;
-    	tableModel = new TableModel(connectionResult);
+    /**
+     * Initializes the Table Controller
+     */
+    public TableController() {
+    	route = new ArrayList<Stopover>();
+    	tableModel = new TableModel(route);
     	tableView = new TableView(tableModel);
     }
     
     /**
-     * To get the current the list of the connection result
+     * Returns the current calculated route
      * 
-     * @return connectionResult    the arraylist with its result.
+     * @return                  The route as Stopover list
      */
-    public ArrayList<Stopover> getConnectionResult() {
-        return connectionResult;
+    public ArrayList<Stopover> getRoute() {
+        return route;
     }
-    
+
+    /**
+     * Sets the current calculated route
+     * 
+     * @param route             The route as Stopover list
+     */
+    public void setRoute(ArrayList<Stopover> route) {
+        this.route = route;
+    }
+
+    /**
+     * Returns the table view object
+     * 
+     * @return                  The table view
+     */
     public TableView getView(){
     	return tableView;
     }

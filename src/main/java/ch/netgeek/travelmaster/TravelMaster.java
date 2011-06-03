@@ -1,12 +1,9 @@
 package ch.netgeek.travelmaster;
 
-import java.util.ArrayList;
-
 import ch.netgeek.travelmaster.algorithm.RouteCalculator;
 import ch.netgeek.travelmaster.gui.GUI;
 import ch.netgeek.travelmaster.io.XMLReader;
 import ch.netgeek.travelmaster.route.TransportNetwork;
-import ch.netgeek.travelmaster.algorithm.Stopover;
 import ch.netgeek.travelmaster.gui.TableController;
 
 /**
@@ -39,8 +36,8 @@ public class TravelMaster {
     	// initializes the route calculator
     	RouteCalculator routeCalculator = new RouteCalculator(transportNetwork);
     	
-    	ArrayList<Stopover> connectionResult = new ArrayList<Stopover>();
-    	TableController controller = new TableController(connectionResult);
+    	// initializes the table controller which displays the time table in the GUI
+    	TableController controller = new TableController();
     	
     	// initializes the GUI
     	new GUI(transportNetwork, routeCalculator, controller);
