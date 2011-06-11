@@ -12,24 +12,22 @@ import org.jdom.input.SAXBuilder;
 import ch.netgeek.travelmaster.route.Station;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
-
 /**
  * This class reads an existed xml-file to add all stations and connections<br>
  * to the list.
  *
  * @author      Ruben Knaus, Dieu P. Van
- * @version     1.0, 19.04.2011
- *
+ * @version     1.0
  */
 public class XMLReader {
 
-    // variables
+    // variable declaration
     private File stationsFile;
     private File connectionsFile;
     private File linesFile;
     private TransportNetwork transportNetwork;
 
-    // Elements in XML files
+    // XML element variable declaration
     private final String stationTag;
     private final String nameTag;
     private final String xPosTag;
@@ -48,19 +46,24 @@ public class XMLReader {
 
     /**
      * Initializes the XMLReader object. It requires the filename (and path) of 
-     * the three following XML files:
+     * the XML files with the information about the transport network and it
+     * requires the transport network object.
      * 
      * @param stationsFileName          the filename (and path) for the stations
      * @param connectionsFileName       the filename (and path) for the connections
      * @param linesFileName             the filename (and path) for the lines
+     * @param transportNetwork          the transport network object
      */
     public XMLReader(String stationsFileName, String connectionsFileName,
             String linesFileName, TransportNetwork transportNetwork) {
+        
+        // saving the parameters in local variables
         stationsFile = new File(stationsFileName);
         connectionsFile = new File(connectionsFileName);
         linesFile = new File(linesFileName);
         this.transportNetwork = transportNetwork;
-        
+
+        // setting the values for the XML elements
         stationTag = "station";
         nameTag = "name";
         xPosTag = "xpos";
@@ -77,123 +80,116 @@ public class XMLReader {
         departuresLastStationTag = "departuresLastStation";
         departureTag = "departure";
     }
-    
+
     /**
-     * This method opens the xml file and puts all stations to the <br>
-     * list
+     * This method opens the stations XML file, puts all stations to a list and 
+     * returns it.
      * 
-     * @return stations     returns a list of all stations
+     * @return stations                 a list of all stations
      */
     public ArrayList<StationData> readStation() {
         ArrayList<StationData> stations = new ArrayList<StationData>();
         Element root;
         try {
-            
-            // Create document from file and get the root element
+
+            // create a document of the file and gets the root element
             SAXBuilder builder = new SAXBuilder();
             Document doc = builder.build(stationsFile);
             root = doc.getRootElement();
         } catch (Exception e) {
-            
-            // Return an empty array list in case of an exception
+
+            // returns an empty array list in case of an exception
             return new ArrayList<StationData>();
         }
-        
-        // Iterating over the xml <station> elements
+
+        // iterating over the xml <station> elements
         Iterator<?> lineIterator = root.getChildren(stationTag).iterator();
         while (lineIterator.hasNext()) {
             Element lineElement = (Element) lineIterator.next();
-            
-            // Getting the station name
+
+            // getting the station name, x coordinate and y coordinate
             String name = lineElement.getChildText(nameTag);
-            
-            // Getting the xPos
             int xPos = Integer.parseInt(lineElement.getChildText(xPosTag));
-            
-            // Getting the xPos
             int yPos = Integer.parseInt(lineElement.getChildText(yPosTag));
-            
-            // Adding the values as StationData object to the array list
+
+            // adding the values as StationData object to the array list
             stations.add(new StationData(name, xPos, yPos));		
         }
         return stations;
     }
 
     /**
-     * This method opens the xml file and puts all connections to the <br>
-     * list
+     * This method opens the connections XML file, puts all connections to a 
+     * list and returns it.
      * 
-     * @return connections  returns a list of all connections
+     * @return                          a list of all connections
      */
     public ArrayList<ConnectionData> readConnection() {
         ArrayList<ConnectionData> connections = new ArrayList<ConnectionData>();
         Element root;
         try {
-            
-            // Create document from file and get the root element
+
+            // creates a document of the file and gets the root element
             SAXBuilder builder = new SAXBuilder();
             Document doc = builder.build(connectionsFile);
             root = doc.getRootElement();
         } catch (Exception e) {
-            
-            // Return an empty array list in case of an exception
+
+            // returns an empty array list in case of an exception
             return connections;
         }
-        
-        // Iterating over the xml <line> elements
+
+        // iterating over the xml <line> elements
         Iterator<?> lineIterator = root.getChildren(connectionTag).iterator();
         while (lineIterator.hasNext()) {
             Element lineElement = (Element) lineIterator.next();
-            
-            // Getting the station A name
+
+            /*
+             * getting the station A name, the station B name and the duration 
+             * between station A and B
+             */
             String stationA = lineElement.getChildText(stationATag);
-            
-            // Getting the station B name
             String stationB = lineElement.getChildText(stationBTag);
-            
-            // Getting the duration between station A and B
             int duration = Integer.parseInt(lineElement.getChildText(durationTag));
-            
-            // Adding the values as ConnectionData object to the array list
+
+            // adding the values as ConnectionData object to the array list
             connections.add(new ConnectionData(stationA, stationB, duration));
         }
         return connections;
     }
-    
+
     /**
-     * This method opens the xml file and puts all lines to the <br>
-     * list
+     * This method opens the lines XML file, puts all lines to a list and 
+     * returns it.
      * 
-     * @return lines        returns a list of all lines
+     * @return                          a list of all lines
      */
     public ArrayList<LineData> readLine() {
         ArrayList<LineData> lines = new ArrayList<LineData>();
         Element root;
         try {
-            
-            // Create document from file and get the root element
+
+            // Creates document of the file and gets the root element
             SAXBuilder builder = new SAXBuilder();
             Document doc = builder.build(linesFile);
             root = doc.getRootElement();
         } catch (Exception e) {
-            
-            // Return an empty array list in case of an exception
+
+            // returns an empty array list in case of an exception
             return lines;
         }
-        
-        // Iterating over the xml <line> elements
+
+        // iterating over the xml <line> elements
         Iterator<?> lineIterator = root.getChildren(lineTag).iterator();
         while (lineIterator.hasNext()) {
             Element lineElement = (Element) lineIterator.next();
-            
-            // Getting the line number
-            int number = Integer.parseInt(lineElement.getChildText(numberTag));
 
-            // Getting the line type
+            // getting the line number and the line type
+            int number = Integer.parseInt(lineElement.getChildText(numberTag));
             String type = lineElement.getChildText(typeTag);
 
             /*
-             * Getting the stations the line serves with an interation over the
+             * getting the stations the line serves with an interation over the
              * xml <stations> tag
              */
             ArrayList<String> stations = new ArrayList<String>();
@@ -205,10 +201,10 @@ public class XMLReader {
                 String station = stationElement.getText();                
                 stations.add(station);
             }
-            
+
             /*
-             * Getting the departure times of the first station with an 
-             * iteration over the xml <departuresFirstStation> tag
+             * getting the departures of the first station with an iteration 
+             * over the xml <departuresFirstStation> tag
              */
             ArrayList<String> departuresFirstStation = new ArrayList<String>();
             Element departuresFirstStationElement = 
@@ -221,10 +217,10 @@ public class XMLReader {
                 String station = departureElement.getText();
                 departuresFirstStation.add(station);
             }
-            
+
             /*
-             * Getting the departure times of the last station with an
-             * iteration over the xml <departuresLastStation> tag
+             * getting the departures of the last station with an iteration over 
+             * the xml <departuresLastStation> tag
              */
             ArrayList<String> departuresLastStation = new ArrayList<String>();
             Element departuresLastStationElement = 
@@ -237,18 +233,18 @@ public class XMLReader {
                 String station = departureElement.getText();
                 departuresLastStation.add(station);
             }
-            
-            // Adding the values as LineData object to the array list
+
+            // adding the values as LineData object to the array list
             lines.add(new LineData(number, type, stations, 
                     departuresFirstStation, departuresLastStation));
         }
         return lines;
     }
-    
+
     /**
      * Adds stations to the TransportNetwork object.
      * 
-     * @param stations              The list with StationData objects to add
+     * @param stations                  the list with StationData objects to add
      */
     public void addStations(ArrayList<StationData> stations) {
         for (StationData stationData : stations) {
@@ -256,11 +252,11 @@ public class XMLReader {
                     stationData.getXPos(), stationData.getYPos());
         }
     }
-    
+
     /**
      * Adds connections to the TransportNetwork object.
      * 
-     * @param connections           The list with ConnectionData objects to add
+     * @param connections               the list with ConnectionData objects to add
      */
     public void addConnections(ArrayList<ConnectionData> connections) {
         for (ConnectionData connectionData : connections) {
@@ -274,17 +270,25 @@ public class XMLReader {
             }
         }
     }
-    
+
     /**
      * Adds lines to the TransportNetwork object.
      * 
-     * @param lines                 The list with LineData objects to add
+     * @param lines                     the list with LineData objects to add
      */
     public void addLines(ArrayList<LineData> lines) {
+        
+        // iterating over all line data objects
         for (LineData lineData : lines) {
             int number = lineData.getNumber();
             String type = lineData.getType();
             ArrayList<Station> stations = new ArrayList<Station>();
+            
+            /*
+             * Getting the stations of the line data object and checking if the
+             * stations exist. If not, the line doesn't get added to the
+             * transport network.
+             */
             for (String stationString : lineData.getStations()) {
                 Station station = transportNetwork.getStation(stationString);
                 if (station != null) {
@@ -293,20 +297,20 @@ public class XMLReader {
                     break;
                 }
             }
-            
-            // LineData.getLines and lines must have the same size
+
+            // lineData.getLines and lines must have the same size
             if (lineData.getStations().size() != stations.size()) {
                 continue;
             }
             ArrayList<Calendar> departuresFirstStation = new ArrayList<Calendar>();
             for (String departureString : lineData.getDeparturesFirstStation()) {
-                
-                // Departure time must be ##:## -> 5 characters long
+
+                // departure time must be ##:## -> 5 characters long
                 if (departureString.length() != 5) {
                     break;
                 }
-                
-                // Departure hour and minute must be convertable to int
+
+                // departure hour and minute must be convertable to int
                 int hour;
                 int minute;
                 try {
@@ -319,9 +323,9 @@ public class XMLReader {
                 departure.set(0, 0, 0, hour, minute);
                 departuresFirstStation.add(departure);
             }
-            
+
             /* 
-             * LineData.getDeparturesFirstStation and departuresFirstStation 
+             * lineData.getDeparturesFirstStation and departuresFirstStation 
              * must have the same size
              */
             if (lineData.getDeparturesFirstStation().size() 
@@ -330,13 +334,13 @@ public class XMLReader {
             }
             ArrayList<Calendar> departuresLastStation = new ArrayList<Calendar>();
             for (String departureString : lineData.getDeparturesLastStation()) {
-                
-                // Departure time must be ##:## -> 5 characters long
+
+                // departure time must be ##:## -> 5 characters long
                 if (departureString.length() != 5) {
                     break;
                 }
-                
-                // Departure hour and minute must be convertable to int
+
+                // departure hour and minute must be convertable to int
                 int hour;
                 int minute;
                 try {
@@ -349,7 +353,7 @@ public class XMLReader {
                 departure.set(0, 0, 0, hour, minute);
                 departuresLastStation.add(departure);
             }
-            
+
             /* 
              * LineData.getDeparturesLastStation and departuresLastStation must
              * have the same size
@@ -359,6 +363,10 @@ public class XMLReader {
                 continue;
             }
             
+            /*
+             * finally adding the line to the transport network, if all data is 
+             * valid
+             */
             transportNetwork.addLine(number, type, stations, 
                     departuresFirstStation, departuresLastStation);
         }
