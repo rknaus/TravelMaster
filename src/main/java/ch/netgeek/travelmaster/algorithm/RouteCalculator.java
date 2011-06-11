@@ -122,6 +122,8 @@ public class RouteCalculator {
             
         };
         settledStations = new HashSet<Station>();
+        
+        //TODO Add exception handling if there are no stations in the transport network!
         unsettledStations = new PriorityQueue<Station>(
                 transportNetwork.getStationList().size(), shortestTravelTimeComparator);
         shortestTravelTime = new HashMap<Station, Integer>();
