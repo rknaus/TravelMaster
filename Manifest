@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: ch.netgeek.travelmaster.TravelMaster
+Class-Path: ./ ./JDOM.JAR
+
