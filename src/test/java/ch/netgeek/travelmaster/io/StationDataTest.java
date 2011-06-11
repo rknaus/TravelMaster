@@ -9,18 +9,18 @@ import org.junit.Test;
  * JUnit test cases for the StationData class.
  * 
  * @author      Dieu P. Van, Ruben Knaus
- * @version     0.1
+ * @version     1.0
  */
 public class StationDataTest {
-    
-    // variables declaration
+
+    // variable declaration
     StationData stationData;
     String name;
     int xPos;
     int yPos;
 
     /**
-     * Sets up an example station data object
+     * Sets up an example station data object.
      */
     @Before
     public void setUpStationData() {
@@ -75,5 +75,4 @@ public class StationDataTest {
     public void testGetYPos() {
         assertTrue(yPos == stationData.getYPos());
     }
-
 }

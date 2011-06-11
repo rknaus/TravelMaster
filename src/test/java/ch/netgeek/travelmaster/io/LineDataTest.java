@@ -11,7 +11,7 @@ import org.junit.Test;
  * JUnit test cases for the LineData class.
  * 
  * @author      Dieu P. Van, Ruben Knaus
- * @version     0.1
+ * @version     1.0
  */
 public class LineDataTest {
 
@@ -33,7 +33,7 @@ public class LineDataTest {
     private String departure2LastStation;
     private String departure3LastStation;
     private String departure4LastStation;
-    
+
     /**
      * Sets up a standard line data object which can be used for the following
      * tests.
@@ -70,7 +70,7 @@ public class LineDataTest {
         lineData = new LineData(number, type, stations, departuresFirstStation, 
                 departuresLastStation);
     }
-    
+
     /**
      * Basic test which initializes a line data object.
      */
@@ -134,7 +134,7 @@ public class LineDataTest {
     }
 
     /**
-     * Getting the StationsList.
+     * Getting the stations list.
      */
     @Test
     public void testGetStations() {
@@ -142,7 +142,7 @@ public class LineDataTest {
     }
 
     /**
-     * Setting the StationsList.
+     * Setting the stations list.
      */
     @Test
     public void testSetStations() {
@@ -192,5 +192,4 @@ public class LineDataTest {
         lineData.setDeparturesLastStation(departuresLastStation);
         assertEquals(departuresLastStation, lineData.getDeparturesLastStation());
     }
-
 }

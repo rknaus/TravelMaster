@@ -1,77 +1,81 @@
 package ch.netgeek.travelmaster.io;
 
 /**
- * a setter and getter class which is required to add the information <br>
- * as an object to the ArrayList
+ * A setter and getter class which is required to add the information as an 
+ * object to the ArrayList.
  * 
  * @author 		Ruben Knaus, Dieu P. Van
- * @version 	1.0, 19.04.2011
+ * @version 	1.0
  */
 public class StationData {
 
-	//variable declaration
-	private String name;
-	private int xPos;
-	private int yPos;
-	
-	/**
-	 * @param station     the name of the station
-	 */
-	public StationData(String name, int xPos, int yPos) {
-	    setName(name);
-	    setXPos(xPos);
-	    setYPos(yPos);
-	}
+    // variable declaration
+    private String name;
+    private int xPos;
+    private int yPos;
+
+    /**
+     * Initializes the StationData object
+     * 
+     * @param name          the name of the station
+     * @param xPos          the x coordinate
+     * @param yPos          the y coordinate
+     */
+    public StationData(String name, int xPos, int yPos) {
+        setName(name);
+        setXPos(xPos);
+        setYPos(yPos);
+    }
 
     /**
      * Sets the name of the sation.
      * 
-	 * @param name         The name of the station
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+     * @param name          the name of the station
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * Sets the xPos of the station.
-	 * 
-	 * @param xPos         The xPos as integer
-	 */
+    /**
+     * Sets the x coordinate of the station.
+     * 
+     * @param xPos         the x coordinate
+     */
     private void setXPos(int xPos) {
         this.xPos = xPos;
     }
-    
+
     /**
-     * Sets the yPos of the station.
+     * Sets the y coordinate of the station.
      * 
-     * @param yPos          The yPos as integer
+     * @param yPos          the y coordinate
      */
     private void setYPos(int yPos) {
         this.yPos = yPos;
     }
-	
-	/**
-	 * Returns the name of the Station.
-	 * 
-	 * @return             The name of the station
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Returns the xPos of the station.
-	 * 
-	 * @return             The xPos as integer
-	 */
-	public int getXPos() {
-	    return xPos;
-	}
-	
-	/**
-     * Returns the yPos of the station.
+
+    /**
+     * Returns the name of the Station.
      * 
-     * @return             The yPos as integer
+     * @return              the name of the station
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the x coordinate of the station.
+     * 
+     * @return              the x coordinate
+     */
+    public int getXPos() {
+        return xPos;
+    }
+
+    /**
+     * Returns the y coordinate of the station.
+     * 
+     * @return             the y coordinate
      */
     public int getYPos() {
         return yPos;

@@ -19,7 +19,7 @@ import ch.netgeek.travelmaster.route.TransportNetwork;
  * JUnit test cases for the XMLReader class.
  * 
  * @author      Dieu P. Van, Ruben Knaus
- * @version     0.1
+ * @version     1.0
  */
 public class XMLReaderTest {
 
@@ -36,7 +36,7 @@ public class XMLReaderTest {
     private ArrayList<StationData> stationDataList;
     private ArrayList<ConnectionData> connectionDataList;
     private ArrayList<LineData> lineDataList;
-    
+
     /**
      * Sets up a standard xml reader object which can be used for the following
      * tests.
@@ -57,10 +57,13 @@ public class XMLReaderTest {
             FileWriter stationsWriter = new FileWriter(stationsFile);
             FileWriter connectionsWriter = new FileWriter(connectionsFile);
             FileWriter linewWriter = new FileWriter(linesFile);
-            BufferedWriter bufferedStationsWriter = new BufferedWriter(stationsWriter);
-            BufferedWriter bufferedConnectionsWriter = new BufferedWriter(connectionsWriter);
-            BufferedWriter bufferedLinesWriter = new BufferedWriter(linewWriter);
-            
+            BufferedWriter bufferedStationsWriter = 
+                new BufferedWriter(stationsWriter);
+            BufferedWriter bufferedConnectionsWriter = 
+                new BufferedWriter(connectionsWriter);
+            BufferedWriter bufferedLinesWriter = 
+                new BufferedWriter(linewWriter);
+
             /*
              * The example route:
              *                      Line1 08:40, 16:40
@@ -77,9 +80,10 @@ public class XMLReaderTest {
              *                        |
              *                      Line1 09:40, 17:40
              */
-            
-            // Creating an example stations xml file
-            bufferedStationsWriter.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
+
+            // creating an example stations xml file
+            bufferedStationsWriter.write("<?xml version=\"1.0\" encoding=\"ISO"
+                    + "-8859-1\"?>\n");
             bufferedStationsWriter.write("<stations>\n");
             bufferedStationsWriter.write("  <station>\n");
             bufferedStationsWriter.write("    <name>North</name>\n");
@@ -107,9 +111,10 @@ public class XMLReaderTest {
             bufferedStationsWriter.write("    <ypos>110</ypos>\n");
             bufferedStationsWriter.write("  </station>\n");
             bufferedStationsWriter.write("</stations>\n");
-            
-            // Creating an example connections xml file
-            bufferedConnectionsWriter.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
+
+            // creating an example connections xml file
+            bufferedConnectionsWriter.write("<?xml version=\"1.0\" encoding=\""
+                    + "ISO-8859-1\"?>\n");
             bufferedConnectionsWriter.write("<connections>\n");
             bufferedConnectionsWriter.write("   <connection>\n");
             bufferedConnectionsWriter.write("       <stationA>North</stationA>\n");
@@ -132,9 +137,10 @@ public class XMLReaderTest {
             bufferedConnectionsWriter.write("       <duration>20</duration>\n");
             bufferedConnectionsWriter.write("   </connection>\n");
             bufferedConnectionsWriter.write("</connections>\n");
-            
-            // Creating an example lines xml file
-            bufferedLinesWriter.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
+
+            // creating an example lines xml file
+            bufferedLinesWriter.write("<?xml version=\"1.0\" encoding=\"ISO-88"
+                    + "59-1\"?>\n");
             bufferedLinesWriter.write("<lines>\n");
             bufferedLinesWriter.write(" <line>\n");
             bufferedLinesWriter.write("     <number>1</number>\n");
@@ -169,17 +175,22 @@ public class XMLReaderTest {
             bufferedLinesWriter.write("     </departuresLastStation>\n");
             bufferedLinesWriter.write(" </line>\n");
             bufferedLinesWriter.write("</lines>\n");
-            
+
+            // closing the buffered writers
             bufferedStationsWriter.close();
             bufferedConnectionsWriter.close();
             bufferedLinesWriter.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        
+        // initializes example xml readers (with content and without)
         xmlReader = new XMLReader(stationsFileName, connectionsFileName, 
                 linesFileName, transportNetwork);
         emptyXMLReader = new XMLReader("test1.xml", "test2.xml", "test3.xml", 
                 transportNetwork);
+        
+        // adding the transport network data to the data objects
         stationDataList.add(new StationData("North", 110, 10));
         stationDataList.add(new StationData("South", 110, 210));
         stationDataList.add(new StationData("West", 10, 110));
@@ -211,10 +222,8 @@ public class XMLReaderTest {
         departuresLastStation2.add("11:00");
         lineDataList.add(new LineData(2, "Bus", stations2, 
                 departuresFirstStation2, departuresLastStation2));
-        
-        
     }
-    
+
     /**
      * Deletes the files the standard xml reader created.
      */
@@ -224,7 +233,7 @@ public class XMLReaderTest {
         connectionsFile.delete();
         linesFile.delete();
     }
-    
+
     /**
      * Basic test which initializes a XMLReader object.
      */
@@ -241,7 +250,7 @@ public class XMLReaderTest {
      */
     @Test
     public void testReadStation() {
-        
+
         // Existing XML file 
         ArrayList<StationData> xmlStationDataList = xmlReader.readStation();
         for (int i = 0; i < stationDataList.size(); i++) {
@@ -252,7 +261,7 @@ public class XMLReaderTest {
             assertEquals(stationDataList.get(i).getYPos(), 
                     xmlStationDataList.get(i).getYPos());
         }
-        
+
         // Not existing XML file
         ArrayList<StationData> emptyStationDataList = emptyXMLReader.readStation();
         assertTrue(0 == emptyStationDataList.size());
@@ -263,7 +272,7 @@ public class XMLReaderTest {
      */
     @Test
     public void testReadConnection() {
-        
+
         // Existing XML file 
         ArrayList<ConnectionData> xmlConnectionDataList = xmlReader.readConnection();
         for (int i = 0; i < connectionDataList.size(); i++) {
@@ -274,7 +283,7 @@ public class XMLReaderTest {
             assertTrue(connectionDataList.get(i).getDuration() 
                     == xmlConnectionDataList.get(i).getDuration());
         }
-        
+
         // Not existing XML file
         ArrayList<ConnectionData> emptyConnectionDataList = 
             emptyXMLReader.readConnection();
@@ -286,24 +295,24 @@ public class XMLReaderTest {
      */
     @Test
     public void testReadLine() {
-        
+
         // Existing XML file 
         ArrayList<LineData> xmlLineDataList = xmlReader.readLine();
-        
         for (int i = 0; i < lineDataList.size(); i++) {
             assertTrue(lineDataList.get(i).getNumber() 
                     == xmlLineDataList.get(i).getNumber());
             assertEquals(lineDataList.get(i).getType(), 
                     xmlLineDataList.get(i).getType());
-            
+
             // Iterating over all stations of the line
-            ArrayList<String> tmpXmlStationsList = xmlLineDataList.get(i).getStations();
+            ArrayList<String> tmpXmlStationsList = 
+                xmlLineDataList.get(i).getStations();
             ArrayList<String> tmpStationsList = lineDataList.get(i).getStations();
             for(int j = 0; j < tmpStationsList.size(); j++) {
                 assertEquals(tmpStationsList.get(j), 
                         tmpXmlStationsList.get(j));
             }
-            
+
             // Iterating over all departures of the line's first station
             ArrayList<String> tmpXmlDepFirstStationList = 
                 xmlLineDataList.get(i).getDeparturesFirstStation();
@@ -313,7 +322,7 @@ public class XMLReaderTest {
                 assertEquals(tmpDepFirstStationList.get(j), 
                         tmpXmlDepFirstStationList.get(j));
             }
-            
+
             // Iterating over all departures of the line's last station
             ArrayList<String> tmpXmlDepLastStationList = 
                 xmlLineDataList.get(i).getDeparturesLastStation();
@@ -324,14 +333,14 @@ public class XMLReaderTest {
                         tmpXmlDepLastStationList.get(j));
             }
         }
-        
+
         // Not existing XML file
         ArrayList<LineData> emptyLineDataList = emptyXMLReader.readLine();
         assertTrue(0 == emptyLineDataList.size());
     }
-    
+
     /**
-     * Adding the stations to the TransportNetwork
+     * Adding the stations to the transport network object.
      */
     @Test
     public void testAddStations() {
@@ -342,17 +351,17 @@ public class XMLReaderTest {
             assertEquals(expected, actual);
         }
     }
-    
+
     /**
-     * Adding the connections to the TransportNetwork
+     * Adding the connections to the transport network object.
      */
     @Test
     public void testAddConnections() {
-        
+
         // Without having any stations defined!
         xmlReader.addConnections(connectionDataList);
         assertTrue(0 == transportNetwork.getConnectionList().size());
-        
+
         // Having Stations defined already
         xmlReader.addStations(stationDataList);
         xmlReader.addConnections(connectionDataList);
@@ -364,25 +373,24 @@ public class XMLReaderTest {
             assertTrue(connectionDataList.get(i).getDuration() == 
                 transportNetwork.getConnection(stationA, stationB).getDuration());
         }
-        
     }
-    
+
     /**
-     * Adding the lines to the TransportNetwork
+     * Adding the lines to the transport network object.
      */
     @Test
     public void testAddLines() {
-        
+
         // Without having stations and connections defined!
         xmlReader.addLines(lineDataList);
         assertTrue(0 == transportNetwork.getLines().size());
-        
+
         // Without having connections defined!
         xmlReader.addStations(stationDataList);
         xmlReader.addLines(lineDataList);
         assertTrue(0 == transportNetwork.getLines().size());
         xmlReader.addConnections(connectionDataList);
-        
+
         // Having illegal departure times
         ArrayList<LineData> faultyLineDataList = new ArrayList<LineData>();
         ArrayList<String> stations0 = new ArrayList<String>();
@@ -411,7 +419,7 @@ public class XMLReaderTest {
                 departuresFirstStation1, departuresLastStation1));
         xmlReader.addLines(faultyLineDataList);
         assertTrue(0 == transportNetwork.getLines().size());
-        
+
         // Having correct departure times defined
         xmlReader.addLines(lineDataList);
         for (int i = 0; i < lineDataList.size(); i++) {

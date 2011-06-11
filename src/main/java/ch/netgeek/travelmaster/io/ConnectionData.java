@@ -1,68 +1,82 @@
 package ch.netgeek.travelmaster.io;
 
 /**
- * a setter and getter class which is required to add the information <br>
- * as an object to the ArrayList
+ * A setter and getter class which is required to add the connection information
+ * as an object to an array list.
  * 
  * @author 		Ruben Knaus, Dieu P. Van
- * @version 	1.0, 19.04.2011
+ * @version 	1.0
  */
 public class ConnectionData {
 
-	//variable declaration
-	private String stationA;
-	private String stationB;
-	private int duration;
-	
-	/**
-	 * @param stationA        the name of the current station
-	 * @param stationB		  the name of the destination
-	 */
-	public ConnectionData(String stationA, String stationB, int duration){
-		this.stationA = stationA;
-		this.stationB = stationB;
-		this.duration = duration;
-	}
-	
-	/**
-	 * @param stationA     sets the name of the current station
-	 */
-	public void setStationA(String stationA){
-		this.stationA = stationA;
-	}
-	
-	/**
-	 * @return stationA     gets the name of the current station
-	 */
-	public String getStationA(){
-		return stationA;
-	}
+    // variable declaration
+    private String stationA;
+    private String stationB;
+    private int duration;
 
-	/**
-	 * @param stationB     sets the name of the destination
-	 */
-	public void setStationB(String stationB){
-		this.stationB = stationB;
-	}
+    /**
+     * Initializes the Connection Data object.
+     * 
+     * @param stationA          the name of the current station
+     * @param stationB          the name of the destination
+     */
+    public ConnectionData(String stationA, String stationB, int duration) {
+        setStationA(stationA);
+        setStationB(stationB);
+        setDuration(duration);
+    }
 
-	/**
-	 * @return stationB     gets the name of the destination
-	 */
-	public String getStationB(){
-		return stationB;
-	}
-	
-	/**
-	 * @param duration     sets the journey duration between the stations
-	 */
-	public void setDuration(int duration){
-		this.duration = duration;
-	}
-	
-	/**
-	 * @return duration     gets the the journey duration between the stations
-	 */
-	public int getDuration(){
-		return duration;
-	}
+    /**
+     * Sets the name of station a.
+     * 
+     * @param stationA          the name of station a
+     */
+    public void setStationA(String stationA) {
+        this.stationA = stationA;
+    }
+
+    /**
+     * Returns the name of station a.
+     * 
+     * @return                  the name of station a
+     */
+    public String getStationA() {
+        return stationA;
+    }
+
+    /**
+     * Sets the name of station b.
+     * 
+     * @param                   the name of station b
+     */
+    public void setStationB(String stationB) {
+        this.stationB = stationB;
+    }
+
+    /**
+     * Returns the name of station b.
+     * 
+     * @return                  the name of station b
+     */
+    public String getStationB() {
+        return stationB;
+    }
+
+    /**
+     * Sets the tavel duration of the connection. 
+     * 
+     * @param duration          the travel duration
+     */
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    /**
+     * Returns the travel duration of the connection.
+     * 
+     * @return                  the travel duration
+     */
+    public int getDuration() {
+        return duration;
+    }
 }
