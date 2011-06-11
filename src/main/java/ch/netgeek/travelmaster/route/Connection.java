@@ -11,15 +11,15 @@ import java.util.ArrayList;
  */
 public class Connection {
 
-	// variables declaration
+	// variable declaration
 	private Station stationA;
 	private Station stationB;
 	private int duration;
 	private ArrayList<Line> lines;
 
 	/**
-	 * Requires two stations which should get interconnected (nodes) and a 
-	 * duration (weight of the connection in Minutes).
+	 * Requires two stations which should be interconnected (nodes) and a 
+	 * duration (weight of the connection in minutes).
 	 * 
 	 * @param stationA          The instance of station a
 	 * @param stationB          The instance of station b
