@@ -1,5 +1,10 @@
 package ch.netgeek.travelmaster.gui;
 
+import ch.netgeek.travelmaster.algorithm.Stopover;
+import ch.netgeek.travelmaster.route.Connection;
+import ch.netgeek.travelmaster.route.Line;
+import ch.netgeek.travelmaster.route.Station;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -7,24 +12,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 
-import ch.netgeek.travelmaster.algorithm.Stopover;
-import ch.netgeek.travelmaster.route.Connection;
-import ch.netgeek.travelmaster.route.Line;
-import ch.netgeek.travelmaster.route.Station;
-
 /**
- * This class paints the Transport Network Map into a JPanel
+ * This class draws the transport network map into a JPanel
  *
  * @author      Ruben Knaus, Dieu P. Van
- * @version     0.1
+ * @version     1.0
  *
  */
 public class MapPanel extends JPanel {
 
-    // variables declaration
+    // variable declaration
     private static final long serialVersionUID = -53021081188685247L;
     private int panelWidth;
     private int panelHeight;
@@ -37,8 +36,8 @@ public class MapPanel extends JPanel {
      * 
      * @param panelWidth                    The panel width
      * @param panelHeight                   The panel height
-     * @param stationList                   The stations list
-     * @param connectionList                The connections list
+     * @param stationList                   The station list
+     * @param connectionList                The connection list
      */
     public MapPanel(int panelWidth, int panelHeight, 
             ArrayList<Station> stationList,
@@ -68,14 +67,15 @@ public class MapPanel extends JPanel {
     }
     
     /**
-     * Draws the Stations into the JPanel.
+     * Draws the stations into the JPanel.
      * 
      * @param g2                            The Graphics2D object
      */
     private void paintStations(Graphics2D g2) {
         int width = 130;
         int height = 30;
-        BasicStroke stroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+        BasicStroke stroke = 
+        	new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
         g2.setStroke(stroke);
         for (Station station : stationList) {
             String name = station.getName();
@@ -95,13 +95,14 @@ public class MapPanel extends JPanel {
     }
     
     /**
-     * Draws the Connections into the JPanel
+     * Draws the connections into the JPanel
      * 
      * @param g2                            The Graphics2D object
      */
     private void paintConnections(Graphics2D g2) {
         g2.setColor(Color.BLACK);
-        BasicStroke stroke = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+        BasicStroke stroke = 
+        	new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
         g2.setStroke(stroke);
         for (Connection connection : connectionList) {
             int xA = connection.getStationA().getXPos() * (panelWidth / 100);
@@ -113,15 +114,16 @@ public class MapPanel extends JPanel {
     }
     
     /**
-     * Draws the Stopover Connections into the JPanel (the connections which are
-     * on the way of a time table / a searched route.
+     * Draws the Stopover connections into the JPanel (the connections which are
+     * on the way of a timetable / a searched route.
      * 
      * @param g2                            The Graphics2D object
      */
     private void paintStopoverConnections(Graphics2D g2) {
         if (stopoverList.size() != 0) {
             g2.setColor(Color.RED);
-            BasicStroke stroke = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+            BasicStroke stroke = 
+            	new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
             g2.setStroke(stroke);
             for (Stopover stopover : stopoverList) {
                 Connection connection = stopover.getConnection();
@@ -141,13 +143,14 @@ public class MapPanel extends JPanel {
      * @param g2                            The GraphicsD2 object
      */
     private void paintDurationAndLines(Graphics2D g2) {
-        BasicStroke stroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+        BasicStroke stroke = 
+        	new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
         g2.setStroke(stroke);
         for (Connection connection : connectionList) {
             int duration = connection.getDuration();
             ArrayList<Line> lineList = connection.getLines();
             
-            // Creating a String of all line numbers
+            // Creates a string of all line numbers
             String lines = "";
             for (Line line : lineList) {
                 if (lines.length() == 0) {
@@ -158,7 +161,7 @@ public class MapPanel extends JPanel {
             }
             
             /*
-             * Adding a text box in the middle of the connection line with the
+             * Adds a text box in the middle of the connection line with the
              * duration and line numbers
              */
             int xA = connection.getStationA().getXPos() * (panelWidth / 100);
@@ -189,7 +192,6 @@ public class MapPanel extends JPanel {
             g2.drawString(duration + " min", xFont, yFont1);
             g2.drawString("Lines:", xFont, yFont2);
             g2.drawString(lines, xFont, yFont3);
-            
         }
     }
 }
