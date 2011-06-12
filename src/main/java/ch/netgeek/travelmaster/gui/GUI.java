@@ -303,12 +303,14 @@ public class GUI {
 	 */
 	private void setToComboBoxItems() {
 		toComboBox.removeAllItems();
-		String fromStationString = fromComboBox.getSelectedItem().toString();
-		Station fromStation = transportNetwork.getStation(fromStationString);
-		ArrayList<Connection> connections = fromStation.getConncections();
-		for (Connection connection : connections) {
-			Station toStation = connection.getNeighborStation(fromStation);
-			toComboBox.addItem(toStation.getName());
+		if (fromComboBox.getSelectedItem() != null) {
+		    String fromStationString = fromComboBox.getSelectedItem().toString();
+		    Station fromStation = transportNetwork.getStation(fromStationString);
+	        ArrayList<Connection> connections = fromStation.getConncections();
+	        for (Connection connection : connections) {
+	            Station toStation = connection.getNeighborStation(fromStation);
+	            toComboBox.addItem(toStation.getName());
+	        }
 		}
 	}
 
@@ -352,12 +354,15 @@ public class GUI {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ArrayList<DepartureItem> departureItems = 
-				transportNetwork.getDepartures(
-						fromComboBox.getSelectedItem().toString(), 
-						toComboBox.getSelectedItem().toString());
-			new DepartureWindow(fromComboBox.getSelectedItem().toString(), 
-					toComboBox.getSelectedItem().toString(), departureItems);
+		    if (fromComboBox.getSelectedItem() != null && 
+		            toComboBox.getSelectedItem() != null) {
+		        ArrayList<DepartureItem> departureItems = 
+	                transportNetwork.getDepartures(
+	                        fromComboBox.getSelectedItem().toString(), 
+	                        toComboBox.getSelectedItem().toString());
+	            new DepartureWindow(fromComboBox.getSelectedItem().toString(), 
+	                    toComboBox.getSelectedItem().toString(), departureItems);
+		    }
 		}
 	}
 

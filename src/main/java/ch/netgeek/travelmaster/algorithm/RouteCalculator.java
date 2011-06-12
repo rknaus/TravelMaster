@@ -25,70 +25,71 @@ import ch.netgeek.travelmaster.route.TransportNetwork;
  *
  */
 public class RouteCalculator {
-    
-    // class variables declaration
+
+    // class variable declaration
     
     /**
-     * Represents the traveling time for all unvisited or unreachable stations.
+     * Represents the travel time for all unvisited or unreachable stations.
      */
     public static final int INFINITE_TRAVEL_TIME = Integer.MAX_VALUE;
+
+    // object variable declaration
     
-    // object variables declaration
     /**
      * The transport network with all the stations, connection, lines and time
-     * tables for each line and connection.
+     * tables for each line and connection
      */
     private TransportNetwork transportNetwork;
-    
+
     /**
-     * A chronological list from the source station to the destination station
-     * with all time table information to get displayed.
+     * A chronological list with the calculated time table from the source 
+     * station to the destination station
      */
     private ArrayList<Stopover> timeTable;
-    
+
     /**
      * Compares the travel time between two stations
      */
     private Comparator<Station> shortestTravelTimeComparator;
-    
+
     /**
      * All visited stations
      */
     private Set<Station> settledStations;
-    
+
     /**
-     * All not visited stations
+     * All unvisited stations
      */
     private PriorityQueue<Station> unsettledStations;
-    
+
     /**
-     * A map of the shortest travel time to each station
+     * A map of the shortest travel time from the source station to each station
      */
     private Map<Station, Integer> shortestTravelTime;
-    
+
     /**
-     * A map of the shortest arrival time of each station
+     * A map of the shortest arrival time from the source station at each station
      */
     private Map<List<Station>, Calendar> shortestArrivalTime;
-    
+
     /**
-     * A map of the shortest departure time of each station
+     * A map of the shortest departure time after the arrival time at each station
      */
     private Map<List<Station>, Calendar> shortestDepartureTime;
-    
+
     /**
      * The best line of a station to the next station
      */
     private Map<List<Station>, Line> bestLine;
-    
+
     /**
      * A map of the predecessor of each station
      */
     private Map<Station, Station> predecessors;
-    
+
     /**
      * Initializes the RouteCalculator object.<br>
-     * All instance objects get initialized
+     * All instance variables get initialized
      * 
      * @param transportNetwork      The instance of the transport network with
      *                              all stations.
@@ -96,12 +97,12 @@ public class RouteCalculator {
     public RouteCalculator(TransportNetwork transportNetwork) {
         this.transportNetwork = transportNetwork;
         timeTable = new ArrayList<Stopover>();
-        
+
         /*
          * This comparator compares a station with another one.
-         * If the the travelling time to station b is longer than the travelling
-         * time to the station a it returns -1, other wise it returns 1.
-         * If the travelling time is equal, then it compares the name of the
+         * If the the travel time to station B is longer than the travel time to 
+         * the station A, it returns -1, otherwise it returns 1.
+         * If the travel time is equal, then it compares the name of the
          * stations and returns either -1 or 1 too.
          * Both stations can not have the same name.
          */
@@ -119,13 +120,14 @@ public class RouteCalculator {
                     return stationA.compareTo(stationB);
                 }
             }
-            
+
         };
         settledStations = new HashSet<Station>();
-        
-        //TODO Add exception handling if there are no stations in the transport network!
-        unsettledStations = new PriorityQueue<Station>(
-                transportNetwork.getStationList().size(), shortestTravelTimeComparator);
+
+        if (transportNetwork.getStationList().size() != 0) {
+            unsettledStations = new PriorityQueue<Station>(
+                    transportNetwork.getStationList().size(), shortestTravelTimeComparator);
+        }
         shortestTravelTime = new HashMap<Station, Integer>();
         shortestArrivalTime = new HashMap<List<Station>, Calendar>();
         shortestDepartureTime = new HashMap<List<Station>, Calendar>();
@@ -144,36 +146,36 @@ public class RouteCalculator {
      */
     public ArrayList<Stopover> calculateRoute(Station source, Station destination,
             Calendar departure) {
-        
+
         // initializing the calculator
         initCalculator(source);
-        
+
         // the current station
         Station station;
-        
+
         while ((station = getNextStation()) != null) {
-            
+
             // if the destination is reached, stop here
             if (station.equals(destination)) {
                 break;
             }
-            
+
             // add station to the settled stations list
             settledStations.add(station);
-            
+
             /*
              * Compute new shortest travel time for neighbor stations and update
              * if a shorter travel time is found.
              */
             updateNeighbors(station, departure);
-            
+
         }
-        
-		return generateStopoverList(source, destination);
-	}
-    
+
+        return generateStopoverList(source, destination);
+    }
+
     private ArrayList<Stopover> generateStopoverList(Station source, Station destination) {
-        
+
         // Checking if there is a path from the destination to the start
         boolean validPath = false;
         Station tmpStation = destination;
@@ -183,12 +185,12 @@ public class RouteCalculator {
                 break;
             }
         }
-        
+
         // Return null if the stations aren't connected (directly or indirect)
         if (validPath == false) {
             return null;
         }
-        
+
         // Puts a list with all stopovers together
         ArrayList<Stopover> stopoverList = new ArrayList<Stopover>();
         Station tmpNeighbor = destination;
@@ -204,7 +206,7 @@ public class RouteCalculator {
                     connection, line, departureTime, arrivalTime, travelDuration);
             stopoverList.add(0, stopover);
             tmpNeighbor = tmpStation;
-            
+
         }
         return stopoverList;
     }
@@ -216,13 +218,13 @@ public class RouteCalculator {
      * @param station
      */
     private void updateNeighbors(Station station, Calendar departure) {
-        
+
         // Shortest travelling time to station
         int stationTravelTime = shortestTravelTime.get(station);
-        
+
         // iterating over all neighbors of the station and update the values
         for (Station neighbor : transportNetwork.getNeighborStationList(station)) {
-            
+
             // skip if the station got already settled
             if (isSettled(neighbor)) {
                 continue;
@@ -230,12 +232,12 @@ public class RouteCalculator {
 
             // Connection to the neighbor station
             Connection connection = transportNetwork.getConnection(station, neighbor);
-            
+
             // If there is no connection between the stations, go to next
             if (connection == null) {
                 continue;
             }
-            
+
             // Earliest departure time at station
             Calendar earliestDeparture = Calendar.getInstance();
             earliestDeparture.set(Calendar.HOUR_OF_DAY, departure.get(Calendar.HOUR_OF_DAY));
@@ -250,36 +252,36 @@ public class RouteCalculator {
 
             // Shortest departure time from station to neighbor
             Calendar stationDepartureTime = null;
-            
+
             /*
              * Travelling duration from arrival time at station to arrival time 
              * of neighbor.
              */
             int neighborTravelTime = Integer.MAX_VALUE;
-            
+
             // Arrival time at the neighbor station
             Calendar neighborArrivalTime = null;
-            
+
             // Line with the best connection to the neighbor
             Line line = null;
-            
+
             /*
              * Iterating over all lines between the two stations to find the
              * next departure and the line belonging to the next departure.
              */
             for (Line tmpLine : connection.getLines()) {
                 TimeTable timeTable = tmpLine.getTimeTable(station, neighbor);
-                
+
                 // Departure at station
                 Calendar tmpStationDepartureTime = timeTable.getNextDeparture(earliestDeparture);
-                
+
                 // Arrival at neighbor
                 Calendar tmpNeighborArrivalTime = Calendar.getInstance();
                 tmpNeighborArrivalTime.set(0, 0, 0, 
                         tmpStationDepartureTime.get(Calendar.HOUR_OF_DAY), 
                         tmpStationDepartureTime.get(Calendar.MINUTE));
                 tmpNeighborArrivalTime.add(Calendar.MINUTE, duration);
-                
+
                 /*
                  * Computing travelling duration from station arrival until
                  * neighbor arrival
@@ -297,7 +299,7 @@ public class RouteCalculator {
                     minutes = minutes + 60;
                 }
                 int tmpNeighborTravelTime = stationTravelTime + hours * 60 + minutes;
-                
+
                 // If a shorter travel time has been found
                 if (tmpNeighborTravelTime < neighborTravelTime) {
                     stationDepartureTime = tmpStationDepartureTime;
@@ -306,11 +308,11 @@ public class RouteCalculator {
                     line = tmpLine;
                 }
             }
-            
+
             // When found a line with a departure to the neighbor
             if (neighborTravelTime != Integer.MAX_VALUE) {
                 int shortestTravelTime = getShortestTravelTime(neighbor);
-                
+
                 // If the travel time got shorter, update the values
                 if (shortestTravelTime > neighborTravelTime) {
                     setShortestTravelTime(neighbor, neighborTravelTime);
@@ -321,7 +323,7 @@ public class RouteCalculator {
                 }
             }
         }
-        
+
     }
 
     /**
@@ -341,7 +343,7 @@ public class RouteCalculator {
         setShortestTravelTime(source, 0);
         unsettledStations.add(source);
     }
-    
+
     /**
      * Checks if a station already got settled by the dijkstra algorithm
      * 
@@ -351,7 +353,7 @@ public class RouteCalculator {
     private boolean isSettled(Station station) {
         return settledStations.contains(station);
     }
-    
+
     /**
      * Sets the shortest travel time to the appropriate value
      * 
@@ -359,16 +361,16 @@ public class RouteCalculator {
      * @param travelTime            The travel time
      */
     private void setShortestTravelTime(Station station, int travelTime) {
-        
+
         /*
          * Removing station from the unsettled Stations list, because the order
          * could be different after setting the travel time 
          */
         unsettledStations.remove(station);
-        
+
         // setting the shortest travel time
         shortestTravelTime.put(station, travelTime);
-        
+
         // Adding the station again into the unsettled stations list
         unsettledStations.add(station);
     }
@@ -387,7 +389,7 @@ public class RouteCalculator {
             return duration;
         }
     }
-    
+
     /**
      * Gets the next station to visit (with the next lowest travel time)
      * 
