@@ -7,12 +7,11 @@ import ch.netgeek.travelmaster.route.Line;
 import ch.netgeek.travelmaster.route.Station;
 
 /**
- * a setter and getter class which is required to add the information <br>
- * as an object to the ArrayList in RouteCalculator as well as information <br>
- * for the calculation of the journey
+ * A setter and getter class which is required to add the time table information 
+ * as a list of objects to an ArrayList in the RouteCalculator
  * 
  * @author 		Ruben Knaus, Dieu P. Van
- * @version 	1.0, 22.04.2011
+ * @version 	1.0
  */
 public class Stopover {
 
@@ -28,16 +27,17 @@ public class Stopover {
     /**
      * Initializes the Stopover object
      * 
-     * @param source           The source station
-     * @param destination      The destination station
-     * @param connection       The connection between source and destination
-     * @param line             The line on the connection
-     * @param departureTime    The departure time at the source
-     * @param arrivalTime      The arrival time at the destination
-     * @param travelDuration   The total travel duration
+     * @param source                the source station
+     * @param destination           the destination station
+     * @param connection            the connection between source and destination
+     * @param line                  the line on the connection
+     * @param departureTime         the departure time at the source
+     * @param arrivalTime           the arrival time at the destination
+     * @param travelDuration        the total travel duration
      */
     public Stopover(Station source, Station destination, Connection connection,
-            Line line, Calendar departureTime, Calendar arrivalTime, int travelDuration) {
+            Line line, Calendar departureTime, Calendar arrivalTime, 
+            int travelDuration) {
         setSource(source);
         setDestination(destination);
         setConnection(connection);
@@ -50,7 +50,7 @@ public class Stopover {
     /**
      * Sets the source station.
      * 
-     * @param source            The source station
+     * @param source                the source station
      */
     public void setSource(Station source) {
         this.source = source;
@@ -59,7 +59,7 @@ public class Stopover {
     /**
      * Sets the destination station.
      * 
-     * @param destination       The destination station
+     * @param destination           the destination station
      */
     public void setDestination(Station destination) {
         this.destination = destination;
@@ -68,7 +68,7 @@ public class Stopover {
     /**
      * Sets the connection between the two stations.
      * 
-     * @param connection        The connection between source and destination
+     * @param connection            the connection between source and destination
      */
     public void setConnection(Connection connection) {
         this.connection = connection;
@@ -77,7 +77,7 @@ public class Stopover {
     /**
      * Sets the line on the connection.
      * 
-     * @param line              The line on the connection
+     * @param line                  the line on the connection
      */
     public void setLine(Line line) {
         this.line = line;
@@ -86,7 +86,7 @@ public class Stopover {
     /**
      * Sets the departure time at the source.
      * 
-     * @param departureTime    The departure time at the source
+     * @param departureTime         the departure time at the source
      */
     public void setDepartureTime(Calendar departureTime) {
         this.departureTime = departureTime;
@@ -95,16 +95,16 @@ public class Stopover {
     /**
      * Sets the arrival time at the destination.
      * 
-     * @param arrivalTime     The arrival time at the destination
+     * @param arrivalTime           the arrival time at the destination
      */
     public void setArrivalTime(Calendar arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
     /**
-     * Sets the total travel duration.
+     * Sets the total travel duration in minutes.
      * 
-     * @param travelDuration   The total travel duration
+     * @param travelDuration        the total travel duration
      */
     public void setTravelDuration(int travelDuration) {
         this.travelDuration = travelDuration;
@@ -113,7 +113,7 @@ public class Stopover {
     /**
      * Returns the source station.
      * 
-     * @return                  The source station
+     * @return                      the source station
      */
     public Station getSource() {
         return source;
@@ -122,16 +122,16 @@ public class Stopover {
     /**
      * Returns the destination station.
      * 
-     * @return                  The destination station
+     * @return                      the destination station
      */
     public Station getDestinatio() {
         return destination;
     }
-    
+
     /**
      * Returns the connection between the source and the destination.
      * 
-     * @return                  The connection between source and destination
+     * @return                      the connection between source and destination
      */
     public Connection getConnection() {
         return connection;
@@ -140,7 +140,7 @@ public class Stopover {
     /**
      * Returns the line on the connection.
      * 
-     * @return                  The line on the connection
+     * @return                      the line on the connection
      */
     public Line getLine() {
         return line;
@@ -149,7 +149,7 @@ public class Stopover {
     /**
      * Returns the departure time at the source.
      * 
-     * @return                  The departure time at the source
+     * @return                      the departure time at the source
      */
     public Calendar getDepartureTime() {
         return departureTime;
@@ -158,7 +158,7 @@ public class Stopover {
     /**
      * Returns the arrival time at the destination.
      * 
-     * @return                  The arrival time at the destination
+     * @return                      the arrival time at the destination
      */
     public Calendar getArrivalTime() {
         return arrivalTime;
@@ -166,7 +166,7 @@ public class Stopover {
 
     /**
      * Returns the total travel duration.
-     * @return                  The total travel duration
+     * @return                      the total travel duration
      */
     public int getTravelDuration() {
         return travelDuration;

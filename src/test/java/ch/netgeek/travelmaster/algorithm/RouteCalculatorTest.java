@@ -13,13 +13,14 @@ import ch.netgeek.travelmaster.route.Station;
 import ch.netgeek.travelmaster.route.TransportNetwork;
 
 /**
- * JUnit test cases for the TransportNetwork class
+ * JUnit test cases for the TransportNetwork class.
  * 
  * @author      Dieu P. Van, Ruben Knaus
- * @version     0.1
+ * @version     1.0
  */
 public class RouteCalculatorTest {
 
+    // variable declaration
     private RouteCalculator routeCalculator;
     private TransportNetwork transportNetwork;
     private Station sNorth;
@@ -27,9 +28,9 @@ public class RouteCalculatorTest {
     private Station sWest;
     private Station sEast;
     private Station sCenter;
-    
+
     /**
-     * Sets up a standard Transport Network for the route calculator
+     * Sets up a standard Transport Network for the route calculator.
      */
     @Before
     public void setUpRouteCalculator() {
@@ -108,7 +109,7 @@ public class RouteCalculatorTest {
         line2DeparturesLastStation.add(line2DepLast1);
         transportNetwork.addLine(line2Number, line2Type, line2Stations, 
                 line2DeparturesFirstStation, line2DeparturesLastStation);
-        
+
         // Initializing the route calculator
         routeCalculator = new RouteCalculator(transportNetwork);
     }
@@ -122,16 +123,19 @@ public class RouteCalculatorTest {
         assertEquals(RouteCalculator.class, routeCalculator.getClass());
     }
 
+    /**
+     * Tests the time table calculation.
+     */
     @Test
     public void testCalculateRoute() {
         Calendar departure = Calendar.getInstance();
         ArrayList<Stopover> stopoverList;
         Stopover stopover;
-        
+
         // Test time table from North to West at 07:10
         departure.set(0, 0, 0, 07, 10);
         stopoverList = routeCalculator.calculateRoute(sNorth, sWest, departure);
-        
+
         // First stopover
         stopover = stopoverList.get(0);
         assertEquals(sNorth, stopover.getSource());
@@ -144,7 +148,7 @@ public class RouteCalculatorTest {
         assertTrue(1 == stopover.getLine().getNumber());
         assertTrue(5 == stopover.getConnection().getDuration());
         assertTrue(95 == stopover.getTravelDuration());
-        
+
         // Second stopover
         stopover = stopoverList.get(1);
         assertEquals(sCenter, stopover.getSource());
@@ -157,11 +161,11 @@ public class RouteCalculatorTest {
         assertTrue(2 == stopover.getLine().getNumber());
         assertTrue(15 == stopover.getConnection().getDuration());
         assertTrue(325 == stopover.getTravelDuration());
-        
+
         // Test time table from South to East at 09:40
         departure.set(0, 0, 0, 9, 40);
         stopoverList = routeCalculator.calculateRoute(sSouth, sEast, departure);
-        
+
         // First stopover
         stopover = stopoverList.get(0);
         assertEquals(sSouth, stopover.getSource());
@@ -174,7 +178,7 @@ public class RouteCalculatorTest {
         assertTrue(1 == stopover.getLine().getNumber());
         assertTrue(10 == stopover.getConnection().getDuration());
         assertTrue(10 == stopover.getTravelDuration());
-        
+
         // Second stopover
         stopover = stopoverList.get(1);
         assertEquals(sCenter, stopover.getSource());
@@ -187,29 +191,16 @@ public class RouteCalculatorTest {
         assertTrue(2 == stopover.getLine().getNumber());
         assertTrue(20 == stopover.getConnection().getDuration());
         assertTrue(115 == stopover.getTravelDuration());
-        
+
         // Test time table from Center to Center
         stopoverList = routeCalculator.calculateRoute(sCenter, sCenter, departure);
         assertNull(stopoverList);
-        
+
         // Test time table from Center to North when there is no connection
         Connection connection = transportNetwork.getConnection(sCenter, sNorth);
         connection.setStationA(sWest);
         connection.setStationB(sEast);
         stopoverList = routeCalculator.calculateRoute(sCenter, sNorth, departure);
         assertNull(stopoverList);
-        
-//        for (Stopover stopoverx : stopoverList) {
-//            System.out.println("------------------------------");
-//            System.out.println("Departure Station: " + stopoverx.getSource().getName());
-//            System.out.println("Departure time: " + stopoverx.getDepartureTime().getTime());
-//            System.out.println("Arrival Station: " + stopoverx.getDestinatio().getName());
-//            System.out.println("Arrival time: " + stopoverx.getArrivalTime().getTime());
-//            System.out.println("Line: " + stopoverx.getLine().getNumber() + ", Line type: " + stopoverx.getLine().getType());
-//            System.out.println("Duration: " + stopoverx.getConnection().getDuration());
-//            System.out.println("Travel Duration: " + stopoverx.getTravelDuration());
-//            System.out.println("------------------------------");
-//        }
     }
-
 }
