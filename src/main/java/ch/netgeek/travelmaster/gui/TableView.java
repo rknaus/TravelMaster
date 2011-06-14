@@ -34,7 +34,7 @@ public class TableView {
 	/**
 	 * creates a new table for the connection result
 	 */    
-	public void createTable(){ 
+	private void createTable() { 
 		stopoverTable = new JTable(tableModel);
 		TableColumn cSource = 
 			stopoverTable.getColumnModel().getColumn(0);
@@ -79,7 +79,7 @@ public class TableView {
 	 *
 	 * @return      			instance of the JTable object
 	 */
-	public JTable getTable(){
+	public JTable getTable() {
 		return stopoverTable;
 	}
 }

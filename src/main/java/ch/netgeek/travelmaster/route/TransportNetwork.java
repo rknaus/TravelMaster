@@ -35,7 +35,9 @@ public class TransportNetwork {
 	/**
 	 * Adds a new station to the transport network.
 	 * 
-	 * @param name              The station name
+	 * @param name             the station name
+	 * @param xPos             the x position of the station
+	 * @param yPos             the y position of the station
 	 */
 	public void addStation(String name, int xPos, int yPos) {
 		if (!(stations.containsKey(name))) {
