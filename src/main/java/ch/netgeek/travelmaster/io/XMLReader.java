@@ -194,10 +194,16 @@ public class XMLReader {
              */
             ArrayList<String> stations = new ArrayList<String>();
             Element stationsElement = lineElement.getChild(stationsTag);
+            if (stationsElement == null) {
+                continue;
+            }
             Iterator<?> stationIterator = 
                 stationsElement.getChildren(stationTag).iterator();
             while (stationIterator.hasNext()) {
                 Element stationElement = (Element) stationIterator.next();
+                if (stationElement == null) {
+                    continue;
+                }
                 String station = stationElement.getText();                
                 stations.add(station);
             }
@@ -209,11 +215,17 @@ public class XMLReader {
             ArrayList<String> departuresFirstStation = new ArrayList<String>();
             Element departuresFirstStationElement = 
                 lineElement.getChild(departuresFirstStationTag);
+            if (departuresFirstStationElement == null) {
+                continue;
+            }
             Iterator<?> depFirstStationIterator = 
                 departuresFirstStationElement.getChildren(departureTag).iterator();
             while (depFirstStationIterator.hasNext()) {
                 Element departureElement = 
                     (Element) depFirstStationIterator.next();
+                if (departureElement == null) {
+                    continue;
+                }
                 String station = departureElement.getText();
                 departuresFirstStation.add(station);
             }
@@ -225,11 +237,17 @@ public class XMLReader {
             ArrayList<String> departuresLastStation = new ArrayList<String>();
             Element departuresLastStationElement = 
                 lineElement.getChild(departuresLastStationTag);
+            if (departuresLastStationElement == null) {
+                continue;
+            }
             Iterator<?> depLastStationIterator = 
                 departuresLastStationElement.getChildren(departureTag).iterator();
             while (depLastStationIterator.hasNext()) {
                 Element departureElement = 
                     (Element) depLastStationIterator.next();
+                if (departureElement == null) {
+                    continue;
+                }
                 String station = departureElement.getText();
                 departuresLastStation.add(station);
             }

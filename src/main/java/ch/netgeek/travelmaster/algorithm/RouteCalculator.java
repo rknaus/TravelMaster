@@ -321,6 +321,9 @@ public class RouteCalculator {
              */
             for (Line tmpLine : connection.getLines()) {
                 TimeTable timeTable = tmpLine.getTimeTable(station, neighbor);
+                if (timeTable == null) {
+                    continue;
+                }
 
                 // the departure time at the current station
                 Calendar tmpStationDepartureTime = 

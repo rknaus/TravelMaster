@@ -614,8 +614,11 @@ public class GUI {
 					int minutes = Integer.parseInt(time.substring(3, 5));
 					departure.set(0, 0, 0, hours, minutes);
 					stopoverList.clear();
-					stopoverList.addAll(routeCalculator.calculateRoute(source, 
-							destination, departure));
+					ArrayList<Stopover> tmpStopoverList = 
+					    routeCalculator.calculateRoute(source, destination, departure);
+					if (tmpStopoverList != null) {
+					    stopoverList.addAll(tmpStopoverList);
+					}
 					mapPanel.repaint();
 					stopoverTable.repaint();
 				}
