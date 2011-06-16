@@ -81,7 +81,7 @@ public class Line {
 	public void addDeparture(
 			Station source, Station destination, Calendar departure) {
 		TimeTable timeTable = timeTables.get(Arrays.asList(source, destination));
-		if (timeTables.get(Arrays.asList(source, destination)) != null) {
+		if (timeTable != null) {
 			timeTable.addDeparture(departure);
 		} else {
 			timeTable = new TimeTable();
