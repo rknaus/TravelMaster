@@ -619,9 +619,9 @@ public class GUI {
 					if (tmpStopoverList != null) {
 					    stopoverList.addAll(tmpStopoverList);
 					}
-					mapPanel.revalidate();
 					mapPanel.repaint();
 					stopoverTable.repaint();
+					frame.repaint();
 				}
 			}  // end of if "search" button
 		}  // end of function
