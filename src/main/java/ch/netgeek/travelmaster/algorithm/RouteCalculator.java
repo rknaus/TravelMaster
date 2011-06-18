@@ -340,20 +340,15 @@ public class RouteCalculator {
                  * computes the travel duration of the current station arrival 
                  * time until the neighbor station arrival time
                  */
-                int hours = 
-                    (tmpNeighborArrivalTime.get(Calendar.HOUR_OF_DAY) 
-                            - earliestDeparture.get(Calendar.HOUR_OF_DAY));
-                int minutes = 
-                    (tmpNeighborArrivalTime.get(Calendar.MINUTE)
-                            - earliestDeparture.get(Calendar.MINUTE));
-                if (hours < 0) {
-                    hours = hours + 24;
-                }
-                if (minutes < 0) {
-                    minutes = minutes + 60;
-                }
+                int neighborArrivalHours = tmpNeighborArrivalTime.get(Calendar.HOUR_OF_DAY);
+                int earliestDepartureHours = earliestDeparture.get(Calendar.HOUR_OF_DAY);
+                int neighborArrivalMinutes = tmpNeighborArrivalTime.get(Calendar.MINUTE);
+                int earliestDepartureMinutes = earliestDeparture.get(Calendar.MINUTE);
+                
                 int tmpNeighborTravelTime = 
-                    stationTravelTime + hours * 60 + minutes;
+                    stationTravelTime 
+                    + (neighborArrivalHours * 60 + neighborArrivalMinutes) 
+                    - (earliestDepartureHours * 60 + earliestDepartureMinutes);
 
                 /*
                  * if a shorter travel time gets found the time variables get
