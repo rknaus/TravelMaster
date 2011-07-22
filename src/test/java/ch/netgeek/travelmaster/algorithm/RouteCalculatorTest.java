@@ -160,7 +160,7 @@ public class RouteCalculatorTest {
         assertEquals("Train", stopover.getLine().getType());
         assertTrue(2 == stopover.getLine().getNumber());
         assertTrue(15 == stopover.getConnection().getDuration());
-        assertTrue(325 == stopover.getTravelDuration());
+        assertTrue(265 == stopover.getTravelDuration());
 
         // Test time table from South to East at 09:40
         departure.set(0, 0, 0, 9, 40);
@@ -190,7 +190,7 @@ public class RouteCalculatorTest {
         assertEquals("Train", stopover.getLine().getType());
         assertTrue(2 == stopover.getLine().getNumber());
         assertTrue(20 == stopover.getConnection().getDuration());
-        assertTrue(115 == stopover.getTravelDuration());
+        assertTrue(55 == stopover.getTravelDuration());
 
         // Test time table from Center to Center
         stopoverList = routeCalculator.calculateRoute(sCenter, sCenter, departure);
